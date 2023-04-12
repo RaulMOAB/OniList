@@ -1,12 +1,14 @@
 import React from "react";
 import styles from "../../styles/Navbar.module.css";
+import { FaPlay } from "react-icons/fa";
+import { FaBookOpen } from "react-icons/fa";
 
 export default function Navbar() {
   return (
     <>
       <div className={"navbar bg-base-content " + styles.nb}>
-        <div className="navbar-start text">
-          <div className="dropdown">
+        <div className="navbar-start text-slate-200">
+          <div className="dropdown text-slate-200">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -25,20 +27,11 @@ export default function Navbar() {
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-content rounded-box w-52 text-base-100"
+              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-content rounded-box w-52"
             >
-              <li>
-                <a>Home</a>
-              </li>
-              <li>
-                <a>Manga List</a>
-              </li>
-              <li>
-                <a>Anime List</a>
-              </li>
               <li tabIndex={0}>
                 <a className="justify-between">
-                  Parent
+                  Browse
                   <svg
                     className="fill-current"
                     xmlns="http://www.w3.org/2000/svg"
@@ -51,33 +44,27 @@ export default function Navbar() {
                 </a>
                 <ul className="p-2">
                   <li>
-                    <a>Submenu 1</a>
+                    <a>Anime</a>
                   </li>
                   <li>
-                    <a>Submenu 2</a>
+                    <a>Manga</a>
                   </li>
                 </ul>
               </li>
               <li>
-                <a>Item 3</a>
+                <a>Login</a>
+              </li>
+              <li>
+                <a>Sign Up</a>
               </li>
             </ul>
           </div>
           <a className="btn btn-ghost normal-case text-xl">OniList</a>
         </div>
-        <div className="navbar-center hidden lg:flex">
+        <div className="navbar-center hidden lg:flex text-slate-200">
           <ul className="menu menu-horizontal px-1">
-            <li>
-              <a>Home</a>
-            </li>
-            <li>
-              <a>Manga list</a>
-            </li>
-            <li>
-              <a>Anime List</a>
-            </li>
             <li tabIndex={0}>
-              <a>
+              <a className=" text-slate-200 hover:text-slate-400">
                 Browse
                 <svg
                   className="fill-current"
@@ -89,19 +76,48 @@ export default function Navbar() {
                   <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                 </svg>
               </a>
-              <ul className="p-2 bg-base-content">
+              <ul className=" flex-wrap p-2 bg-base-100 text-gray-800">
                 <li>
-                  <a>Anime</a>
+                  <span
+                    className={
+                      "text-slate-400 hover:text-slate-800 " + styles.media_dp
+                    }
+                  >
+                    <FaPlay />
+                    <section>
+                      <div className="mx-auto grid grid-cols-1">
+                        <a>Anime</a>
+                        <div className="text-xs mt-2">
+                          <a href="">item</a>
+                          <a href="">item</a>
+                          <a href="">item</a>
+                        </div>
+                      </div>
+                    </section>
+                  </span>
                 </li>
                 <li>
-                  <a>Manga</a>
+                  <span
+                    className={
+                      "text-slate-400 hover:text-slate-800 " + styles.media_dp
+                    }
+                  >
+                    <FaBookOpen />
+                    <a>Manga</a>
+                  </span>
                 </li>
               </ul>
+            </li>
+            <li>
+              <a className=" text-slate-200 hover:text-slate-400">Login</a>
+            </li>
+            <li>
+              <a className={"btn normal-case " + styles.sing_up_btn}>Sing Up</a>
             </li>
           </ul>
         </div>
         <div className="navbar-end">
-          <button className="btn btn-ghost btn-circle">
+          <button className="btn btn-ghost btn-circle text-slate-200 hover:text-slate-400">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -117,7 +133,7 @@ export default function Navbar() {
               />
             </svg>
           </button>
-          <button className="btn btn-ghost btn-circle">
+          <button className="btn btn-ghost btn-circle text-slate-200 hover:text-slate-400">
             <div className="indicator">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +149,7 @@ export default function Navbar() {
                   d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                 />
               </svg>
-              <span className="badge badge-xs badge-primary indicator-item"></span>
+              <span className="badge badge-xs badge-error indicator-item"></span>
             </div>
           </button>
           <div className="dropdown dropdown-end">
