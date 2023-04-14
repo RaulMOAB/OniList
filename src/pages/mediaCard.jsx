@@ -1,4 +1,4 @@
-export default function MediaCard() {
+export default function MediaCard() { //get parameters
     
     let img = "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx7-6uh1fPvbgS9t.png"
     let title  = "Witch Hunter ROBIN"
