@@ -1,15 +1,15 @@
 import "@/styles/globals.css";
 import Layout from "../layouts/Layout";
-import {ContextProvider} from "../contexts/MediaContext";
+import { MediaContextProvider } from "../contexts/MediaContext";
 
 export default function App({ Component, pageProps }) {
   return (
     <>
-    <ContextProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </ContextProvider>
+      <MediaContextProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </MediaContextProvider>
     </>
   );
 }
