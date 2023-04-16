@@ -3,11 +3,10 @@ import { createContext, useState, useEffect } from "react";
 
 export const MediaContext = createContext(); // se importa dodne se vaya a usar
 
-
 export function MediaContextProvider({ children }) {
   const [data, setData] = useState([]);
   const getMedia = async () => {
-    const response = await fetch("http://127.0.0.1:8000/api/");
+    const response = await fetch("https://onilist.club/api/");
     return response.json();
   };
 
@@ -20,7 +19,6 @@ export function MediaContextProvider({ children }) {
         console.log(e.message);
       });
   }, []);
-
 
   return <MediaContext.Provider value={data}>{children}</MediaContext.Provider>;
 }
