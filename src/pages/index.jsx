@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { MediaContext } from "@/contexts/MediaContext";
 import { useContext } from "react";
-import MediaCard from "./MediaCard";
+import MediaCard from "../components/Card/MediaCard";
 import Hero from "../components/Hero/Hero";
 
 export default function Home() {
