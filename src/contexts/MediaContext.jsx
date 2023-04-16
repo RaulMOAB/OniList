@@ -3,9 +3,6 @@ import { createContext, useState, useEffect } from "react";
 
 export const MediaContext = createContext(); // se importa dodne se vaya a usar
 
-// const media = getMedia();
-// console.log("************************************");
-// console.log(getMedia);
 
 export function MediaContextProvider({ children }) {
   const [data, setData] = useState([]);
@@ -23,8 +20,7 @@ export function MediaContextProvider({ children }) {
         console.log(e.message);
       });
   }, []);
-  //   console.log("*****************");
-  //   console.log(data);
+
 
   return <MediaContext.Provider value={data}>{children}</MediaContext.Provider>;
 }

@@ -76,7 +76,7 @@ export default function Navbar() {
                   <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                 </svg>
               </a>
-              <ul className=" flex-wrap p-2 bg-base-100 text-gray-800">
+              <ul className="flex p-2 bg-base-100 text-gray-800">
                 <li>
                   <span
                     className={
@@ -87,7 +87,7 @@ export default function Navbar() {
                     <section>
                       <div className="mx-auto grid grid-cols-1">
                         <a>Anime</a>
-                        <div className="text-xs mt-2">
+                        <div className={"text-xs mt-2 inline-block " + styles.links}>
                           <a href="">item</a>
                           <a href="">item</a>
                           <a href="">item</a>
@@ -112,7 +112,7 @@ export default function Navbar() {
               <a className=" text-slate-200 hover:text-slate-400">Login</a>
             </li>
             <li>
-              <a className={"btn normal-case " + styles.sing_up_btn}>Sing Up</a>
+              <a className={"btn normal-case " + styles.sing_up_btn}>Sign Up</a>
             </li>
           </ul>
         </div>
