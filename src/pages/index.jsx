@@ -6,7 +6,15 @@ import Hero from "../components/Hero/Hero";
 
 export default function Home() {
   let data = useContext(MediaContext);
+  let media_data = [];
 
+  data.map((item, i) => {
+    if (i < 5) {
+      media_data.push(item);
+    }
+    return media_data;
+  });
+  //console.log(media_data);
   if (data.length === 0) {
     return (
       <>
@@ -40,7 +48,7 @@ export default function Home() {
         />
       </Head>
       <header>
-        <Hero />
+        <Hero media={media_data} />
       </header>
       <main className="mx-40 mb-20">
         <h1 className="xl:text-2xl uppercase my-10">Popular animes</h1>

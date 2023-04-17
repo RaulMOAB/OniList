@@ -1,6 +1,6 @@
 import React from "react";
 
-function Hero() {
+function Hero({ media }) {
   return (
     <>
       <div className="hero min-h-fit text-slate-200">
