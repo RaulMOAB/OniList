@@ -7,18 +7,18 @@ module.exports = {
   theme: {
     extend: {},
   },
-   // add daisyUI plugin
-   plugins: [require("daisyui")],
+  // add daisyUI plugin
+  plugins: [require("daisyui")],
 
-   // daisyUI config (optional)
-   daisyui: {
-     styled: true,
-     themes: true,
-     base: true,
-     utils: true,
-     logs: true,
-     rtl: false,
-     prefix: "",
-     darkTheme: "light",
-   },
+  // daisyUI config (optional)
+  daisyui: {
+    styled: true,
+    themes: false,
+    base: true,
+    utils: true,
+    logs: true,
+    rtl: false,
+    prefix: "",
+    darkTheme: "light",
+  },
 };

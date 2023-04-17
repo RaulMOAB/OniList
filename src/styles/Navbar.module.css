@@ -1,9 +1,6 @@
-.nb{
-    /* background-color: #22223b;
-    color: white; */
-    
+.title{
+    color: #e63946;
 }
-
 .sing_up_btn{
     background-color: #e63946;
 }
@@ -17,6 +14,5 @@
     background-color: #fff;
 }
 .links > a{
-    color: #e63946;
     padding: 0 0.125rem;
 }

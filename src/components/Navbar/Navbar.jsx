@@ -1,70 +1,25 @@
 import React from "react";
 import styles from "../../styles/Navbar.module.css";
-import { FaPlay } from "react-icons/fa";
-import { FaBookOpen } from "react-icons/fa";
+import { IoNotifications, IoSettingsSharp } from "react-icons/io5";
+import { FaBookOpen, FaUser, FaPlay } from "react-icons/fa";
 
 export default function Navbar() {
   return (
     <>
-      <div className={"navbar bg-base-content " + styles.nb}>
-        <div className="navbar-start text-slate-200">
-          <div className="dropdown text-slate-200">
-            <label tabIndex={0} className="btn btn-ghost lg:hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
-              </svg>
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-content rounded-box w-52"
-            >
-              <li tabIndex={0}>
-                <a className="justify-between">
-                  Browse
-                  <svg
-                    className="fill-current"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
-                  </svg>
-                </a>
-                <ul className="p-2">
-                  <li>
-                    <a>Anime</a>
-                  </li>
-                  <li>
-                    <a>Manga</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a>Login</a>
-              </li>
-              <li>
-                <a>Sign Up</a>
-              </li>
-            </ul>
-          </div>
-          <a className="btn btn-ghost normal-case text-xl">OniList</a>
+      <div className={"navbar bg-base-content  " + styles.nb}>
+        <div className="navbar-start text-slate-200 my-auto">
+          <a className="btn btn-ghost uppercase tracking-wide text-2xl md:text-3xl ">
+            <img src="./avatar/oni_logo.png" alt="" className="w-8 h-8" />
+            <span className={"" + styles.title}>Oni</span>List
+          </a>
         </div>
         <div className="navbar-center hidden lg:flex text-slate-200">
           <ul className="menu menu-horizontal px-1">
             <li tabIndex={0}>
-              <a className=" text-slate-200 hover:text-slate-400">
+              <a
+                className=" text-slate-200 hover:text-slate-400 
+                active:bg-transparent"
+              >
                 Browse
                 <svg
                   className="fill-current"
@@ -76,40 +31,56 @@ export default function Navbar() {
                   <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                 </svg>
               </a>
-              <ul className="flex p-2 bg-base-100 text-gray-800">
+              <ul className="px-2 bg-base-100 shadow">
                 <li>
-                  <span
-                    className={
-                      "text-slate-400 hover:text-slate-800 " + styles.media_dp
-                    }
-                  >
-                    <FaPlay />
-                    <section>
-                      <div className="mx-auto grid grid-cols-1">
-                        <a>Anime</a>
-                        <div className={"text-xs mt-2 inline-block " + styles.links}>
-                          <a href="">item</a>
-                          <a href="">item</a>
-                          <a href="">item</a>
-                        </div>
+                  <div className={"text-slate-400 " + styles.media_dp}>
+                    <div className="text-left">
+                      <span className="flex  hover:text-slate-600">
+                        <FaPlay className="my-auto" />
+                        <a className="px-3">Anime</a>
+                      </span>
+                      <div className={"lg:text-xs mt-2 px-6 " + styles.links}>
+                        <a className=" hover:text-slate-600" href="">
+                          Top 100
+                        </a>
+                        <a className=" hover:text-slate-600" href="">
+                          Trending
+                        </a>
+                        <a className=" hover:text-slate-600" href="">
+                          Top Movies
+                        </a>
                       </div>
-                    </section>
-                  </span>
+                    </div>
+                  </div>
                 </li>
+
                 <li>
-                  <span
-                    className={
-                      "text-slate-400 hover:text-slate-800 " + styles.media_dp
-                    }
-                  >
-                    <FaBookOpen />
-                    <a>Manga</a>
-                  </span>
+                  <div className={"text-slate-400 " + styles.media_dp}>
+                    <div className="text-left">
+                      <span className="flex  hover:text-slate-600">
+                        <FaBookOpen className="my-auto" />
+                        <a className="px-3">Manga</a>
+                      </span>
+                      <div className={"lg:text-xs mt-2 px-6 " + styles.links}>
+                        <a className=" hover:text-slate-600" href="">
+                          Top 100
+                        </a>
+                        <a className=" hover:text-slate-600" href="">
+                          Trending
+                        </a>
+                        <a className=" hover:text-slate-600" href="">
+                          Top Movies
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </li>
               </ul>
             </li>
             <li>
-              <a className=" text-slate-200 hover:text-slate-400">Login</a>
+              <a className=" text-slate-200 hover:text-slate-400 active:bg-transparent">
+                Login
+              </a>
             </li>
             <li>
               <a className={"btn normal-case " + styles.sing_up_btn}>Sign Up</a>
@@ -160,19 +131,25 @@ export default function Navbar() {
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-content rounded-box w-52"
+              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 text-slate-400 "
             >
               <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
+                <span className=" hover:text-slate-600 hover:bg-base-100 active:bg-transparent">
+                  <FaUser className="text-lg" />
+                  <a className="justify-between">Profile</a>
+                </span>
               </li>
               <li>
-                <a>Settings</a>
+                <span className=" hover:text-slate-600 hover:bg-base-100 active:bg-transparent">
+                  <IoNotifications className="text-lg" />
+                  <a>Notifications</a>
+                </span>
               </li>
               <li>
-                <a>Logout</a>
+                <span className=" hover:text-slate-600 hover:bg-base-100 active:bg-transparent">
+                  <IoSettingsSharp className="text-lg" />
+                  <a>Settings</a>
+                </span>
               </li>
             </ul>
           </div>
