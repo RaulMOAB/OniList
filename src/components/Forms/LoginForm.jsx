@@ -31,7 +31,7 @@ export default function LoginForm() {
 								<IoLockClosed className='text-lg' />
 							</span>
 							<input
-								type='email'
+								type='password'
 								placeholder='********'
 								className='h-9 focus:outline-none bg-slate-200 p-3'
 							/>
