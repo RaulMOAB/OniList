@@ -31,7 +31,7 @@ export default function Navbar() {
                   <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                 </svg>
               </a>
-              <ul className="px-2 bg-base-100 shadow">
+              <ul className="px-2 bg-base-100 shadow z-50">
                 <li>
                   <div className={"text-slate-400 " + styles.media_dp}>
                     <div className="text-left">
@@ -69,7 +69,7 @@ export default function Navbar() {
                           Trending
                         </a>
                         <a className=" hover:text-slate-600" href="">
-                          Top Movies
+                          Top Novels
                         </a>
                       </div>
                     </div>
@@ -87,7 +87,7 @@ export default function Navbar() {
             </li>
           </ul>
         </div>
-        <div className="navbar-end">
+        <div className="navbar-end pr-6">
           <button className="btn btn-ghost btn-circle text-slate-200 hover:text-slate-400">
             <svg
               xmlns="http://www.w3.org/2000/svg"
