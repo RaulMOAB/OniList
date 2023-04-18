@@ -1,17 +1,21 @@
 import React from "react";
 import styles from "../../styles/Navbar.module.css";
 import { IoNotifications, IoSettingsSharp } from "react-icons/io5";
+import { useContext } from "react";
 import { FaBookOpen, FaUser, FaPlay } from "react-icons/fa";
+import Link from "next/link";
+import { AuthContext } from "@/contexts/AuthContext";
 
 export default function Navbar() {
+  const {user} = useContext(AuthContext);
   return (
     <>
       <div className={"navbar bg-base-content  " + styles.nb}>
         <div className="navbar-start text-slate-200 my-auto">
-          <a className="btn btn-ghost uppercase tracking-wide text-2xl md:text-3xl ">
+          <Link href={'/'} className="btn btn-ghost uppercase tracking-wide text-2xl md:text-3xl ">
             <img src="./avatar/oni_logo.png" alt="" className="w-8 h-8" />
             <span className={"" + styles.title}>Oni</span>List
-          </a>
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex text-slate-200">
           <ul className="menu menu-horizontal px-1">
@@ -78,15 +82,16 @@ export default function Navbar() {
               </ul>
             </li>
             <li>
-              <a className=" text-slate-200 hover:text-slate-400 active:bg-transparent">
+              <Link href={'login'} className=" text-slate-200 hover:text-slate-400 active:bg-transparent">
                 Login
-              </a>
+              </Link>
             </li>
             <li>
               <a className={"btn normal-case " + styles.sing_up_btn}>Sign Up</a>
             </li>
           </ul>
         </div>
+        { user ? (      
         <div className="navbar-end pr-6">
           <button className="btn btn-ghost btn-circle text-slate-200 hover:text-slate-400">
             <svg
@@ -123,6 +128,7 @@ export default function Navbar() {
               <span className="badge badge-xs badge-error indicator-item"></span>
             </div>
           </button>
+          <p className="text-white">{user.username}</p>
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
@@ -154,6 +160,7 @@ export default function Navbar() {
             </ul>
           </div>
         </div>
+        ):(null)}
       </div>
     </>
   );
