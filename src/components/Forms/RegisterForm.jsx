@@ -2,6 +2,7 @@ import React from 'react';
 import RegisterButton from "@/components/Buttons/AuthForms/SubmitButton";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { IoAt, IoLockClosed, IoPerson } from "react-icons/io5";
 
 const getRegisterResponse = async (username, email, password) => {
 	const body = JSON.stringify({
@@ -93,79 +94,108 @@ export default function RegisterForm() {
 					<form
 						onSubmit={handleSubmit(onSubmit)}
 						className='form-control mt-10'>
-						<div className='mb-6 w-11/12 mx-auto'>
-							<input
-								placeholder='Email'
-								className='w-full h-9 focus:outline-none bg-slate-200 p-3 rounded-md'
-								{...register("email", {
-									required: true,
-									pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-								})}
-							/>
 
-							<small style={{ color: "red" }}>
-								<error>
-									{errors.email?.type === "required" && "Email required"}
-									{errors.email?.type === "pattern" && "Input valid email"}
-								</error>
-							</small>
-						</div>
+						<div className='mb-4 w-4/5 mx-auto'>
+                            <div className='input-group'>
+                                <label className='flex justify-center input-group input-group-md '>
+                                    <span className='bg-gray-300'>
+                                        <IoAt className='text-lg' />
+                                    </span>
+                                    <input 
+                                    placeholder='Email'
+                                    className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded'
+                                    {...register("email", {
+                                        required: true,
+                                        pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
+                                    })} />
 
-						<div className='mb-6 w-11/12 mx-auto'>
-							<input
-								placeholder='Name'
-								className='w-full h-9 focus:outline-none bg-slate-200 p-3 rounded-md '
-								{...register("username", { required: true })}
-							/>
+                                </label>
+                            </div>
 
-							<small style={{ color: "red" }}>
-								<error>
-									{errors.username?.type === "required" && "Name required"}
-								</error>
-							</small>
-						</div>
+                            <small style={{color:'red'}}>
+                                <error>
+                                    {errors.email?.type === "required" && "Email required *"}
+                                    {errors.email?.type === "pattern" && "Input valid email"}
+                                </error>
+                            </small>
+                        </div>
 
-						<div className='mb-6 w-11/12 mx-auto'>
-							<input
-								name='password'
-								placeholder='Password'
-								className='w-full h-9 focus:outline-none bg-slate-200 p-3 rounded-md '
-								{...register("password", {
-									required: true,
-									minLength: 6,
-									maxLength: 20,
-								})}
-							/>
+                    
 
-							<small style={{ color: "red" }}>
-								<error>
-									{errors.password?.type === "required" && "Password required"}
-									{errors.password?.type === "minLength" &&
-										"Minimum length 6 characters"}
-									{errors.password?.type === "maxLength" &&
-										"Maximum length 20 characters"}
-								</error>
-							</small>
-						</div>
+                        <div className='mb-4 w-4/5 mx-auto'>
+                            <div className='input-group'>
+                                <label className='flex justify-center input-group input-group-md '>
+                                    <span className='bg-gray-300'>
+                                        <IoPerson className='text-lg' />
+                                    </span>
+                                    <input 
+                                        placeholder='Name'
+                                        className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' 
+                                        {...register("username", { required: true })} 
+                                    />
+                                </label>
+                            </div>
 
-						<div className='mb-6 w-11/12 mx-auto'>
-							<input
-								placeholder='Confirm Password'
-								className='w-full h-9 focus:outline-none bg-slate-200 p-3 rounded-md '
-								{...register("cpassword", {
-									required: true,
-									validate: validateConfirmPassword,
-								})}
-							/>
+                            <small style={{color:'red'}}>
+                                <error>
+                                    {errors.username?.type === "required" && "Name required *"}
+                                </error>
+                            </small>
+                        </div>
 
-							<small style={{ color: "red" }}>
-								<error>
-									{errors.cpassword?.type === "required" &&
-										"Confirm Password required"}
-									{errors.cpassword?.message}
-								</error>
-							</small>
-						</div>
+
+                        <div className='mb-4 w-4/5 mx-auto'>
+                            <div className='input-group'>
+                                <label className='flex justify-center input-group input-group-md '>
+                                    <span className='bg-gray-300'>
+                                        <IoLockClosed className='text-lg' />
+                                    </span>
+                                    <input 
+                                        name="password"
+                                        placeholder='Password'
+                                        className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' 
+                                        {...register("password", {
+                                            required: true,
+                                            minLength: 6,
+                                            maxLength: 20, })} 
+                                    />
+                                </label>
+                            </div>
+
+                            <small style={{color:'red'}}>
+                                <error>
+                                    {errors.password?.type === "required" && "Password required *"}
+                                    {errors.password?.type === "minLength" &&
+                                    "Minimum length 6 characters"}
+                                    {errors.password?.type === "maxLength" &&
+                                    "Maximum length 20 characters"}
+                                </error>
+                            </small>
+                        </div>
+
+
+                        <div className='mb-5 w-4/5 mx-auto'>
+                            <div className='input-group'>
+                                <label className='flex justify-center input-group input-group-md '>
+                                    <span className='bg-gray-300'>
+                                        <IoLockClosed className='text-lg' />
+                                    </span>
+                                    <input 
+                                        placeholder='Confirm Password'
+                                        className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' 
+                                        {...register("cpassword", { required: true, validate: validateConfirmPassword })}
+                                    />
+                                </label>
+                            </div>
+
+                            <small style={{color:'red'}}>
+                                <error>
+                                    {errors.cpassword?.type === "required" && "Confirm Password required *"}
+                                    {errors.cpassword?.message}
+                                </error>
+                            </small>
+                        </div>
+
 
 						<div className='mb-6 w-11/12 mx-auto text-center'>
 							<input
@@ -198,4 +228,3 @@ export default function RegisterForm() {
 // enviar codigo de validacion para completar el registro
 // mostrar modal del error
 // ocultar el campo contraseña
-// cambiar diseño del registro
