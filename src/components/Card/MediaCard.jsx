@@ -7,14 +7,14 @@ export default function MediaCard({ media }) {
   return (
     <>
       <div
-        className="mx-auto relative rounded-lg grid grid-cols-5"
+        className="mx-auto relative rounded-md grid grid-cols-5"
         style={{
           backgroundImage: `url('${media.large_banner_image}')`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
           backgroundSize: "cover",
-          width: "230px",
-          height: "345px",
+          width: "185px",
+          height: "265px",
         }}
       >
         <div className="absolute inset-x-0 bottom-0 h-16 rounded-b-lg text-white backdrop-blur-md">
@@ -31,7 +31,7 @@ export default function MediaCard({ media }) {
                 <p className="inline-block">{score}</p>
               </div>
             </div>
-            <p className="text-xs mt-1 ms-2">{genres}</p>
+            <p className="text-xs mt-1 ms-2 truncate">{genres}</p>
           </div>
         </div>
       </div>

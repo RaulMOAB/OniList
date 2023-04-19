@@ -58,7 +58,7 @@ export default function Home() {
         <h1 className="xl:text-2xl uppercase my-10">Popular animes</h1>
         {
           <div className="grid grid-cols-5 gap-10 ">
-            {data.map((media, i) => {
+            {media_data.map((media, i) => {
               return <MediaCard key={i} media={media} />;
             })}
           </div>
