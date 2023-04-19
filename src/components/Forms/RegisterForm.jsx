@@ -175,5 +175,9 @@ export default function RegisterForm() {
 
 // Arreglar las vistas inferiores
 // Enviar los datos para el registro
-// enviar codigo para completar el registro
+// enviar codigo de validacion para completar el registro
 // mostrar modal del error
+// ocultar el campo contraseña
+// cambiar diseño del registro
+// cambiar los mensajes a ingles
+// validar que este marcado el checkbox
