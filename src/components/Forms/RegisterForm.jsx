@@ -74,7 +74,7 @@ export default function RegisterForm() {
         if (value === password) {
           return true;
         }
-        return "No coinciden las contraseñas";
+        return "Passwords do not match";
     };
 
     return (
@@ -102,9 +102,9 @@ export default function RegisterForm() {
 
                             <small style={{color:'red'}}>
                                 <error>
-                                    {errors.email?.type === "required" && "Email requerido"}
+                                    {errors.email?.type === "required" && "Email required"}
                                     {errors.email?.type === "pattern" &&
-                                    "Introduce un email valido"}
+                                    "Input valid email"}
                                 </error>
                             </small>
                             
@@ -120,7 +120,7 @@ export default function RegisterForm() {
 
                             <small style={{color:'red'}}>
                                 <error>
-                                    {errors.username?.type === "required" && "Nombre requerido"}
+                                    {errors.username?.type === "required" && "Name required"}
                                 </error>
                             </small>
                     </div>
@@ -138,11 +138,11 @@ export default function RegisterForm() {
 
                             <small style={{color:'red'}}>
                                 <error>
-                                    {errors.password?.type === "required" && "Contraseña requerida"}
+                                    {errors.password?.type === "required" && "Password required"}
                                     {errors.password?.type === "minLength" &&
-                                    "Minimo 6 caracteres"}
+                                    "Minimum length 6 characters"}
                                     {errors.password?.type === "maxLength" &&
-                                    "Maximo 20 caracteres"}
+                                    "Maximum length 20 characters"}
                                 </error>
                             </small>
                         
@@ -158,8 +158,26 @@ export default function RegisterForm() {
 
                         <small style={{color:'red'}}>
                             <error>
+                                {errors.cpassword?.type === "required" && "Confirm Password required"}
                                 {errors.cpassword?.message}
                             </error>
+                        </small>
+
+                    </div>
+
+                    <div className='mb-6 w-11/12 mx-auto text-center'>
+                        <input 
+                            type='checkbox'
+                            className='' 
+                            {...register("agreement", { required: "*" })}/>
+
+                        <small className='ml-2' style={{color: '#5C728A'}}>
+                            You agree to our terms of service
+                            <small style={{color:'red', fontSize: 15}}>
+                                <error>
+                                    {errors.agreement?.message}
+                                </error>
+                            </small>
                         </small>
 
                     </div>
@@ -173,11 +191,9 @@ export default function RegisterForm() {
 	);
 }
 
-// Arreglar las vistas inferiores
+// Arreglar las vistas 
 // Enviar los datos para el registro
 // enviar codigo de validacion para completar el registro
 // mostrar modal del error
 // ocultar el campo contraseña
 // cambiar diseño del registro
-// cambiar los mensajes a ingles
-// validar que este marcado el checkbox
