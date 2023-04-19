@@ -1,31 +1,81 @@
 import React from 'react';
 import RegisterButton from './../Buttons/RegisterButton';
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+
+const getRegisterResponse = async (username, email, password) => {
+	const body = JSON.stringify({
+        username,
+		email,
+		password,
+	});
+	const response = await fetch("http://127.0.0.1:8000/api/register", {
+		method: "POST",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+		body,
+	});
+	return response.json();
+};
 
 export default function RegisterForm() {
 
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [terms, setTerms] = useState(false);
+    const {
+        register,
+        formState: { errors },
+        handleSubmit,
+        watch
+    } = useForm();
 
-    const handleNameChange = (data) => {
-		setName(data);
+    const username = watch("username");
+    const email = watch("email");
+    const password = watch("password");
+
+    const [registerResponse, setRegisterResponse] = useState(null);
+	const [showError, setShowError] = useState(false);
+	const [message, setMessage] = useState('');
+
+    const onSubmit = () => {
+
+        console.log(username + "  " + email + "  " + password);
+
+		getRegisterResponse(username,email,password)
+			.then((res) => {
+				setRegisterResponse(res);
+				console.log(res);
+
+				if(res.status === 'success'){
+					//save user in context
+					//login(res.user);
+					//TODO redirect home
+                    console.log("register done")
+				}else{
+					//set message if indexOf find a "(" that means laravel give 2 errors or more but i just want show first
+					let index_of_parenthesis = res.message.indexOf("(");
+					let message = index_of_parenthesis!=-1 ? res.message.slice(0,index_of_parenthesis) : res.message 
+					setMessage(message)
+					setShowError(true);
+				}
+
+			})
+			.catch((error) => {
+				console.error("Error al enviar el formulario:", error);
+			});
 	};
-	const handleEmailChange = (data) => {
-		setEmail(data);
+
+    const resetAlert = () => {
+		setShowError(false);
 	};
-    const handlePasswordChange = (data) => {
-		setPassword(data);
-	};
-	const handleConfirmPasswordChange = (data) => {
-		setConfirmPassword(data);
-	};
-    const handleTermsChange = (data) => {
-        console.log(data);
-		setTerms(data);
-	};
+
+
+    const validateConfirmPassword = (value) => {
+        if (value === password) {
+          return true;
+        }
+        return "No coinciden las contraseñas";
+    };
 
     return (
 		<>
@@ -38,67 +88,80 @@ export default function RegisterForm() {
                     </h1>
 				</div>
 				<form 
-                    action='' 
+                    onSubmit={handleSubmit(onSubmit)}   
                     className='form-control mt-12'>
 
                     <div className='mb-6 w-11/12 mx-auto'>
                         <input 
-                            type="email" 
-                            name="email" 
-                            id="email"
-                            value={email}
-							onChange={(event) => handleEmailChange(event.target.value)}
                             placeholder='Email'
-                            className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' />
+                            className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded'
+                            {...register("email", {
+                                required: true,
+                                pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
+                            })} />
+
+                            <small style={{color:'red'}}>
+                                <error>
+                                    {errors.email?.type === "required" && "Email requerido"}
+                                    {errors.email?.type === "pattern" &&
+                                    "Introduce un email valido"}
+                                </error>
+                            </small>
+                            
+
+                            
                     </div>
                     
                     <div className='mb-6 w-11/12 mx-auto'>
                         <input 
-                            type="text" 
-                            name="name" 
-                            id="name"
-                            value={name}
-							onChange={(event) => handleNameChange(event.target.value)}
                             placeholder='Name'
-                            className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' />
+                            className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' 
+                            {...register("username", { required: true })} />
+
+                            <small style={{color:'red'}}>
+                                <error>
+                                    {errors.username?.type === "required" && "Nombre requerido"}
+                                </error>
+                            </small>
                     </div>
 
                     <div className='mb-6 w-11/12 mx-auto'>
                         <input 
-                            type="password" 
-                            name="password" 
-                            id="password"
-                            value={password}
-							onChange={(event) => handlePasswordChange(event.target.value)}
+                            name="password"
                             placeholder='Password'
-                            className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' />
+                            className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' 
+                            {...register("password", {
+                                required: true,
+                                minLength: 6,
+                                maxLength: 20,
+                            })} />
+
+                            <small style={{color:'red'}}>
+                                <error>
+                                    {errors.password?.type === "required" && "Contraseña requerida"}
+                                    {errors.password?.type === "minLength" &&
+                                    "Minimo 6 caracteres"}
+                                    {errors.password?.type === "maxLength" &&
+                                    "Maximo 20 caracteres"}
+                                </error>
+                            </small>
+                        
+
+                            
                     </div>
 
                     <div className='mb-6 w-11/12 mx-auto'>
                         <input 
-                            type="password" 
-                            name="confirm_password" 
-                            id="confirm_password"
-                            value={confirmPassword}
-							onChange={(event) => handleConfirmPasswordChange(event.target.value)}
                             placeholder='Confirm Password'
-                            className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' />
-                    </div>
-					
-                    <div className='mb-9 mx-auto'>
-                        <input 
-                            type="checkbox" 
-                            name="terms" 
-                            id="terms" 
-                            value={terms}
-                            onChange={(event) => handleTermsChange(event.target.value)}/>
-                        <small className='ml-2'>
-                            <label 
-                                htmlFor="terms"
-                                style={{color:'#7A858F'}}>
-                                    You agree to our terms of service
-                            </label>
+                            className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' 
+                            {...register("cpassword", { required: true, validate: validateConfirmPassword })}/>
+
+                        <small style={{color:'red'}}>
+                            <error>
+                                {errors.cpassword?.message}
+                            </error>
                         </small>
+
                     </div>
 
                     <div className='mb-8 mx-auto'>
@@ -110,8 +173,7 @@ export default function RegisterForm() {
 	);
 }
 
-// Validar en front al salir del campo
-// Validar confirmacion de contraseña en laravel
-// Activar el boton cuanto este todo correcto
 // Arreglar las vistas inferiores
 // Enviar los datos para el registro
+// enviar codigo para completar el registro
+// mostrar modal del error

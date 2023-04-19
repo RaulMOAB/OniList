@@ -87,7 +87,7 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <a className={"btn normal-case " + styles.sing_up_btn}>Sign Up</a>
+              <Link href={'register'} className={"btn normal-case " + styles.sing_up_btn}>Sign Up</Link>
             </li>
           </ul>
         </div>
