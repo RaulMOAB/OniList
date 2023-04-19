@@ -1,5 +1,5 @@
 import React from 'react';
-import RegisterButton from './../Buttons/RegisterButton';
+import RegisterButton from "@/components/Buttons/AuthForms/SubmitButton";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -78,117 +78,119 @@ export default function RegisterForm() {
     };
 
     return (
-		<>
-			<div className='container mx-auto bg-slate-50 md:w-96 w-full my-10 rounded p-5'>
-				<div className='m-5'>
-					<h1 
-                        className='text-xl font-bold text-center'
-                        style={{color: '#5C728A'}}>
-                            Sign up to OniList 
-                    </h1>
+			<div className='min-h-screen'>
+				<div className='relative container mx-auto md:w-96 rounded p-5 sm:w-full'>
 				</div>
-				<form 
-                    onSubmit={handleSubmit(onSubmit)}   
-                    className='form-control mt-12'>
+				<div className='container mx-auto bg-slate-50 md:w-96 w-full my-20 rounded-md p-5'>
+					<div className='m-5'>
+						<h1
+							className='text-xl font-bold text-center'
+							style={{ color: "#5C728A" }}>
+							Sign up
+						</h1>
+						<hr className='my-5' />
+					</div>
+					<form
+						onSubmit={handleSubmit(onSubmit)}
+						className='form-control mt-10'>
+						<div className='mb-6 w-11/12 mx-auto'>
+							<input
+								placeholder='Email'
+								className='w-full h-9 focus:outline-none bg-slate-200 p-3 rounded-md'
+								{...register("email", {
+									required: true,
+									pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
+								})}
+							/>
 
-                    <div className='mb-6 w-11/12 mx-auto'>
-                        <input 
-                            placeholder='Email'
-                            className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded'
-                            {...register("email", {
-                                required: true,
-                                pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-                            })} />
+							<small style={{ color: "red" }}>
+								<error>
+									{errors.email?.type === "required" && "Email required"}
+									{errors.email?.type === "pattern" && "Input valid email"}
+								</error>
+							</small>
+						</div>
 
-                            <small style={{color:'red'}}>
-                                <error>
-                                    {errors.email?.type === "required" && "Email required"}
-                                    {errors.email?.type === "pattern" &&
-                                    "Input valid email"}
-                                </error>
-                            </small>
-                            
+						<div className='mb-6 w-11/12 mx-auto'>
+							<input
+								placeholder='Name'
+								className='w-full h-9 focus:outline-none bg-slate-200 p-3 rounded-md '
+								{...register("username", { required: true })}
+							/>
 
-                            
-                    </div>
-                    
-                    <div className='mb-6 w-11/12 mx-auto'>
-                        <input 
-                            placeholder='Name'
-                            className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' 
-                            {...register("username", { required: true })} />
+							<small style={{ color: "red" }}>
+								<error>
+									{errors.username?.type === "required" && "Name required"}
+								</error>
+							</small>
+						</div>
 
-                            <small style={{color:'red'}}>
-                                <error>
-                                    {errors.username?.type === "required" && "Name required"}
-                                </error>
-                            </small>
-                    </div>
+						<div className='mb-6 w-11/12 mx-auto'>
+							<input
+								name='password'
+								placeholder='Password'
+								className='w-full h-9 focus:outline-none bg-slate-200 p-3 rounded-md '
+								{...register("password", {
+									required: true,
+									minLength: 6,
+									maxLength: 20,
+								})}
+							/>
 
-                    <div className='mb-6 w-11/12 mx-auto'>
-                        <input 
-                            name="password"
-                            placeholder='Password'
-                            className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' 
-                            {...register("password", {
-                                required: true,
-                                minLength: 6,
-                                maxLength: 20,
-                            })} />
+							<small style={{ color: "red" }}>
+								<error>
+									{errors.password?.type === "required" && "Password required"}
+									{errors.password?.type === "minLength" &&
+										"Minimum length 6 characters"}
+									{errors.password?.type === "maxLength" &&
+										"Maximum length 20 characters"}
+								</error>
+							</small>
+						</div>
 
-                            <small style={{color:'red'}}>
-                                <error>
-                                    {errors.password?.type === "required" && "Password required"}
-                                    {errors.password?.type === "minLength" &&
-                                    "Minimum length 6 characters"}
-                                    {errors.password?.type === "maxLength" &&
-                                    "Maximum length 20 characters"}
-                                </error>
-                            </small>
-                        
+						<div className='mb-6 w-11/12 mx-auto'>
+							<input
+								placeholder='Confirm Password'
+								className='w-full h-9 focus:outline-none bg-slate-200 p-3 rounded-md '
+								{...register("cpassword", {
+									required: true,
+									validate: validateConfirmPassword,
+								})}
+							/>
 
-                            
-                    </div>
+							<small style={{ color: "red" }}>
+								<error>
+									{errors.cpassword?.type === "required" &&
+										"Confirm Password required"}
+									{errors.cpassword?.message}
+								</error>
+							</small>
+						</div>
 
-                    <div className='mb-6 w-11/12 mx-auto'>
-                        <input 
-                            placeholder='Confirm Password'
-                            className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' 
-                            {...register("cpassword", { required: true, validate: validateConfirmPassword })}/>
+						<div className='mb-6 w-11/12 mx-auto text-center'>
+							<input
+								type='checkbox'
+								className='checkbox checkbox-sm checkbox-info align-middle'
+								{...register("agreement", { required: "*" })}
+							/>
 
-                        <small style={{color:'red'}}>
-                            <error>
-                                {errors.cpassword?.type === "required" && "Confirm Password required"}
-                                {errors.cpassword?.message}
-                            </error>
-                        </small>
+							<small
+								className='ml-2'
+								style={{ color: "#5C728A" }}>
+								You agree to our terms of service
+								<small style={{ color: "red", fontSize: 15 }}>
+									<error>{errors.agreement?.message}</error>
+								</small>
+							</small>
+						</div>
 
-                    </div>
-
-                    <div className='mb-6 w-11/12 mx-auto text-center'>
-                        <input 
-                            type='checkbox'
-                            className='' 
-                            {...register("agreement", { required: "*" })}/>
-
-                        <small className='ml-2' style={{color: '#5C728A'}}>
-                            You agree to our terms of service
-                            <small style={{color:'red', fontSize: 15}}>
-                                <error>
-                                    {errors.agreement?.message}
-                                </error>
-                            </small>
-                        </small>
-
-                    </div>
-
-                    <div className='mb-8 mx-auto'>
-                        <RegisterButton/>
-                    </div>
-				</form>
+						<div className='mb-8 mx-auto'>
+							<RegisterButton text='Register'/>
+						</div>
+					</form>
+				</div>
 			</div>
-		</>
-	);
+		);
 }
 
 // Arreglar las vistas 

@@ -1,7 +1,19 @@
 import React from 'react'
 import LoginForm from '../components/Forms/LoginForm'
+import { useRouter } from 'next/router'
+import { AuthContext } from "@/contexts/AuthContext";
+import { useContext, useEffect } from "react";
 
-function login() {
+function Login() {
+  const { user } = useContext(AuthContext);
+    const router = useRouter();
+
+		useEffect(() => {
+			if (user) {
+				router.push("/home");
+			}
+		}, [user,router]);
+
   return (
     <div>
       <LoginForm/>
@@ -9,4 +21,4 @@ function login() {
   )
 }
 
-export default login
+export default Login;

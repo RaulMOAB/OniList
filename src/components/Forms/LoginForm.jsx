@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
-import LoginButton from "../Buttons/LoginButton";
 import { useState } from "react";
 import { IoAt, IoLockClosed } from "react-icons/io5";
+import LoginButton from "@/components/Buttons/AuthForms/SubmitButton";
 
 import ErrorAlert from "@/components/Alerts/Login/ErrorAlert";
 
@@ -48,7 +48,6 @@ export default function LoginForm() {
 				if(res.status === 'success'){
 					//save user in context
 					login(res.user);
-					//TODO redirect home
 				}else{
 					//set message if indexOf find a "(" that means laravel give 2 errors or more but i just want show first
 					let index_of_parenthesis = res.message.indexOf("(");
@@ -81,7 +80,7 @@ export default function LoginForm() {
 				</div>
 				<div className='container mx-auto bg-slate-50 md:w-96 my-20 rounded p-5 sm:w-full'>
 					<div className='m-10'>
-						<h1 className='text-xl font-bold text-center'>Login</h1>
+						<h1 className='text-xl text-gray-500 font-bold text-center'>Login</h1>
 						<hr className='my-5' />
 					</div>
 					<form
@@ -89,7 +88,7 @@ export default function LoginForm() {
 						className='form-control mt-8'>
 						<div className='input-group mb-5'>
 							<label className='flex justify-center input-group input-group-md '>
-								<span className='bg-gray-300'>
+								<span className='bg-slate-200'>
 									<IoAt className='text-lg' />
 								</span>
 								<input
@@ -103,7 +102,7 @@ export default function LoginForm() {
 						</div>
 						<div className='input-group mb-5'>
 							<label className='flex justify-center input-group input-group-md '>
-								<span className='bg-gray-300'>
+								<span className='bg-slate-200'>
 									<IoLockClosed className='text-lg' />
 								</span>
 								<input
@@ -116,7 +115,7 @@ export default function LoginForm() {
 							</label>
 						</div>
 						<div className='mx-auto mt-5'>
-							<LoginButton />
+							<LoginButton text={'Login'} />
 						</div>
 						<div className='text-center mt-5'>
 							<small className='text-gray-500 text-center'>
