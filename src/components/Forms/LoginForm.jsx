@@ -8,19 +8,19 @@ import LoginButton from "@/components/Buttons/AuthForms/SubmitButton";
 import ErrorAlert from "@/components/Alerts/Login/ErrorAlert";
 
 const getLoginResponse = async (email, password) => {
-	const body = JSON.stringify({
-		email,
-		password,
-	});
-	const response = await fetch("http://127.0.0.1:8000/api/login", {
-		method: "POST",
-		headers: {
-			Accept: "application/json",
-			"Content-Type": "application/json",
-		},
-		body,
-	});
-	return response.json();
+  const body = JSON.stringify({
+    email,
+    password,
+  });
+  const response = await fetch("http://127.0.0.1:8000/api/login", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body,
+  });
+  return response.json();
 };
 
 export default function LoginForm() {
@@ -29,46 +29,45 @@ export default function LoginForm() {
 	const [loginResponse, setLoginResponse] = useState(null);
 	const [showError, setShowError] = useState(false);
 	const [message, setMessage] = useState('');
-	const [shownPassword, setShownPassword] = useState(false);
 
-	const { login } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
-	const handlePasswordChange = (written_password) => {
-		setPassword(written_password);
-	};
-	const handleEmailChange = (written_email) => {
-		setEmail(written_email);
-	};
+  const handlePasswordChange = (written_password) => {
+    setPassword(written_password);
+  };
+  const handleEmailChange = (written_email) => {
+    setEmail(written_email);
+  };
 
-	const handleSubmit = (event) => {
-		event.preventDefault();
-		getLoginResponse(email,password)
-			.then((res) => {
-				setLoginResponse(res);
-				console.log(res);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    getLoginResponse(email, password)
+      .then((res) => {
+        setLoginResponse(res);
+        console.log(res);
 
-				if(res.status === 'success'){
-					//save user in context
-					login(res.user);
-				}else{
-					//set message if indexOf find a "(" that means laravel give 2 errors or more but i just want show first
-					let index_of_parenthesis = res.message.indexOf("(");
-					let message = index_of_parenthesis!=-1 ? res.message.slice(0,index_of_parenthesis) : res.message 
-					setMessage(message)
-					setShowError(true);
-				}
+        if (res.status === "success") {
+          //save user in context
+          login(res.user);
+        } else {
+          //set message if indexOf find a "(" that means laravel give 2 errors or more but i just want show first
+          let index_of_parenthesis = res.message.indexOf("(");
+          let message =
+            index_of_parenthesis != -1
+              ? res.message.slice(0, index_of_parenthesis)
+              : res.message;
+          setMessage(message);
+          setShowError(true);
+        }
+      })
+      .catch((error) => {
+        console.error("Error al enviar el formulario:", error);
+      });
+  };
 
-			})
-			.catch((error) => {
-				console.error("Error al enviar el formulario:", error);
-			});
-	};
-
-	const resetAlert = () => {
-		setShowError(false);
-	};
-
-	const switchShownPassword = () => setShownPassword(!shownPassword);
+  const resetAlert = () => {
+    setShowError(false);
+  };
 
 	return (
 		<>
@@ -90,45 +89,34 @@ export default function LoginForm() {
 					<form
 						onSubmit={(event) => handleSubmit(event)}
 						className='form-control mt-8'>
-						<div className='mb-4 w-4/5 mx-auto'>
-							<div className='input-group'>
-								<label className='flex justify-center input-group input-group-md rounded'>
-									<span className='bg-gray-300'>
-										<IoAt className='text-lg' />
-									</span>
-									<input
-										type='email'
-										value={email}
-										onChange={(event) => handleEmailChange(event.target.value)}
-										placeholder='Email'
-										className={"w-full h-9 focus:outline-none bg-slate-200 p-3"}
-									/>
-								</label>
-							</div>
+						<div className='input-group mb-5'>
+							<label className='flex justify-center input-group input-group-md '>
+								<span className='bg-slate-200'>
+									<IoAt className='text-lg' />
+								</span>
+								<input
+									type='email'
+									value={email}
+									onChange={(event) => handleEmailChange(event.target.value)}
+									placeholder='Email'
+									className={"h-9 focus:outline-none bg-slate-200 p-3"}
+								/>
+							</label>
 						</div>
-						
-						<div className='mb-4 w-4/5 mx-auto'>
-							<div className='input-group'>
-								<label className='relative flex justify-center input-group input-group-md rounded'>
-									<span className='bg-gray-300'>
-										<IoLockClosed className='text-lg' />
-									</span>
-									<input
-										type={shownPassword ? 'text' : 'password'}
-										value={password}
-										onChange={(event) => handlePasswordChange(event.target.value)}
-										placeholder='••••••••••'
-										className='w-full h-9 focus:outline-none bg-slate-200 p-3 rounded'
-									/>
-									<button type='button' className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600 rounded" 
-											onClick={switchShownPassword}>
-											
-											{shownPassword ?  <AiFillEye className='text-lg'/> : <AiFillEyeInvisible className='text-lg'/>}
-									</button>
-								</label>
-							</div>
+						<div className='input-group mb-5'>
+							<label className='flex justify-center input-group input-group-md '>
+								<span className='bg-slate-200'>
+									<IoLockClosed className='text-lg' />
+								</span>
+								<input
+									type='password'
+									value={password}
+									onChange={(event) => handlePasswordChange(event.target.value)}
+									placeholder='••••••••••'
+									className='h-9 focus:outline-none bg-slate-200 p-3'
+								/>
+							</label>
 						</div>
-						
 						<div className='mx-auto mt-5'>
 							<LoginButton text={'Login'} />
 						</div>

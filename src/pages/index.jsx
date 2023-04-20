@@ -55,9 +55,9 @@ export default function Home() {
         <Hero media={media_data} />
       </header>
       <main className="mx-40 mb-20">
-        <h1 className="xl:text-2xl uppercase my-10">Popular animes</h1>
+        <h1 className="text-xl xl:text-2xl uppercase my-4 pt-5">Popular animes</h1>
         {
-          <div className="grid grid-cols-5 gap-10 ">
+          <div className="grid grid-cols-5">
             {media_data.map((media, i) => {
               return <MediaCard key={i} media={media} />;
             })}
