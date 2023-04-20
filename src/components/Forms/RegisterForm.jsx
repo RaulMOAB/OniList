@@ -3,6 +3,7 @@ import RegisterButton from "@/components/Buttons/AuthForms/SubmitButton";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoAt, IoLockClosed, IoPerson } from "react-icons/io5";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 const getRegisterResponse = async (username, email, password) => {
 	const body = JSON.stringify({
@@ -33,6 +34,8 @@ export default function RegisterForm() {
     const username = watch("username");
     const email = watch("email");
     const password = watch("password");
+    const [shownPassword, setShownPassword] = useState(false);
+    const [shownConfirmPassword, setShownConfirmPassword] = useState(false);
 
     const [registerResponse, setRegisterResponse] = useState(null);
 	const [showError, setShowError] = useState(false);
@@ -69,6 +72,9 @@ export default function RegisterForm() {
     const resetAlert = () => {
 		setShowError(false);
 	};
+
+    const switchShownPassword = () => setShownPassword(!shownPassword);
+    const switchShownConfirmPassword = () => setShownConfirmPassword(!shownConfirmPassword);
 
 
     const validateConfirmPassword = (value) => {
@@ -146,19 +152,25 @@ export default function RegisterForm() {
 
                         <div className='mb-4 w-4/5 mx-auto'>
                             <div className='input-group'>
-                                <label className='flex justify-center input-group input-group-md '>
+                                <label className='relative flex justify-center input-group input-group-md '>
                                     <span className='bg-gray-300'>
                                         <IoLockClosed className='text-lg' />
                                     </span>
                                     <input 
+                                        type={shownPassword ? 'text' : 'password'}
                                         name="password"
                                         placeholder='Password'
-                                        className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' 
+                                        className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 z-0 rounded ' 
                                         {...register("password", {
                                             required: true,
                                             minLength: 6,
                                             maxLength: 20, })} 
                                     />
+                                    <button type='button' className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600" 
+                                            onClick={switchShownPassword}>
+                                            
+                                            {shownPassword ?  <AiFillEye className='text-lg'/> : <AiFillEyeInvisible className='text-lg'/>}
+                                    </button>
                                 </label>
                             </div>
 
@@ -176,15 +188,21 @@ export default function RegisterForm() {
 
                         <div className='mb-5 w-4/5 mx-auto'>
                             <div className='input-group'>
-                                <label className='flex justify-center input-group input-group-md '>
+                                <label className='relative flex justify-center input-group input-group-md '>
                                     <span className='bg-gray-300'>
                                         <IoLockClosed className='text-lg' />
                                     </span>
                                     <input 
+                                        type={shownConfirmPassword ? 'text' : 'password'}
                                         placeholder='Confirm Password'
-                                        className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' 
+                                        className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 z-0 p-3 rounded ' 
                                         {...register("cpassword", { required: true, validate: validateConfirmPassword })}
                                     />
+                                    <button type='button' className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600" 
+                                            onClick={switchShownConfirmPassword}>
+                                            
+                                            {shownConfirmPassword ?  <AiFillEye className='text-lg'/> : <AiFillEyeInvisible className='text-lg'/>}
+                                    </button>
                                 </label>
                             </div>
 
@@ -217,13 +235,14 @@ export default function RegisterForm() {
 						<div className='mb-8 mx-auto'>
 							<RegisterButton text='Register'/>
 						</div>
+
+                        
 					</form>
 				</div>
 			</div>
 		);
 }
 
-// Arreglar las vistas 
 // Enviar los datos para el registro
 // enviar codigo de validacion para completar el registro
 // mostrar modal del error
