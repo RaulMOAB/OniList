@@ -3,6 +3,8 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { useState } from "react";
 import { IoAt, IoLockClosed } from "react-icons/io5";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+
+import Link from "next/link";
 import LoginButton from "@/components/Buttons/AuthForms/SubmitButton";
 
 import ErrorAlert from "@/components/Alerts/Login/ErrorAlert";
@@ -49,7 +51,7 @@ export default function LoginForm() {
 
         if (res.status === "success") {
           //save user in context
-          login(res.user);
+          login(res.user, res.auth.token);
         } else {
           //set message if indexOf find a "(" that means laravel give 2 errors or more but i just want show first
           let index_of_parenthesis = res.message.indexOf("(");
@@ -86,7 +88,9 @@ export default function LoginForm() {
 				</div>
 				<div className='container mx-auto bg-slate-50 md:w-96 my-20 rounded p-5 sm:w-full'>
 					<div className='m-10'>
-						<h1 className='text-xl text-gray-500 font-bold text-center'>Login</h1>
+						<h1 className='text-xl text-gray-500 font-bold text-center'>
+							Login
+						</h1>
 						<hr className='my-5' />
 					</div>
 					<form
@@ -111,34 +115,41 @@ export default function LoginForm() {
 
 						<div className='mb-4 w-4/5 mx-auto'>
 							<div className='input-group'>
-								<label className='relative flex justify-center input-group input-group-md rounded'>
+								<label className='relative flex justify-center input-group input-group-md'>
 									<span className='bg-gray-300'>
 										<IoLockClosed className='text-lg' />
 									</span>
 									<input
-										type={shownPassword ? 'text' : 'password'}
+										type={shownPassword ? "text" : "password"}
 										value={password}
-										onChange={(event) => handlePasswordChange(event.target.value)}
+										onChange={(event) =>
+											handlePasswordChange(event.target.value)
+										}
 										placeholder='••••••••••'
-										className='w-full h-9 focus:outline-none bg-slate-200 p-3 rounded'
+										className='w-full h-9 focus:outline-none bg-slate-200 p-3 rounded-r-md'
 									/>
-									<button type='button' className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600 rounded" 
-											onClick={switchShownPassword}>
-											
-											{shownPassword ?  <AiFillEye className='text-lg'/> : <AiFillEyeInvisible className='text-lg'/>}
+									<button
+										type='button'
+										className='absolute inset-y-0 right-0 flex items-center px-4 text-gray-600'
+										onClick={switchShownPassword}>
+										{shownPassword ? (
+											<AiFillEye className='text-lg' />
+										) : (
+											<AiFillEyeInvisible className='text-lg' />
+										)}
 									</button>
 								</label>
 							</div>
 						</div>
-						
+
 						<div className='mx-auto mt-5'>
-							<LoginButton text={'Login'} />
+							<LoginButton text={"Login"} />
 						</div>
 						<div className='text-center mt-5'>
 							<small className='text-gray-500 text-center'>
 								<a
 									href=''
-									className='hover:text-red-500 active:text-red-700'>
+									className='hover:text-blue-500 active:text-blue-700'>
 									Forgot password?
 								</a>
 							</small>
@@ -146,11 +157,11 @@ export default function LoginForm() {
 						<div className='text-center mt-5'>
 							<small className='text-gray-500 text-center'>
 								Not registered yet?&nbsp;
-								<a
-									href=''
-									className='hover:text-red-500 active:text-red-700'>
+								<Link
+									href='/register'
+									className='hover:text-blue-500 active:text-blue-700'>
 									Create an account
-								</a>
+								</Link>
 							</small>
 						</div>
 					</form>
