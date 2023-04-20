@@ -29,6 +29,7 @@ export default function LoginForm() {
 	const [loginResponse, setLoginResponse] = useState(null);
 	const [showError, setShowError] = useState(false);
 	const [message, setMessage] = useState('');
+	const [shownPassword, setShownPassword] = useState(false);
 
   const { login } = useContext(AuthContext);
 
@@ -69,6 +70,8 @@ export default function LoginForm() {
     setShowError(false);
   };
 
+  const switchShownPassword = () => setShownPassword(!shownPassword);
+
 	return (
 		<>
 			<div className=' md:min-h-screen sm:h-full'>
@@ -89,34 +92,45 @@ export default function LoginForm() {
 					<form
 						onSubmit={(event) => handleSubmit(event)}
 						className='form-control mt-8'>
-						<div className='input-group mb-5'>
-							<label className='flex justify-center input-group input-group-md '>
-								<span className='bg-slate-200'>
-									<IoAt className='text-lg' />
-								</span>
-								<input
-									type='email'
-									value={email}
-									onChange={(event) => handleEmailChange(event.target.value)}
-									placeholder='Email'
-									className={"h-9 focus:outline-none bg-slate-200 p-3"}
-								/>
-							</label>
+						<div className='mb-4 w-4/5 mx-auto'>
+							<div className='input-group'>
+								<label className='flex justify-center input-group input-group-md '>
+									<span className='bg-gray-300'>
+										<IoAt className='text-lg' />
+									</span>
+									<input
+										type='email'
+										value={email}
+										onChange={(event) => handleEmailChange(event.target.value)}
+										placeholder='Email'
+										className={"w-full h-9 focus:outline-none bg-slate-200 p-3"}
+									/>
+								</label>
+							</div>
 						</div>
-						<div className='input-group mb-5'>
-							<label className='flex justify-center input-group input-group-md '>
-								<span className='bg-slate-200'>
-									<IoLockClosed className='text-lg' />
-								</span>
-								<input
-									type='password'
-									value={password}
-									onChange={(event) => handlePasswordChange(event.target.value)}
-									placeholder='••••••••••'
-									className='h-9 focus:outline-none bg-slate-200 p-3'
-								/>
-							</label>
+
+						<div className='mb-4 w-4/5 mx-auto'>
+							<div className='input-group'>
+								<label className='relative flex justify-center input-group input-group-md rounded'>
+									<span className='bg-gray-300'>
+										<IoLockClosed className='text-lg' />
+									</span>
+									<input
+										type={shownPassword ? 'text' : 'password'}
+										value={password}
+										onChange={(event) => handlePasswordChange(event.target.value)}
+										placeholder='••••••••••'
+										className='w-full h-9 focus:outline-none bg-slate-200 p-3 rounded'
+									/>
+									<button type='button' className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600 rounded" 
+											onClick={switchShownPassword}>
+											
+											{shownPassword ?  <AiFillEye className='text-lg'/> : <AiFillEyeInvisible className='text-lg'/>}
+									</button>
+								</label>
+							</div>
 						</div>
+						
 						<div className='mx-auto mt-5'>
 							<LoginButton text={'Login'} />
 						</div>
