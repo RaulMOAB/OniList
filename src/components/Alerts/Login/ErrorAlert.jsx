@@ -16,7 +16,7 @@ export default function ErrorAlert({ show, message, resetAlert }) {
 			<>
 				<div
 					className={
-						"absolute left-0  alert alert-error shadow-lg w-96 rounded-md animate-fade-in-down"
+						"absolute left-0  alert alert-error shadow-lg w-96 rounded-md animate-fade-down animate-duration-300"
 					}>
 					<div>
 						<svg
@@ -32,7 +32,10 @@ export default function ErrorAlert({ show, message, resetAlert }) {
 						</svg>
 						<span className='text-white w-72'>{message}</span>
 						<button
-							onClick={() => {closeAlert(); resetAlert();}}
+							onClick={() => {
+								closeAlert();
+								resetAlert();
+							}}
 							className='text-red-100 hover:text-white'>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
