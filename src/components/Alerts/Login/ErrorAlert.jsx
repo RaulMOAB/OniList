@@ -16,7 +16,7 @@ export default function ErrorAlert({ show, message, resetAlert }) {
 			<>
 				<div
 					className={
-						"absolute left-0  alert alert-error shadow-lg w-96 rounded-md animate-fade-down animate-duration-300"
+						"absolute left-0 w-full  alert alert-error shadow-lg rounded-md animate-fade-down animate-duration-300"
 					}>
 					<div>
 						<svg
@@ -30,7 +30,7 @@ export default function ErrorAlert({ show, message, resetAlert }) {
 								clipRule='evenodd'
 							/>
 						</svg>
-						<span className='text-white w-72'>{message}</span>
+						<span className='text-white w-64'>{message}</span>
 						<button
 							onClick={() => {
 								closeAlert();

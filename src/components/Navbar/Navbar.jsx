@@ -13,7 +13,7 @@ export default function Navbar() {
 	const { user, logout } = useContext(AuthContext);
 	return (
 		<>
-			<div className={"hidden md:flex navbar bg-base-content  " + styles.nb}>
+			<div className={"hidden lg:flex navbar bg-base-content  " + styles.nb}>
 				<div className='navbar-start text-slate-200 my-auto'>
 					<Link
 						href={"/"}
@@ -284,7 +284,7 @@ export default function Navbar() {
 								<li>
 									<span className=' hover:text-slate-600 hover:bg-base-100 active:bg-transparent'>
 										<FaUser className='text-lg' />
-										<a className='justify-between'>Profile</a>
+										<Link href={'/profile'} className='justify-between'>Profile</Link>
 									</span>
 								</li>
 								<li>
@@ -296,7 +296,7 @@ export default function Navbar() {
 								<li>
 									<span className=' hover:text-slate-600 hover:bg-base-100 active:bg-transparent'>
 										<IoSettingsSharp className='text-lg' />
-										<a>Settings</a>
+										<Link href={'/settings/'}>Settings</Link>
 									</span>
 								</li>
 								<li>
