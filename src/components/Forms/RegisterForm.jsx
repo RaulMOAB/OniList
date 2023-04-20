@@ -243,7 +243,5 @@ export default function RegisterForm() {
 		);
 }
 
-// Enviar los datos para el registro
+
 // enviar codigo de validacion para completar el registro
-// mostrar modal del error
-// ocultar el campo contraseña
