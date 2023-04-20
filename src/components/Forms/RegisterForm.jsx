@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoAt, IoLockClosed, IoPerson } from "react-icons/io5";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import ValidationAlert from '../Alerts/Register/ValidationAlert';
 
 const getRegisterResponse = async (username, email, password) => {
 	const body = JSON.stringify({
@@ -163,8 +164,12 @@ export default function RegisterForm() {
                                         className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 z-0 rounded ' 
                                         {...register("password", {
                                             required: true,
-                                            minLength: 6,
-                                            maxLength: 20, })} 
+                                            minLength: 8,
+                                            maxLength: 20, 
+                                            pattern: {
+                                                value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/,
+                                                message: <ValidationAlert/>
+                                            }})} 
                                     />
                                     <button type='button' className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600" 
                                             onClick={switchShownPassword}>
@@ -178,7 +183,8 @@ export default function RegisterForm() {
                                 <error>
                                     {errors.password?.type === "required" && "Password required *"}
                                     {errors.password?.type === "minLength" &&
-                                    "Minimum length 6 characters"}
+                                    "Minimum length 8 characters"}
+                                    {errors.password?.message}
                                     {errors.password?.type === "maxLength" &&
                                     "Maximum length 20 characters"}
                                 </error>
@@ -235,7 +241,6 @@ export default function RegisterForm() {
 						<div className='mb-8 mx-auto'>
 							<RegisterButton text='Register'/>
 						</div>
-
                         
 					</form>
 				</div>
