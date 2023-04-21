@@ -44,7 +44,7 @@ export default function Home() {
 					</h1>
 				</div>
 				{
-					<div className='grid grid-cols-2 lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 gap-2 '>
+					<div className='grid grid-cols-2 lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 gap-2 lg:gap-4 md:gap-4 '>
 						{media_data.map((media, i) => {
 							return (
 								<MediaCard

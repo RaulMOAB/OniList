@@ -266,25 +266,46 @@ export default function Navbar() {
 							</div>
 						</button>
 
-						<div className='dropdown dropdown-end'>
-							<label
-								tabIndex={0}
-								className='btn btn-circle avatar'>
-								<Image
-									src='/avatar/evangelion.jpeg'
-									alt='profile image'
-									className='rounded-full'
-									width={40}
-									height={40}
-								/>
-							</label>
+						<div className='dropdown'>
+							<div
+								className='flex bg-slate-600 rounded-full px-2 py-1'
+								tabIndex={0}>
+								<label className='flex btn btn-circle avatar'>
+									<Image
+										src='https://s4.anilist.co/file/anilistcdn/user/avatar/large/default.png'
+										alt='profile image'
+										className='flex rounded-full'
+										width={40}
+										height={40}
+									/>
+								</label>
+								<span className=' inline-block align-middle text-white my-auto w-2/3 pl-1 truncate'>
+									{user.username}
+								</span>
+								<button
+									className=''
+									tabIndex={0}>
+									<svg
+										className='fill-current hover:text-slate-700'
+										xmlns='http://www.w3.org/2000/svg'
+										width='40'
+										height='40'
+										viewBox='0 0 24 24'>
+										<path d='M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z' />
+									</svg>
+								</button>
+							</div>
 							<ul
 								tabIndex={0}
 								className='menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 text-slate-400 '>
 								<li>
 									<span className=' hover:text-slate-600 hover:bg-base-100 active:bg-transparent'>
 										<FaUser className='text-lg' />
-										<Link href={'/profile'} className='justify-between'>Profile</Link>
+										<Link
+											href={"/profile"}
+											className='justify-between'>
+											Profile
+										</Link>
 									</span>
 								</li>
 								<li>
@@ -296,7 +317,7 @@ export default function Navbar() {
 								<li>
 									<span className=' hover:text-slate-600 hover:bg-base-100 active:bg-transparent'>
 										<IoSettingsSharp className='text-lg' />
-										<Link href={'/settings/'}>Settings</Link>
+										<Link href={"/settings/"}>Settings</Link>
 									</span>
 								</li>
 								<li>
