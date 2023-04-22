@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 import RegisterButton from "@/components/Buttons/AuthForms/SubmitButton";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoAt, IoLockClosed, IoPerson } from "react-icons/io5";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import ValidationAlert from '../Alerts/Register/ValidationAlert';
+import ValidationAlert from "../Alerts/Register/ValidationAlert";
 
 const getRegisterResponse = async (username, email, password) => {
 	const body = JSON.stringify({
-        username,
+		username,
 		email,
 		password,
 	});
@@ -24,229 +24,231 @@ const getRegisterResponse = async (username, email, password) => {
 };
 
 export default function RegisterForm() {
+	const {
+		register,
+		formState: { errors },
+		handleSubmit,
+		watch,
+	} = useForm();
 
-    const {
-        register,
-        formState: { errors },
-        handleSubmit,
-        watch
-    } = useForm();
+	const username = watch("username");
+	const email = watch("email");
+	const password = watch("password");
+	const [shownPassword, setShownPassword] = useState(false);
+	const [shownConfirmPassword, setShownConfirmPassword] = useState(false);
 
-    const username = watch("username");
-    const email = watch("email");
-    const password = watch("password");
-    const [shownPassword, setShownPassword] = useState(false);
-    const [shownConfirmPassword, setShownConfirmPassword] = useState(false);
-
-    const [registerResponse, setRegisterResponse] = useState(null);
+	const [registerResponse, setRegisterResponse] = useState(null);
 	const [showError, setShowError] = useState(false);
-	const [message, setMessage] = useState('');
+	const [message, setMessage] = useState("");
 
-    const onSubmit = () => {
+	const onSubmit = () => {
+		console.log(username + "  " + email + "  " + password);
 
-        console.log(username + "  " + email + "  " + password);
-
-		getRegisterResponse(username,email,password)
+		getRegisterResponse(username, email, password)
 			.then((res) => {
 				setRegisterResponse(res);
 				console.log(res);
 
-				if(res.status === 'success'){
+				if (res.status === "success") {
 					//save user in context
 					//login(res.user);
 					//TODO redirect home
-                    console.log("register done")
-				}else{
+					console.log("register done");
+				} else {
 					//set message if indexOf find a "(" that means laravel give 2 errors or more but i just want show first
 					let index_of_parenthesis = res.message.indexOf("(");
-					let message = index_of_parenthesis!=-1 ? res.message.slice(0,index_of_parenthesis) : res.message 
-					setMessage(message)
+					let message =
+						index_of_parenthesis != -1
+							? res.message.slice(0, index_of_parenthesis)
+							: res.message;
+					setMessage(message);
 					setShowError(true);
 				}
-
 			})
 			.catch((error) => {
 				console.error("Error al enviar el formulario:", error);
 			});
 	};
 
-    const resetAlert = () => {
+	const resetAlert = () => {
 		setShowError(false);
 	};
 
-    const switchShownPassword = () => setShownPassword(!shownPassword);
-    const switchShownConfirmPassword = () => setShownConfirmPassword(!shownConfirmPassword);
+	const switchShownPassword = () => setShownPassword(!shownPassword);
+	const switchShownConfirmPassword = () =>
+		setShownConfirmPassword(!shownConfirmPassword);
 
+	const validateConfirmPassword = (value) => {
+		if (value === password) {
+			return true;
+		}
+		return "Passwords do not match";
+	};
 
-    const validateConfirmPassword = (value) => {
-        if (value === password) {
-          return true;
-        }
-        return "Passwords do not match";
-    };
-
-    return (
-			<div className='min-h-screen'>
-				<div className='relative container mx-auto md:w-96 rounded p-5 sm:w-full'>
+	return (
+		<div className='min-h-screen bg-transparent py-24'>
+			
+			<div className='container mx-auto bg-neutral md:w-96 w-full rounded-md p-5'>
+				<div className='m-5'>
+					<h1 className='text-xl font-bold text-center text-accent'>Sign up</h1>
+					<div className='divider'></div>
 				</div>
-				<div className='container mx-auto bg-slate-50 md:w-96 w-full my-20 rounded-md p-5'>
-					<div className='m-5'>
-						<h1
-							className='text-xl font-bold text-center'
-							style={{ color: "#5C728A" }}>
-							Sign up
-						</h1>
-						<hr className='my-5' />
+				<form
+					onSubmit={handleSubmit(onSubmit)}
+					className='form-control mt-10'>
+					<div className='mb-4 w-4/5 mx-auto'>
+						<div className='input-group'>
+							<label className='flex justify-center input-group input-group-md '>
+								<span className=' bg-base-content '>
+									<IoAt className='text-lg text-accent' />
+								</span>
+								<input
+									placeholder='Email'
+									className='w-full h-9 focus:outline-none  bg-base-content  opacity-60 p-3 text-accent rounded-md'
+									{...register("email", {
+										required: true,
+										pattern:
+											/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
+									})}
+								/>
+							</label>
+						</div>
+
+						<small style={{ color: "red" }}>
+							<error>
+								{errors.email?.type === "required" && "Email required *"}
+								{errors.email?.type === "pattern" && "Input valid email"}
+							</error>
+						</small>
 					</div>
-					<form
-						onSubmit={handleSubmit(onSubmit)}
-						className='form-control mt-10'>
 
-						<div className='mb-4 w-4/5 mx-auto'>
-                            <div className='input-group'>
-                                <label className='flex justify-center input-group input-group-md '>
-                                    <span className='bg-gray-300'>
-                                        <IoAt className='text-lg' />
-                                    </span>
-                                    <input 
-                                    placeholder='Email'
-                                    className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded'
-                                    {...register("email", {
-                                        required: true,
-                                        pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-                                    })} />
+					<div className='mb-4 w-4/5 mx-auto'>
+						<div className='input-group'>
+							<label className='flex justify-center input-group input-group-md '>
+								<span className='bg-base-content '>
+									<IoPerson className='text-lg text-accent' />
+								</span>
+								<input
+									placeholder='Name'
+									className='w-full h-9 focus:outline-none  bg-base-content  opacity-60 p-3 text-accent rounded-md'
+									{...register("username", { required: true })}
+								/>
+							</label>
+						</div>
 
-                                </label>
-                            </div>
+						<small style={{ color: "red" }}>
+							<error>
+								{errors.username?.type === "required" && "Name required *"}
+							</error>
+						</small>
+					</div>
 
-                            <small style={{color:'red'}}>
-                                <error>
-                                    {errors.email?.type === "required" && "Email required *"}
-                                    {errors.email?.type === "pattern" && "Input valid email"}
-                                </error>
-                            </small>
-                        </div>
+					<div className='mb-4 w-4/5 mx-auto'>
+						<div className='input-group'>
+							<label className='relative flex justify-center input-group input-group-md '>
+								<span className=' bg-base-content '>
+									<IoLockClosed className='text-lg text-accent' />
+								</span>
+								<input
+									type={shownPassword ? "text" : "password"}
+									name='password'
+									placeholder='Password'
+									className='w-full h-9 focus:outline-none  bg-base-content  opacity-60 p-3 z-0 text-accent rounded-r-md'
+									{...register("password", {
+										required: true,
+										minLength: 8,
+										maxLength: 20,
+										pattern: {
+											value:
+												/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/,
+											message: <ValidationAlert />,
+										},
+									})}
+								/>
+								<button
+									type='button'
+									className='absolute inset-y-0 right-0 flex items-center px-4 text-gray-600'
+									onClick={switchShownPassword}>
+									{shownPassword ? (
+										<AiFillEye className='text-lg text-accent' />
+									) : (
+										<AiFillEyeInvisible className='text-lg text-accent ' />
+									)}
+								</button>
+							</label>
+						</div>
 
-                    
+						<small style={{ color: "red" }}>
+							<error>
+								{errors.password?.type === "required" && "Password required *"}
+								{errors.password?.type === "minLength" &&
+									"Minimum length 8 characters"}
+								{errors.password?.message}
+								{errors.password?.type === "maxLength" &&
+									"Maximum length 20 characters"}
+							</error>
+						</small>
+					</div>
 
-                        <div className='mb-4 w-4/5 mx-auto'>
-                            <div className='input-group'>
-                                <label className='flex justify-center input-group input-group-md '>
-                                    <span className='bg-gray-300'>
-                                        <IoPerson className='text-lg' />
-                                    </span>
-                                    <input 
-                                        placeholder='Name'
-                                        className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 rounded ' 
-                                        {...register("username", { required: true })} 
-                                    />
-                                </label>
-                            </div>
+					<div className='mb-5 w-4/5 mx-auto'>
+						<div className='input-group'>
+							<label className='relative flex justify-center input-group input-group-md '>
+								<span className=' bg-base-content '>
+									<IoLockClosed className='text-lg text-accent' />
+								</span>
+								<input
+									type={shownConfirmPassword ? "text" : "password"}
+									placeholder='Confirm Password'
+									className='w-full h-9 focus:outline-none  bg-base-content  opacity-60 z-0 p-3 text-accent  rounded-r-md'
+									{...register("cpassword", {
+										required: true,
+										validate: validateConfirmPassword,
+									})}
+								/>
+								<button
+									type='button'
+									className='absolute inset-y-0 right-0 flex items-center px-4 text-gray-600'
+									onClick={switchShownConfirmPassword}>
+									{shownConfirmPassword ? (
+										<AiFillEye className='text-lg text-accent rounded-md' />
+									) : (
+										<AiFillEyeInvisible className='text-lg text-accent rounded-md' />
+									)}
+								</button>
+							</label>
+						</div>
 
-                            <small style={{color:'red'}}>
-                                <error>
-                                    {errors.username?.type === "required" && "Name required *"}
-                                </error>
-                            </small>
-                        </div>
+						<small style={{ color: "red" }}>
+							<error>
+								{errors.cpassword?.type === "required" &&
+									"Confirm Password required *"}
+								{errors.cpassword?.message}
+							</error>
+						</small>
+					</div>
 
+					<div className='mb-6 w-11/12 mx-auto text-center'>
+						<input
+							type='checkbox'
+							className='checkbox checkbox-sm checkbox-info align-middle'
+							{...register("agreement", { required: "*" })}
+						/>
 
-                        <div className='mb-4 w-4/5 mx-auto'>
-                            <div className='input-group'>
-                                <label className='relative flex justify-center input-group input-group-md '>
-                                    <span className='bg-gray-300'>
-                                        <IoLockClosed className='text-lg' />
-                                    </span>
-                                    <input 
-                                        type={shownPassword ? 'text' : 'password'}
-                                        name="password"
-                                        placeholder='Password'
-                                        className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 p-3 z-0 rounded ' 
-                                        {...register("password", {
-                                            required: true,
-                                            minLength: 8,
-                                            maxLength: 20, 
-                                            pattern: {
-                                                value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/,
-                                                message: <ValidationAlert/>
-                                            }})} 
-                                    />
-                                    <button type='button' className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600" 
-                                            onClick={switchShownPassword}>
-                                            
-                                            {shownPassword ?  <AiFillEye className='text-lg'/> : <AiFillEyeInvisible className='text-lg'/>}
-                                    </button>
-                                </label>
-                            </div>
-
-                            <small style={{color:'red'}}>
-                                <error>
-                                    {errors.password?.type === "required" && "Password required *"}
-                                    {errors.password?.type === "minLength" &&
-                                    "Minimum length 8 characters"}
-                                    {errors.password?.message}
-                                    {errors.password?.type === "maxLength" &&
-                                    "Maximum length 20 characters"}
-                                </error>
-                            </small>
-                        </div>
-
-
-                        <div className='mb-5 w-4/5 mx-auto'>
-                            <div className='input-group'>
-                                <label className='relative flex justify-center input-group input-group-md '>
-                                    <span className='bg-gray-300'>
-                                        <IoLockClosed className='text-lg' />
-                                    </span>
-                                    <input 
-                                        type={shownConfirmPassword ? 'text' : 'password'}
-                                        placeholder='Confirm Password'
-                                        className='w-full h-9 focus:outline-none bg-slate-200 opacity-60 z-0 p-3 rounded ' 
-                                        {...register("cpassword", { required: true, validate: validateConfirmPassword })}
-                                    />
-                                    <button type='button' className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600" 
-                                            onClick={switchShownConfirmPassword}>
-                                            
-                                            {shownConfirmPassword ?  <AiFillEye className='text-lg'/> : <AiFillEyeInvisible className='text-lg'/>}
-                                    </button>
-                                </label>
-                            </div>
-
-                            <small style={{color:'red'}}>
-                                <error>
-                                    {errors.cpassword?.type === "required" && "Confirm Password required *"}
-                                    {errors.cpassword?.message}
-                                </error>
-                            </small>
-                        </div>
-
-
-						<div className='mb-6 w-11/12 mx-auto text-center'>
-							<input
-								type='checkbox'
-								className='checkbox checkbox-sm checkbox-info align-middle'
-								{...register("agreement", { required: "*" })}
-							/>
-
-							<small
-								className='ml-2'
-								style={{ color: "#5C728A" }}>
-								You agree to our terms of service
-								<small style={{ color: "red", fontSize: 15 }}>
-									<error>{errors.agreement?.message}</error>
-								</small>
+						<small className='ml-2 text-accent'>
+							You agree to our terms of service
+							<small style={{ color: "red", fontSize: 15 }}>
+								<error>{errors.agreement?.message}</error>
 							</small>
-						</div>
+						</small>
+					</div>
 
-						<div className='mb-8 mx-auto'>
-							<RegisterButton text='Register'/>
-						</div>
-                        
-					</form>
-				</div>
+					<div className='mb-8 mx-auto'>
+						<RegisterButton text='Register' />
+					</div>
+				</form>
 			</div>
-		);
+		</div>
+	);
 }
-
 
 // enviar codigo de validacion para completar el registro

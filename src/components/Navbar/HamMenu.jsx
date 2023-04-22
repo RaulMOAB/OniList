@@ -20,14 +20,14 @@ const HamMenu = () => {
 	return (
 		<>
 			{user ? (
-				<nav className='lg:hidden bg-slate-700 fixed bottom-6 right-4 p-2 rounded-md z-50'>
+				<nav className='lg:hidden bg-base-100 fixed bottom-6 right-4 p-2 rounded-md z-50'>
 					<button
-						className='block lg:hidden text-4xl text-blue-500'
+						className='block lg:hidden text-4xl text-primary'
 						onClick={toggleMenu}>
 						{showMenu ? <FaTimes /> : <FaBars />}
 					</button>
 					<div
-						className={`lg:hidden fixed bottom-6 right-4  rounded-md bg-slate-700 transition-all  duration-100 ${
+						className={`lg:hidden fixed bottom-6 right-4  rounded-md bg-base-100 transition-all  duration-100 ${
 							showMenu ? "opacity-100" : "opacity-0 pointer-events-none"
 						}`}>
 						<div className='p-6'>
@@ -35,57 +35,57 @@ const HamMenu = () => {
 								<div className='flex flex-col items-center mb-2'>
 									<Link href={"/home"}>
 										<div className='flex items-center justify-center'>
-											<AiFillHome className='text-gray-400  w-6 h-6' />
+											<AiFillHome className='text-accent  w-6 h-6' />
 										</div>
-										<p className='text-gray-400 text-xs'>home</p>
+										<p className='text-accent text-xs'>home</p>
 									</Link>
 								</div>
 								<div className='flex flex-col items-center mb-2'>
 									<Link href={"/anime-list"}>
 										<div className='flex items-center justify-center'>
-											<FaPlay className='text-gray-400 w-6 h-6' />
+											<FaPlay className='text-accent w-6 h-6' />
 										</div>
-										<p className='text-gray-400 text-xs'>anime</p>
+										<p className='text-accent text-xs'>anime</p>
 									</Link>
 								</div>
 								<div className='flex flex-col items-center mb-2'>
 									<Link href={"/manga-list"}>
 										<div className='flex items-center justify-center'>
-											<FaBookOpen className='text-gray-400  w-6 h-6' />
+											<FaBookOpen className='text-accent  w-6 h-6' />
 										</div>
-										<p className='text-gray-400 text-xs'>manga</p>
+										<p className='text-accent text-xs'>manga</p>
 									</Link>
 								</div>
 								<div className='flex flex-col items-center mb-2'>
 									<Link href={"/profile"}>
 										<div className='flex items-center justify-center'>
-											<FaUser className='text-gray-400  w-6 h-6' />
+											<FaUser className='text-accent  w-6 h-6' />
 										</div>
-										<p className='text-gray-400  text-xs'>profile</p>
+										<p className='text-accent  text-xs'>profile</p>
 									</Link>
 								</div>
 								<div className='flex flex-col items-center mb-2'>
 									<Link href={"/settings/"}>
 										<div className='flex items-center justify-center'>
-											<IoSettingsSharp className='text-gray-400  w-6 h-6' />
+											<IoSettingsSharp className='text-accent  w-6 h-6' />
 										</div>
-										<p className='text-gray-400  text-xs'>settings</p>
+										<p className='text-accent  text-xs'>settings</p>
 									</Link>
 								</div>
 								<div className='flex flex-col items-center mb-2'>
 									<Link href={"/settings"}>
 										<div className='flex items-center justify-center'>
-											<IoNotifications className='text-gray-400  w-6 h-6' />
+											<IoNotifications className='text-accent  w-6 h-6' />
 										</div>
-										<p className='text-gray-400 text-xs'>notifications</p>
+										<p className='text-accent text-xs'>notifications</p>
 									</Link>
 								</div>
 								<div className='flex flex-col items-center mb-2'>
 									<Link href={"/browser"}>
 										<div className='flex items-center justify-center'>
-											<IoSearch className='text-gray-400  w-6 h-6' />
+											<IoSearch className='text-accent  w-6 h-6' />
 										</div>
-										<p className='text-gray-400 text-xs'>browser</p>
+										<p className='text-accent text-xs'>browser</p>
 									</Link>
 								</div>
 								<div className='flex flex-col items-center mb-2'>
@@ -94,15 +94,15 @@ const HamMenu = () => {
 											logout();
 										}}>
 										<div className='flex items-center justify-center'>
-											<FiLogOut className='text-gray-400  w-6 h-6' />
+											<FiLogOut className='text-accent  w-6 h-6' />
 										</div>
-										<p className='text-gray-400 text-xs'>logout</p>
+										<p className='text-accent text-xs'>logout</p>
 									</button>
 								</div>
 								<div className='flex flex-col items-center mt-4'>
 									<div className='absolute bottom-0  right-0 rounded-md bg-transparent w-12 h-12 flex items-center justify-center'>
 										<button
-											className='text-blue-500 text-4xl'
+											className='text-primary text-4xl'
 											onClick={toggleMenu}>
 											<FaTimes />
 										</button>
@@ -113,14 +113,14 @@ const HamMenu = () => {
 					</div>
 				</nav>
 			) : (
-				<nav className='lg:hidden bg-slate-700 fixed bottom-6 right-4 p-2 rounded-md z-50'>
+				<nav className='lg:hidden bg-base-100 fixed bottom-6 right-4 p-2 rounded-md z-50'>
 					<button
-						className='block lg:hidden text-4xl text-blue-500'
+						className='block lg:hidden text-4xl text-primary'
 						onClick={toggleMenu}>
 						{showMenu ? <FaTimes /> : <FaBars />}
 					</button>
 					<div
-						className={`lg:hidden fixed bottom-6 right-4  rounded-md bg-slate-700 transition-all  duration-100 ${
+						className={`lg:hidden fixed bottom-6 right-4  rounded-md bg-base-100 transition-all  duration-100 ${
 							showMenu ? "opacity-100" : "opacity-0 pointer-events-none"
 						}`}>
 						<div className='p-6'>
@@ -128,31 +128,31 @@ const HamMenu = () => {
 								<div className='flex flex-col items-center mb-2'>
 									<Link href={"/"}>
 										<div className='flex items-center justify-center'>
-											<IoSearch className='text-gray-400  w-6 h-6' />
+											<IoSearch className='text-accent  w-6 h-6' />
 										</div>
-										<p className='text-gray-400 text-xs'>browser</p>
+										<p className='text-accent text-xs'>browser</p>
 									</Link>
 								</div>
 								<div className='flex flex-col items-center mb-2'>
 									<Link href={"/login"}>
 										<div className='flex items-center justify-center'>
-											<FiLogIn className='text-gray-400  w-6 h-6' />
+											<FiLogIn className='text-accent  w-6 h-6' />
 										</div>
-										<p className='text-gray-400 text-xs'>login</p>
+										<p className='text-accent text-xs'>login</p>
 									</Link>
 								</div>
 								<div className='flex flex-col items-center mb-2'>
 									<Link href={"/register"}>
 										<div className='flex items-center justify-center'>
-											<FaUserPlus className='text-gray-400  w-6 h-6' />
+											<FaUserPlus className='text-accent  w-6 h-6' />
 										</div>
-										<p className='text-gray-400 text-xs'>register</p>
+										<p className='text-accent text-xs'>register</p>
 									</Link>
 								</div>
 								<div className='flex flex-col items-center mt-4'>
 									<div className='absolute bottom-0  right-0 rounded-md bg-transparent w-12 h-12 flex items-center justify-center'>
 										<button
-											className='text-blue-500 text-4xl'
+											className='text-primary text-4xl'
 											onClick={toggleMenu}>
 											<FaTimes />
 										</button>

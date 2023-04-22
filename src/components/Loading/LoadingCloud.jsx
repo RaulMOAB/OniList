@@ -11,7 +11,7 @@ export default function LoadingCloud({show}) {
 					height={50}
 					width={80}
 					alt='loading-cloud'></Image>
-				<div>
+				<div className='text-accent'>
 					ᕙ(⇀‸↼‶)ᕗ
 				</div>
 			</div>

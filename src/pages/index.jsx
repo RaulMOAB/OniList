@@ -35,11 +35,11 @@ export default function Home() {
 			</header>
     <Container>
 			<main className="pb-10 2xl:px-28  xl:px-16  lg:px-2 sm:px-4 px-4">
-				<div className='p-3 rounded-md bg-slate-700 my-5'>
-					<p className='text-center text-white'>Filters</p>
+				<div className='p-3 rounded-md bg-neutral my-5'>
+					<p className='text-center text-accent'>Filters</p>
 				</div>
 				<div className=''>
-					<h1 className='xl:text-lg uppercase font-bold mb-2'>
+					<h1 className='xl:text-lg uppercase font-bold mb-2 text-accent'>
 						Popular animes
 					</h1>
 				</div>
