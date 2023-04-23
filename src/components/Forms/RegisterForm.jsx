@@ -1,6 +1,7 @@
 import React from "react";
 import RegisterButton from "@/components/Buttons/AuthForms/SubmitButton";
-import { useState } from "react";
+import { useState,useContext } from "react";
+import { AuthContext } from "@/contexts/AuthContext";
 import { useForm } from "react-hook-form";
 import { IoAt, IoLockClosed, IoPerson } from "react-icons/io5";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
@@ -40,6 +41,7 @@ export default function RegisterForm() {
 	const [registerResponse, setRegisterResponse] = useState(null);
 	const [showError, setShowError] = useState(false);
 	const [message, setMessage] = useState("");
+	const { login } = useContext(AuthContext);
 
 	const onSubmit = () => {
 		console.log(username + "  " + email + "  " + password);
@@ -51,9 +53,7 @@ export default function RegisterForm() {
 
 				if (res.status === "success") {
 					//save user in context
-					//login(res.user);
-					//TODO redirect home
-					console.log("register done");
+					login(res.user, res.auth.token);
 				} else {
 					//set message if indexOf find a "(" that means laravel give 2 errors or more but i just want show first
 					let index_of_parenthesis = res.message.indexOf("(");
@@ -87,7 +87,6 @@ export default function RegisterForm() {
 
 	return (
 		<div className='min-h-screen bg-transparent py-24'>
-			
 			<div className='container mx-auto bg-neutral md:w-96 w-full rounded-md p-5'>
 				<div className='m-5'>
 					<h1 className='text-xl font-bold text-center text-accent'>Sign up</h1>
@@ -104,7 +103,7 @@ export default function RegisterForm() {
 								</span>
 								<input
 									placeholder='Email'
-									className='w-full h-9 focus:outline-none  bg-base-content  opacity-60 p-3 text-accent rounded-md'
+									className='w-full h-9 focus:outline-none  bg-base-content  opacity-60 p-3 text-accent font-semibold rounded-md'
 									{...register("email", {
 										required: true,
 										pattern:
@@ -130,7 +129,7 @@ export default function RegisterForm() {
 								</span>
 								<input
 									placeholder='Name'
-									className='w-full h-9 focus:outline-none  bg-base-content  opacity-60 p-3 text-accent rounded-md'
+									className='w-full h-9 focus:outline-none  bg-base-content  opacity-60 p-3 text-accent font-semibold rounded-md'
 									{...register("username", { required: true })}
 								/>
 							</label>
@@ -153,7 +152,7 @@ export default function RegisterForm() {
 									type={shownPassword ? "text" : "password"}
 									name='password'
 									placeholder='Password'
-									className='w-full h-9 focus:outline-none  bg-base-content  opacity-60 p-3 z-0 text-accent rounded-r-md'
+									className='w-full h-9 focus:outline-none  bg-base-content  opacity-60 p-3 z-0 text-accent font-semibold rounded-r-md'
 									{...register("password", {
 										required: true,
 										minLength: 8,
@@ -199,7 +198,7 @@ export default function RegisterForm() {
 								<input
 									type={shownConfirmPassword ? "text" : "password"}
 									placeholder='Confirm Password'
-									className='w-full h-9 focus:outline-none  bg-base-content  opacity-60 z-0 p-3 text-accent  rounded-r-md'
+									className='w-full h-9 focus:outline-none  bg-base-content  opacity-60 z-0 p-3 text-accent font-semibold  rounded-r-md'
 									{...register("cpassword", {
 										required: true,
 										validate: validateConfirmPassword,

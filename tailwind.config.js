@@ -5,7 +5,11 @@ module.exports = {
 		"./src/**/*.{js,ts,jsx,tsx}",
 	],
 	theme: {
-		extend: {},
+		extend: {
+			fontFamily: {
+				sans: ["Roboto", "sans-serif"],
+			},
+		},
 	},
 	// add daisyUI plugin
 	plugins: [require("daisyui"), require("tailwindcss-animated")],

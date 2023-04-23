@@ -15,6 +15,7 @@ export function AuthContextProvider({ children }) {
     localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
     setToken(userToken);
+    router.push("/home");
   };
 
   const logout = () => {
