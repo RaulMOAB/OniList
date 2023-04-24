@@ -2,15 +2,50 @@ import { useForm } from "react-hook-form";
 import VerificationButton from "@/components/Buttons/AuthForms/SubmitButton";
 import { useRouter } from 'next/router';
 import { useState,useContext } from "react";
+import ErrorAlert from "@/components/Alerts/Login/ErrorAlert";
+import { AuthContext } from "@/contexts/AuthContext";
 
-export default function (){
+// API Petitions
+const getRegisterResponse = async (username, email, password, code) => {
+    const body = JSON.stringify({
+        username,
+        email,
+        password,
+        code,
+    });
+    const response = await fetch("http://127.0.0.1:8000/api/register", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body,
+    });
+    return response.json();
+};
 
+const sendEmail = async (email) => {
+	const response = await fetch('http://127.0.0.1:8000/api/send/'+email, {
+		method: "GET",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+	});
+	return response.json();
+};
+
+export default function VerificationCode(){
+
+    //Variables 
     const router = useRouter();
-
+    const [showError, setShowError] = useState(false);
+	const [message, setMessage] = useState("");
     const [registerResponse, setRegisterResponse] = useState(null);
     const username = router.query.username;
     const email = router.query.email;
     const password = router.query.password;
+    const { login } = useContext(AuthContext);
 
     const {
 		register,
@@ -21,23 +56,10 @@ export default function (){
 
 	const code = watch("code");
 
-    const getRegisterResponse = async (username, email, password, code) => {
-        const body = JSON.stringify({
-            username,
-            email,
-            password,
-            code,
-        });
-        const response = await fetch("http://127.0.0.1:8000/api/register", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body,
-        });
-        return response.json();
-    };
+    const handleClick = () => {
+        console.log(email);
+        sendEmail(email);
+    }
 
     const onSubmit = () => {
 		console.log(username + "  " + email + "  " + password + " " + code);
@@ -49,9 +71,8 @@ export default function (){
 
 				if (res.status === "success") {
 					//save user in context
-					// login(res.user, res.auth.token);
-                    console.log("Usuario creado");
-                    //TODO redirigir a la pagina de verificacion o mostrar modal
+					login(res.user, res.auth.token);
+                    console.log("User created");
 				} else {
 					//set message if indexOf find a "(" that means laravel give 2 errors or more but i just want show first
 					let index_of_parenthesis = res.message.indexOf("(");
@@ -68,59 +89,64 @@ export default function (){
 			});
 	};
 
+    const resetAlert = () => {
+		setShowError(false);
+	};
+
     return(
         <>
-            <div className='min-h-screen bg-transparent py-24'>
-			<div className='container mx-auto bg-neutral md:w-96 w-full rounded-md p-5'>
-				<div className='m-5'>
-					<h1 className='text-xl font-bold text-center text-accent'>Verification Code</h1>
-                    <h4 className="text-sm font-bold text-center text-accent mt-2">Check your mail box</h4>
-				</div>
-				<form onSubmit={handleSubmit(onSubmit)}
-                    className="mt-3">
-                    <input
-                        type="number"
-                        placeholder='Code'
-                        className='w-full h-9 focus:outline-none  bg-base-content  opacity-60 p-3 text-accent font-semibold rounded-md'
-                        {...register("code", {
-                            required: true,
-                            maxLength: 6,
-                        })}
+            <div className=" md:min-h-screen sm:h-full">
+                <div className="relative container mx-auto md:w-96 rounded-md p-5 sm:w-full">
+                    <ErrorAlert
+                    show={showError}
+                    message={message}
+                    resetAlert={resetAlert}
                     />
-                    
-                    <small style={{ color: "red" }}>
-                        <error>
+                </div>
+                <div className="container mx-auto bg-neutral md:w-96 my-20 rounded-md p-5 sm:w-full">
+                <div className="m-4 text-center">
+                    <h1 className="text-xl text-accent font-bold">Verification Code</h1>
+                    <small className="text-accent font-bold">Check your email box</small>
+                    <div className="divide-double"></div>
+                </div>
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="form-control mt-8"
+                >
+                    <div className="mb-4 w-4/5 mx-auto">
+                        <input
+                            type="text"
+                            placeholder="Code"
+                            className={
+                            "w-full h-9 focus:outline-none bg-base-content opacity-60  text-accent font-semibold p-3 rounded-lg"}
+                            {...register("code", {
+                                required: true,
+                                maxLength: 6,
+                            })}
+                        />
+
+                        <small style={{ color: "red" }}>
                             {errors.code?.type === "required" && "Code required *"}
                             {errors.code?.type === "maxLength" &&
                                 "Maximum length 6 digits"}
                             {errors.code?.message}
-                        </error>
-                    </small>
+                        </small>
+                    </div>
 
-                    <div className="mt-4 text-center">
-                        <button type="button" className="py-2 px-4 mr-4 bg-secondary text-white font-semibold  rounded-md shadow-md hover:shadow-blue-500/50 hover:text-white hover:border-transparent transition ease-in duration-200 transform hover:-translate-y-0.5 active:translate-y-0">
+
+                    <div className="mx-auto mt-5">
+                        <button 
+                            type="button" 
+                            className='py-2 px-4 mr-4 bg-secondary text-white font-semibold  rounded-md shadow-md hover:shadow-blue-500/50 hover:text-white hover:border-transparent transition ease-in duration-200 transform hover:-translate-y-0.5 active:translate-y-0'
+                            onClick={handleClick}
+                        >
                             Resend
                         </button>
                         <VerificationButton text="Verify"/>
                     </div>
                 </form>
-			</div>
-		</div>
-
-
-            {/* <div className="container mx-auto bg-neutral md:w-96 w-full rounded-md p-5">
-                <h1 className="text-2xl text-center" style={{
-                    color:"black"
-                }}>
-                    <b>Verification Code</b>
-                </h1>
-                <h4 className="text-sm mt-2 text-center" style={{
-                    color:"black"
-                }}>
-                    Check your mail box
-                </h4>
-                
-            </div> */}
+                </div>
+            </div>
         </>
     );
 }
