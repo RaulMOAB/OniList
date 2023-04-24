@@ -54,7 +54,7 @@ export default function RegisterForm() {
                     router.push({
                         pathname: '/verification-email',
                         query: { username: username, email: email, password: password }
-                    });
+                    }, '/verification-email');
 				} else {
 					//set message if indexOf find a "(" that means laravel give 2 errors or more but i just want show first
 					let index_of_parenthesis = res.message.indexOf("(");
