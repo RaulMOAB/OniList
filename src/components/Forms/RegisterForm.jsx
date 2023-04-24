@@ -6,6 +6,18 @@ import { useForm } from "react-hook-form";
 import { IoAt, IoLockClosed, IoPerson } from "react-icons/io5";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import ValidationAlert from "../Alerts/Register/ValidationAlert";
+import { useRouter } from 'next/router';
+
+const sendEmail = async (email) => {
+	const response = await fetch('http://127.0.0.1:8000/api/send/'+email, {
+		method: "GET",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+	});
+	return response.json();
+};
 
 const getRegisterResponse = async (username, email, password) => {
 	const body = JSON.stringify({
@@ -32,6 +44,7 @@ export default function RegisterForm() {
 		watch,
 	} = useForm();
 
+    const router = useRouter();
 	const username = watch("username");
 	const email = watch("email");
 	const password = watch("password");
@@ -46,14 +59,20 @@ export default function RegisterForm() {
 	const onSubmit = () => {
 		console.log(username + "  " + email + "  " + password);
 
-		getRegisterResponse(username, email, password)
+		sendEmail(email)
 			.then((res) => {
 				setRegisterResponse(res);
 				console.log(res);
 
 				if (res.status === "success") {
 					//save user in context
-					login(res.user, res.auth.token);
+					// login(res.user, res.auth.token);
+                    console.log("Email enviado");
+                    //TODO redirigir a la pagina de verificacion o mostrar modal
+                    router.push({
+                        pathname: '/verification-email',
+                        query: { username: username, email: email, password: password }
+                    });
 				} else {
 					//set message if indexOf find a "(" that means laravel give 2 errors or more but i just want show first
 					let index_of_parenthesis = res.message.indexOf("(");
@@ -249,5 +268,3 @@ export default function RegisterForm() {
 		</div>
 	);
 }
-
-// enviar codigo de validacion para completar el registro
