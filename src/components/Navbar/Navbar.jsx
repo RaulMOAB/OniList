@@ -60,7 +60,10 @@ export default function Navbar() {
                   </Link>
                 </li>
                 <li tabIndex={0} className="">
-                  <a className="active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus  h-14">
+                  <Link
+                    href={"/search/anime"}
+                    className="active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus  h-14"
+                  >
                     Browse
                     <svg
                       className="fill-current"
@@ -71,7 +74,7 @@ export default function Navbar() {
                     >
                       <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                     </svg>
-                  </a>
+                  </Link>
                   <ul className="p-2 bg-base-200 shadow z-50 ">
                     <li>
                       <div
@@ -82,9 +85,12 @@ export default function Navbar() {
                         <div className="text-left">
                           <span className="flex  ">
                             <FaPlay className="my-auto text-accent hover:text-accent-focus " />
-                            <a className="px-3 text-accent hover:text-accent-focus ">
+                            <Link
+                              href={"/search/anime"}
+                              className="px-3 text-accent hover:text-accent-focus "
+                            >
                               Anime
-                            </a>
+                            </Link>
                           </span>
                           <div
                             className={"lg:text-xs mt-2 px-6 " + styles.links}

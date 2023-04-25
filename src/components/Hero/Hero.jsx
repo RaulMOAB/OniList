@@ -3,8 +3,6 @@ import CarrouselCard from "../Card/CarrouselCard";
 import Carousel from "../Carousel/Carousel";
 
 function Hero({ media }) {
-  console.log(media);
-
   let cards = [
     {
       key: media[0].id,
@@ -75,6 +73,7 @@ function Hero({ media }) {
             <div className="md:w-5/6 xl:text-left md:text-center lg:w-2/4 lg:mx-auto">
               <h1 className="text-7xl font-bold">Welcome to OniList!</h1>
               <p className="py-6">
+                <strong>TODO texto provisional</strong> <br />
                 Provident cupiditate voluptatem et in. Quaerat fugiat ut
                 assumenda excepturi exercitationem quasi. In deleniti eaque aut
                 repudiandae et a id nisi.
