@@ -5,8 +5,15 @@ import ListPreview from "../components/Card/ListPreview";
 import Hero from "../components/Hero/Hero";
 import LoadingCloud from "@/components/Loading/LoadingCloud";
 import Container from "@/components/Common/PageContainer/Container";
+import Search from "./../components/Filters/Search";
+import Genres from "./../components/Filters/Genres";
+import Year from "./../components/Filters/Year";
+import Season from "./../components/Filters/Season";
+import Format from "./../components/Filters/Format";
+import AiringStatus from "./../components/Filters/AiringStatus";
 
 export default function Home() {
+
   let data = useContext(MediaContext);
   let media_data = [];
 
@@ -34,9 +41,14 @@ export default function Home() {
         <Hero media={media_data} />
       </header>
       <Container>
-        <main className="pb-10 2xl:px-28  xl:px-16  lg:px-2 sm:px-4 px-4">
-          <div className="p-3 rounded-md bg-neutral my-5">
-            <p className="text-center text-accent">Filters</p>
+        <main className="pb-10 2xl:px-28 xl:px-16  lg:px-2 sm:px-4 px-4">
+          <div className="flex p-3 rounded-md bg-neutral my-5 bg-transparent">
+            <Search/>
+            <Genres/>
+            <Year/>
+            <Season/>
+            <Format/>
+            <AiringStatus/>
           </div>
           <ListPreview title="Popular Animes" />
         </main>
