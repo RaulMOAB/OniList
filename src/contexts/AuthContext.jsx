@@ -2,10 +2,10 @@ import React from "react";
 import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-export const AuthContext = createContext();
+export const AuthContext = createContext({});
 
 export function AuthContextProvider({ children }) {
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState({});
 	const [token, setToken] = useState(null);
 	const router = useRouter();
 
@@ -15,6 +15,10 @@ export function AuthContextProvider({ children }) {
 		setUser(userData);
 		setToken(userToken);
 		router.push("/home");
+	};
+
+	const getToken = () => {
+		return token;
 	};
 
 	const logout = () => {
@@ -32,6 +36,7 @@ export function AuthContextProvider({ children }) {
 			email,
 			password,
 		});
+
 		const response = await fetch("http://127.0.0.1:8000/api/login", {
 			method: "POST",
 			headers: {
@@ -40,23 +45,29 @@ export function AuthContextProvider({ children }) {
 			},
 			body,
 		});
-    
+
 		return response.json();
 	};
 
 	// Chequear si existe un token en localStorage al cargar la página
 	useEffect(() => {
-		const token = localStorage.getItem("token");
-		const user = localStorage.getItem("user");
+		const aux_token = localStorage.getItem("token");
+		const aux_user = localStorage.getItem("user");
 
-		if (token && user) {
-			setUser(JSON.parse(user));
-			setToken(token);
+		if (aux_token && aux_user) {
+			setUser(JSON.parse(aux_user));
+			setToken(aux_token);
 		}
 	}, []);
 
+	const getUserID = () => {
+		if(user){
+			return user.id
+		}
+	};
+
 	return (
-		<AuthContext.Provider value={{ user, login, logout }}>
+		<AuthContext.Provider value={{ user, login, logout, getToken, getUserID }}>
 			{children}
 		</AuthContext.Provider>
 	);
