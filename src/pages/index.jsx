@@ -13,14 +13,13 @@ import Format from "./../components/Filters/Format";
 import AiringStatus from "./../components/Filters/AiringStatus";
 
 export default function Home() {
-
   // Filter variables
-  const [search, setSearch] = useState('');
-  const [genres, setGenres] = useState('');
-  const [year, setYear] = useState('');
-  const [season, setSeason] = useState('');
-  const [format, setFormat] = useState('');
-  const [airingStatus, setAiringStatus] = useState('');
+  const [search, setSearch] = useState("");
+  const [genres, setGenres] = useState("");
+  const [year, setYear] = useState("");
+  const [season, setSeason] = useState("");
+  const [format, setFormat] = useState("");
+  const [airingStatus, setAiringStatus] = useState("");
 
   let data = useContext(MediaContext);
   let media_data = [];
@@ -51,12 +50,12 @@ export default function Home() {
       <Container>
         <main className="pb-10 2xl:px-28 xl:px-16  lg:px-2 sm:px-4 px-4">
           <div className="flex p-3 rounded-md bg-neutral my-5 bg-transparent">
-            <Search/>
-            <Genres/>
-            <Year/>
-            <Season/>
-            <Format/>
-            <AiringStatus/>
+            <Search />
+            <Genres />
+            <Year />
+            <Season />
+            <Format />
+            <AiringStatus />
           </div>
           <ListPreview title="Popular Animes" />
         </main>

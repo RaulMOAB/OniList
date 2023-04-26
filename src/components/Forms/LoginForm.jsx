@@ -83,6 +83,7 @@ export default function LoginForm() {
               show={showError}
               message={message}
               resetAlert={resetAlert}
+              type={"alert-error"}
             />
           )}
         </div>
