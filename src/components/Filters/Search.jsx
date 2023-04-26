@@ -1,7 +1,7 @@
 import React from 'react'
 import { IoSearch } from "react-icons/io5";
 
-export default function Search() {
+export default function Search({value, handle}) {
 
   return (
     <div className='w-1/6'>
@@ -12,8 +12,8 @@ export default function Search() {
                     <IoSearch className=' text-accent text-lg'/>
                 </span>
                 <input 
-                    // value={search} 
-                    // onChange={searcher} 
+                    value={value}
+                    onChange={(event) => handle(event.target.value)}
                     type="text" 
                     className='w-full h-9 focus:outline-none py-3 bg-neutral text-accent font-semibold rounded-md'
                 />
