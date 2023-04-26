@@ -33,28 +33,21 @@ export default function Navbar() {
 							<ul className='menu menu-horizontal px-1'>
 								<li>
 									<Link
-										href={"/home"}
+										href={"/home/" + user.username}
 										className=' active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus'>
 										Home
 									</Link>
 								</li>
 								<li>
 									<Link
-										href={"/profile"}
-										className=' active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus'>
-										Profile
-									</Link>
-								</li>
-								<li>
-									<Link
-										href={"/anime-list"}
+										href={"/home/" + user.username + "/animelist"}
 										className=' active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus'>
 										Anime List
 									</Link>
 								</li>
 								<li>
 									<Link
-										href={"/manga-list"}
+										href={"/home/" + user.username + "/mangalist"}
 										className=' active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus'>
 										Manga List
 									</Link>
@@ -326,7 +319,7 @@ export default function Navbar() {
 									<span className='  hover:bg-base-100  active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus'>
 										<FaUser className='text-lg' />
 										<Link
-											href={"/profile"}
+											href={"/home/" + user.username}
 											className='justify-between'>
 											Profile
 										</Link>

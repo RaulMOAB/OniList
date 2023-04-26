@@ -16,13 +16,11 @@ const getUserDetails = async (id) => {
 export function ProfileBanner() {
 	const { getUserID } = useContext(AuthContext);
 	const [user, setUser] = useState({})
-	console.log(getUserID());
 	useEffect(()=>{
 		getUserDetails(getUserID()).then((res)=>{
 			setUser(res)
 		});
 	},[getUserID])
-	console.log(user)
 	return (
 		<div className='max-w-screen bg-neutral h-80 relative'>
 			{user.banner_image ? (

@@ -33,7 +33,7 @@ const HamMenu = () => {
 						<div className='p-6'>
 							<div className='grid grid-cols-3 gap-2'>
 								<div className='flex flex-col items-center mb-2'>
-									<Link href={"/home"}>
+									<Link href={"/home/" + user.username}>
 										<div className='flex items-center justify-center'>
 											<AiFillHome className='text-accent  w-6 h-6' />
 										</div>
@@ -41,7 +41,7 @@ const HamMenu = () => {
 									</Link>
 								</div>
 								<div className='flex flex-col items-center mb-2'>
-									<Link href={"/anime-list"}>
+									<Link href={"/home/" + user.username + "/animelist"}>
 										<div className='flex items-center justify-center'>
 											<FaPlay className='text-accent w-6 h-6' />
 										</div>
@@ -49,19 +49,11 @@ const HamMenu = () => {
 									</Link>
 								</div>
 								<div className='flex flex-col items-center mb-2'>
-									<Link href={"/manga-list"}>
+									<Link href={"/home/" + user.username + "/mangalist"}>
 										<div className='flex items-center justify-center'>
 											<FaBookOpen className='text-accent  w-6 h-6' />
 										</div>
 										<p className='text-accent text-xs'>manga</p>
-									</Link>
-								</div>
-								<div className='flex flex-col items-center mb-2'>
-									<Link href={"/profile"}>
-										<div className='flex items-center justify-center'>
-											<FaUser className='text-accent  w-6 h-6' />
-										</div>
-										<p className='text-accent  text-xs'>profile</p>
 									</Link>
 								</div>
 								<div className='flex flex-col items-center mb-2'>
