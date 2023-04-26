@@ -138,13 +138,17 @@ export default function RegisterForm() {
 									<input
 										placeholder='Name'
 										className='w-full h-9 focus:outline-none  bg-base-content  opacity-60 p-3 text-accent font-semibold rounded-md'
-										{...register("username", { required: true })}
+										{...register("username", { 
+											required: true,
+											pattern: /^\S*$/,
+										})}
 									/>
 								</label>
 							</div>
 
 							<small style={{ color: "red" }}>
 								{errors.username?.type === "required" && "Name required *"}
+								{errors.username?.type === "pattern" && "Non-whitespaces"}
 							</small>
 						</div>
 
