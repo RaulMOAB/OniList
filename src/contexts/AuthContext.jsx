@@ -14,7 +14,7 @@ export function AuthContextProvider({ children }) {
 		localStorage.setItem("user", JSON.stringify(userData));
 		setUser(userData);
 		setToken(userToken);
-		router.push("/home");
+		router.push("/home/"+userData.username);
 	};
 
 	const getToken = () => {
@@ -26,28 +26,15 @@ export function AuthContextProvider({ children }) {
 		localStorage.removeItem("token");
 		localStorage.removeItem("user");
 		// Actualizar el estado del usuario y el token en el contexto
-		setUser(null);
+		setUser({});
 		setToken(null);
 		router.push("/");
 	};
 
-	const getLoginResponse = async (email, password) => {
-		const body = JSON.stringify({
-			email,
-			password,
-		});
-
-		const response = await fetch("http://127.0.0.1:8000/api/login", {
-			method: "POST",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-			},
-			body,
-		});
-
-		return response.json();
-	};
+	const isUserAuthenticated = () =>{
+		let isAuth = token ? true : false; 
+		return isAuth;
+	}
 
 	// Chequear si existe un token en localStorage al cargar la página
 	useEffect(() => {
@@ -67,7 +54,8 @@ export function AuthContextProvider({ children }) {
 	};
 
 	return (
-		<AuthContext.Provider value={{ user, login, logout, getToken, getUserID }}>
+		<AuthContext.Provider
+			value={{ user, login, logout, getToken, getUserID, isUserAuthenticated }}>
 			{children}
 		</AuthContext.Provider>
 	);

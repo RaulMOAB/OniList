@@ -5,6 +5,7 @@ export const MediaContext = createContext(); // se importa dodne se vaya a usar
 
 export function MediaContextProvider({ children }) {
   const [data, setData] = useState([]);
+  
   const getMedia = async () => {
     const response = await fetch("https://onilist.club/api/");
     return response.json();
