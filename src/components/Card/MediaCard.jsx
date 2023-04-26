@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 export default function MediaCard({ media, index }) {
   const route = useRouter();
   //get parameters
-  //let genres = JSON.parse(media.genres).splice(0, 3).join(" ");
+  let genres = JSON.parse(media.genres).splice(0, 3).join(" ");
   console.log(media.genres);
 
   let score = 7.9;
@@ -58,7 +58,7 @@ export default function MediaCard({ media, index }) {
                   <p className="inline-block">{score}</p>
                 </div>
               </div>
-              <p className="text-xs mt-1 ms-2 truncate">{media.genres}</p>
+              <p className="text-xs mt-1 ms-2 truncate">{genres}</p>
             </div>
           </div>
         </div>

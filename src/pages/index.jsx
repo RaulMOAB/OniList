@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { MediaContext } from "@/contexts/MediaContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import ListPreview from "../components/Card/ListPreview";
 import Hero from "../components/Hero/Hero";
 import LoadingCloud from "@/components/Loading/LoadingCloud";
@@ -13,6 +13,14 @@ import Format from "./../components/Filters/Format";
 import AiringStatus from "./../components/Filters/AiringStatus";
 
 export default function Home() {
+
+  // Filter variables
+  const [search, setSearch] = useState('');
+  const [genres, setGenres] = useState('');
+  const [year, setYear] = useState('');
+  const [season, setSeason] = useState('');
+  const [format, setFormat] = useState('');
+  const [airingStatus, setAiringStatus] = useState('');
 
   let data = useContext(MediaContext);
   let media_data = [];
