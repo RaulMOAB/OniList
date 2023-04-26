@@ -7,12 +7,7 @@ export default function AnimeList() {
 	
   return (
 		<>
-			<VerifyIfUserIsLogged redirect={"login"} />
-			<UserHomeLayout>
-			<div className='min-h-screen'>
-				<h1>ANIME LIST</h1>
-			</div>
-			</UserHomeLayout>
+			<h1>ANIME LIST</h1>
 		</>
 	);
 }
