@@ -8,6 +8,7 @@ export default function UserHomeLayout({children}) {
   return (
     <div>
       <ProfileBanner/>
+      <HomeNavbar/>
       <Container>
         {children}
       </Container>
