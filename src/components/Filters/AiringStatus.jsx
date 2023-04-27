@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-export default function AiringStatus({value, handle}) {
+export default function AiringStatus({value, handle, filter}) {
 
     const status = ['Releasing','Finished', 'Cancelled', 'Not_yet_released', 'Hiatus'];
-
-    //console.log(status);
-
-    
 
     return (
         <div className='w-1/6'>
@@ -14,7 +10,7 @@ export default function AiringStatus({value, handle}) {
             <div className='w-11/12 bg-neutral mb-5 rounded-md mt-2'>
                     <select
                       value={value}
-                      onChange={(event) => handle(event.target.value)} 
+                      onChange={(event) => {handle(event.target.value); filter()}} 
                       className='w-full h-9 focus:outline-none opacity-60 pl-3 text-accent text-sm rounded-md bg-neutral'
                     >
                         <option value="">Any</option>

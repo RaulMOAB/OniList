@@ -31,8 +31,6 @@ const filteredMedia = async (search, genres, season_year, season, format, airing
     },
     body,
   });
-  //setMedia(response.json());
-  //console.log(response.json());
   return response.json();
 };
 
@@ -46,18 +44,13 @@ export default function Home() {
   const [season, setSeason] = useState('');
   const [format, setFormat] = useState('');
   const [airing_status, setAiringStatus] = useState('');
-  // const [media, setMedia] = useState({});
-  let medias = [];
-  let mediaComponents = [];
-  
-
-  //TODO call API, show API response,
+  const [showFiltered, setShowFiltered] = useState(true);
+  const [mediaComponents, setMediaComponents] = useState([]);
    
 
   // Variables Handles
   const handleSearchChange = (data) => {
     setSearch(data);
-    onSubmit();
   };
 
   const handleGenresChange = (data) => {
@@ -72,44 +65,41 @@ export default function Home() {
     setSeason(data);
   };
 
-  const onSubmit = () =>{
+  function emptyFields() {
+    if(search == "" && genres == "" && season_year == "" &&
+      season == "" && format == "" && airing_status == "") 
+    {
+      return true;
+    }
+
+    return false;
+  }
+
+  function handleClick() {
     console.log(search + "  " + genres + "  " + season_year + " " + season + " " + format + " " + airing_status);
 
     filteredMedia(search, genres, season_year, season, format, airing_status)
       .then((res) => {
-        medias = res.data.data;
-        // medias.forEach((media,index) => {
-        //   console.log(media);
-        //   mediaComponents.push(
-        //     <MediaCard
-        //     key={index}
-        //     media={media}
-        //     index={index}
-        //     />
-        //   )
+        if (res.status === "success" && res.media_length > 0) {
+          setMediaComponents([]);
+          console.log(res.media_length);
+          console.log(res.data.data);
+          setShowFiltered(emptyFields());
 
-          
-        // });  
-        console.log(medias);
+          const medias = res.data.data;
+          medias.forEach((media,index) => {
+            setMediaComponents(mediaComponents => [...mediaComponents, media])
+          })
+        }
       })
       .catch((error) => {
-				console.error("Error al enviar el formulario:", error);
-			});
-
-    // console.log("***************ESTO ES LA FUNCION*****************")
-    // filteredMedia(search, genres, season_year, season, format, airing_status).then((filtered_media)=>{
-    //   console.log(filtered_media)
-    //   setMedia(filtered_media);
-    // });
-    // console.log("***************ESTO ES LA MEDIA*****************")
-    // console.log(media)
+        console.error("Error al enviar el formulario:", error);
+      });
+    
   }
 
   const handleFormatChange = (data) => {
     setFormat(data);
-    // let filtered_media = filteredMedia(search, genres, season_year, season, format, airing_status);
-    // setMedia(filtered_media);
-    // console.log(filtered_media);
   };
 
   const handleAiringStatusChange = (data) => {
@@ -126,7 +116,6 @@ export default function Home() {
     }
     return media_data;
   });
-  //   console.log(media_data);
 
   if (data.length === 0) {
     return (
@@ -147,30 +136,31 @@ export default function Home() {
         <main className="pb-10 2xl:px-28 xl:px-16  lg:px-2 sm:px-4 px-4">
           <section id="filters">
             <div className="flex p-3 rounded-md bg-neutral my-5 bg-transparent">
-              <Search value={search} handle={handleSearchChange}/>
-              <Genres value={genres} handle={handleGenresChange}/>
-              <Year value={season_year} handle={handleYearChange}/>
-              <Season value={season} handle={handleSeasonChange}/>
-              <Format value={format} handle={handleFormatChange}/>
-              <AiringStatus value={airing_status} handle={handleAiringStatusChange}/>
+              <Search value={search} handle={handleSearchChange} filter={handleClick}/>
+              <Genres value={genres} handle={handleGenresChange} filter={handleClick}/>
+              <Year value={season_year} handle={handleYearChange} filter={handleClick}/>
+              <Season value={season} handle={handleSeasonChange} filter={handleClick}/>
+              <Format value={format} handle={handleFormatChange} filter={handleClick}/>
+              <AiringStatus value={airing_status} handle={handleAiringStatusChange} filter={handleClick}/>
             </div>
           </section>
-          {/* <button 
-            onClick={ () => {
-              onSubmit()
-            }}
-              // handleClick();
-              // let filtered_media = filteredMedia(search, genres, season_year, season, format, airing_status);
-              // setMedia(filtered_media);
-              // console.log('### Resultado ###');
-            
-          >
+          {/* <button onClick={handleClick}>
             Filtrar
           </button> */}
           <div>
-            Hola
+            {showFiltered ? (
+              <ListPreview title="Popular Animes" />
+            ) : ( 
+              
+              <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6">
+                {mediaComponents.map((media, index) => {
+                  return <MediaCard key={index} media={media} index={index}/>
+                })}
+              </div>
+            )}
+            
           </div>
-          <ListPreview title="Popular Animes" />
+          
         </main>
       </Container>
     </>

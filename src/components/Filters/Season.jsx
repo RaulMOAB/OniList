@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Season({value, handle}) {
+export default function Season({value, handle, filter}) {
 
     const seasons = ['Winter','Spring','Summer','Fall'];
 
@@ -10,7 +10,7 @@ export default function Season({value, handle}) {
             <div className='w-11/12 bg-neutral mb-5 rounded-md mt-2'>
                     <select
                       value={value}
-                      onChange={(event) => handle(event.target.value)} 
+                      onChange={(event) => {handle(event.target.value); filter()}} 
                       className='w-full h-9 focus:outline-none opacity-60 pl-3 text-accent text-sm rounded-md bg-neutral'
                     >
                         <option value="">Any</option>

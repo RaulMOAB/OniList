@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Year({value, handle}) {
+export default function Year({value, handle, filter}) {
 
     const today = new Date();
     const years = insertYears();
@@ -21,7 +21,7 @@ export default function Year({value, handle}) {
             <div className='w-11/12 bg-neutral mb-5 rounded-md mt-2'>
                     <select
                       value={value}
-                      onChange={(event) => handle(event.target.value)} 
+                      onChange={(event) => {handle(event.target.value); filter()}} 
                       className='w-full h-9 focus:outline-none opacity-60 pl-3 text-accent text-sm rounded-md bg-neutral'
                     >
                         <option value="">Any</option>

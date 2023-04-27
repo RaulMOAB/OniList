@@ -7,7 +7,7 @@ export default function MediaCard({ media, index }) {
   const route = useRouter();
   //get parameters
   let genres = JSON.parse(media.genres).splice(0, 3).join(" ");
-  console.log(media.genres);
+  //console.log(media.genres);
 
   let score = 7.9;
 
@@ -40,7 +40,7 @@ export default function MediaCard({ media, index }) {
       >
         <div className="cursor-pointer">
           <img
-            src={media.large_banner_image}
+            src={media.large_banner_image || media.extra_large_cover_image || media.large_cover_image}
             className="rounded-md"
             alt="media image"
           />
