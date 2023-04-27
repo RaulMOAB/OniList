@@ -34,14 +34,13 @@ export default function Home() {
     return response.json();
   }; 
 
-
   // Filter variables
-  const [search, setSearch] = useState('');
-  const [genres, setGenres] = useState('');
-  const [year, setYear] = useState('');
-  const [season, setSeason] = useState('');
-  const [format, setFormat] = useState('');
-  const [airingStatus, setAiringStatus] = useState('');
+  const [search, setSearch] = useState("");
+  const [genres, setGenres] = useState("");
+  const [year, setYear] = useState("");
+  const [season, setSeason] = useState("");
+  const [format, setFormat] = useState("");
+  const [airingStatus, setAiringStatus] = useState("");
 
   // Variables Handles
   const handleSearchChange = (data) => {
@@ -99,12 +98,12 @@ export default function Home() {
         <main className="pb-10 2xl:px-28 xl:px-16  lg:px-2 sm:px-4 px-4">
           <section id="filters">
             <div className="flex p-3 rounded-md bg-neutral my-5 bg-transparent">
-              <Search value={search} handle={handleSearchChange}/>
-              <Genres value={genres} handle={handleGenresChange}/>
-              <Year value={year} handle={handleYearChange}/>
-              <Season value={season} handle={handleSeasonChange}/>
-              <Format value={format} handle={handleFormatChange}/>
-              <AiringStatus value={airingStatus} handle={handleAiringStatusChange}/>
+              <Search  value={search} handle={handleSearchChange}/>
+              <Genres  value={genres} handle={handleGenresChange}/>
+              <Year  value={year} handle={handleYearChange}/>
+              <Season  value={season} handle={handleSeasonChange}/>
+              <Format  value={format} handle={handleFormatChange}/>
+              <AiringStatus  value={airingStatus} handle={handleAiringStatusChange}/>
             </div>
           </section>
           

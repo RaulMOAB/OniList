@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-export default function ErrorAlert({ show, message, resetAlert }) {
+export default function ErrorAlert({ show, message, resetAlert ,type }) {
 
 	const [showAlert, setShowAlert] = useState(show);
 	  useEffect(() => {
@@ -16,7 +16,7 @@ export default function ErrorAlert({ show, message, resetAlert }) {
 			<>
 				<div
 					className={
-						"absolute left-0 w-full  alert alert-error shadow-lg rounded-md animate-fade-down animate-duration-300"
+						"absolute left-0 w-full  alert  shadow-lg rounded-md animate-fade-down animate-duration-300 " +  type
 					}>
 					<div>
 						<svg
