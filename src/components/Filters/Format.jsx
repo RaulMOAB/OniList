@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Format({value, handle}) {
 
-    const format = ['TV Show','Movie','TV Short','Spacial','OVA','ONA','Music'];
+    const format = ['TV','Movie','TV_Short','Special','OVA','ONA','Music'];
 
     return (
         <div className='w-1/6'>
@@ -15,7 +15,7 @@ export default function Format({value, handle}) {
                     >
                         <option value="">Any</option>
                         {format.map((item, i) => (
-                            <option key={i} value={item}>{item}</option>
+                            <option key={i} value={item.toUpperCase()}>{item}</option>
                         ))}
                     </select>
             </div>

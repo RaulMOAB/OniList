@@ -15,7 +15,7 @@ export default function Season({value, handle}) {
                     >
                         <option value="">Any</option>
                         {seasons.map((item, i) => (
-                            <option key={i} value={item}>{item}</option>
+                            <option key={i} value={item.toUpperCase()}>{item}</option>
                         ))}
                     </select>
           </div>

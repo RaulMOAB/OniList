@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 export default function AiringStatus({value, handle}) {
 
-    const status = ['Airing','Finished','Not Yet Aired','Cancelled'];
+    const status = ['Releasing','Finished', 'Cancelled', 'Not_yet_released', 'Hiatus'];
 
-    console.log(status);
+    //console.log(status);
 
     
 
@@ -19,7 +19,7 @@ export default function AiringStatus({value, handle}) {
                     >
                         <option value="">Any</option>
                         {status.map((item, i) => (
-                            <option key={i} value={item}>{item}</option>
+                            <option key={i} value={item.toUpperCase()}>{item}</option>
                         ))}
                     </select>
             </div>
