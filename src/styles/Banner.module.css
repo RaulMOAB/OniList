@@ -1,11 +1,34 @@
 .banner{
-    min-height:  40vh;
-    
+    min-height:  40vh; 
+}
+
+.modal_editor{
+    box-sizing: content-box;
+    margin: 0;
+    padding: 0;
+}
+.banner_modal{
+    /* min-height:  10vh;  */
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: inset 0 0 250px #2f3133;
+    height: 180px;
+    box-sizing: 0;
+    width: 100%;
+    position: relative;
 }
 
 .banner_shadow{
     height: 100%;
     width: 100
+}
+
+.dropdown_list{
+    border-radius: none !important;
+}
+.description{
+    line-height: 1.5rem;
 }
 
 .custom_btn{
