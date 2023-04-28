@@ -4,7 +4,7 @@ import { IoSearch } from "react-icons/io5";
 export default function Search({value, handle, filter}) {
 
   return (
-    <div className='w-1/6'>
+    <div className='md:w-2/6 lg:w-1/6 w-3/6'>
         <span className='text-accent text-sm font-semibold'>Search</span>
         <div className='w-11/12 input-group mb-5 rounded-md mt-2'>
             <label className='flex justify-center input-group input-group-md '>

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { MediaContext } from "@/contexts/MediaContext";
 import { useContext, useState, useEffect} from "react";
+import { GrPowerReset } from "react-icons/gr";
 import ListPreview from "../components/Card/ListPreview";
 import Hero from "../components/Hero/Hero";
 import LoadingCloud from "@/components/Loading/LoadingCloud";
@@ -13,7 +14,7 @@ import Format from "./../components/Filters/Format";
 import AiringStatus from "./../components/Filters/AiringStatus";
 import MediaCard from "./../components/Card/MediaCard";
 
-
+//API Petition
 const filteredMedia = async (search, genres, season_year, season, format, airing_status) => {
   const body = JSON.stringify({
     search,
@@ -75,6 +76,16 @@ export default function Home() {
     return false;
   }
 
+  function resetFilter(){
+    setSearch("");
+    setGenres("");
+    setYear("");
+    setSeason("");
+    setFormat("");
+    setAiringStatus("");
+    handleClick();
+  }
+
   function handleClick() {
     console.log(search + "  " + genres + "  " + season_year + " " + season + " " + format + " " + airing_status);
 
@@ -90,6 +101,9 @@ export default function Home() {
           medias.forEach((media,index) => {
             setMediaComponents(mediaComponents => [...mediaComponents, media])
           })
+        }
+        else{
+          setMediaComponents([]);
         }
       })
       .catch((error) => {
@@ -135,7 +149,7 @@ export default function Home() {
       <Container>
         <main className="pb-10 2xl:px-28 xl:px-16  lg:px-2 sm:px-4 px-4">
           <section id="filters">
-            <div className="flex p-3 rounded-md bg-neutral my-5 bg-transparent">
+            <div className="flex flex-wrap p-3 rounded-md bg-neutral mt-5 bg-transparent">
               <Search value={search} handle={handleSearchChange} filter={handleClick}/>
               <Genres value={genres} handle={handleGenresChange} filter={handleClick}/>
               <Year value={season_year} handle={handleYearChange} filter={handleClick}/>
@@ -143,20 +157,39 @@ export default function Home() {
               <Format value={format} handle={handleFormatChange} filter={handleClick}/>
               <AiringStatus value={airing_status} handle={handleAiringStatusChange} filter={handleClick}/>
             </div>
+            <div className="ml-3 mb-6">
+              <button 
+                className="bg-green-600 hover:bg-green-900 btn-sm rounded-md p-1"
+                onClick={resetFilter}
+              >
+                <GrPowerReset className="text-lg inline-block"/>
+                <span className="align-middle text-sm text-black ml-1">Reset</span>
+              </button>
+            </div>
           </section>
-          {/* <button onClick={handleClick}>
-            Filtrar
-          </button> */}
           <div>
             {showFiltered ? (
+
               <ListPreview title="Popular Animes" />
+
             ) : ( 
               
-              <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6">
-                {mediaComponents.map((media, index) => {
-                  return <MediaCard key={index} media={media} index={index}/>
-                })}
-              </div>
+              
+              mediaComponents.length == 0 ? (
+
+                <div className="mb-14">
+                  <h2 className="text-center text-accent text-2xl">No Results</h2>
+                </div>
+
+                ) : (
+                  <div className="animate-fade grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6">
+                    {
+                      mediaComponents.map((media, index) => {
+                        return <MediaCard key={index} media={media} index={index}/>
+                      })
+                    }
+                  </div>
+                )            
             )}
             
           </div>
