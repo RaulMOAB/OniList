@@ -13,6 +13,8 @@ import Season from "./../components/Filters/Season";
 import Format from "./../components/Filters/Format";
 import AiringStatus from "./../components/Filters/AiringStatus";
 import MediaCard from "./../components/Card/MediaCard";
+import Loader from "./../components/Skeleton/Loader";
+
 
 //API Petition
 const filteredMedia = async (search, genres, season_year, season, format, airing_status) => {
@@ -47,11 +49,21 @@ export default function Home() {
   const [airing_status, setAiringStatus] = useState('');
   const [showFiltered, setShowFiltered] = useState(true);
   const [mediaComponents, setMediaComponents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   //useEffect, call function every time dependencies change
   useEffect(() => {
 
+    // setLoading(true);
     handleClick();
+
+  },[search, genres, season_year, season, format, airing_status]);
+
+  useEffect(() => {
+
+    setTimeout(() => {
+      setLoading(false);
+    },600);
 
   },[search, genres, season_year, season, format, airing_status]);
 
@@ -107,9 +119,11 @@ export default function Home() {
           medias.forEach((media,index) => {
             setMediaComponents(mediaComponents => [...mediaComponents, media])
           })
+          setLoading(true);
         }
         else{
           setMediaComponents([]);
+          setShowFiltered(emptyFields());
         }
       })
       .catch((error) => {
@@ -188,13 +202,30 @@ export default function Home() {
                 </div>
 
                 ) : (
-                  <div className="animate-fade grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6">
-                    {
-                      mediaComponents.map((media, index) => {
-                        return <MediaCard key={index} media={media} index={index}/>
-                      })
-                    }
-                  </div>
+
+                  loading == true ? (
+
+                    
+                    <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6">
+                      {
+                        mediaComponents.map((media, index) => {
+                          return <Loader key={index} media={media} index={index}/>
+                        })
+                      }
+                    </div>
+                    
+
+                  ) : (
+                    <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6">
+                      {
+                        mediaComponents.map((media, index) => {
+                          return <MediaCard key={index} media={media} index={index}/>
+                        })
+                      }
+                    </div>
+                  )
+
+                  
                 )            
             )}
             
