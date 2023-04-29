@@ -10,7 +10,7 @@ export default function Genres({value, handle, filter}) {
         <div className='w-11/12 bg-neutral mb-5 rounded-md mt-2'>
                     <select
                       value={value}
-                      onChange={(event) => {handle(event.target.value); filter()}} 
+                      onChange={(event) => handle(event.target.value)} 
                       className='select select-bordered select-sm w-full h-9 focus:outline-none opacity-60 text-accent text-sm bg-neutral'
                     >
                         <option value="">Any</option>

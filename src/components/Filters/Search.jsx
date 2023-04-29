@@ -1,7 +1,7 @@
 import React from 'react'
 import { IoSearch } from "react-icons/io5";
 
-export default function Search({value, handle, filter}) {
+export default function Search({value, handle}) {
 
   return (
     <div className='md:w-2/6 lg:w-1/6 w-3/6'>
@@ -13,7 +13,7 @@ export default function Search({value, handle, filter}) {
                 </span>
                 <input 
                     value={value}
-                    onChange={(event) => {handle(event.target.value); filter()}}
+                    onChange={(event) => handle(event.target.value)}
                     type="text" 
                     className='w-full h-9 focus:outline-none py-3 bg-neutral text-accent font-semibold rounded-md'
                 />

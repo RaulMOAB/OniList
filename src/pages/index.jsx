@@ -47,7 +47,13 @@ export default function Home() {
   const [airing_status, setAiringStatus] = useState('');
   const [showFiltered, setShowFiltered] = useState(true);
   const [mediaComponents, setMediaComponents] = useState([]);
-   
+
+  //useEffect, call function every time dependencies change
+  useEffect(() => {
+
+    handleClick();
+
+  },[search, genres, season_year, season, format, airing_status]);
 
   // Variables Handles
   const handleSearchChange = (data) => {
@@ -150,12 +156,12 @@ export default function Home() {
         <main className="pb-10 2xl:px-28 xl:px-16  lg:px-2 sm:px-4 px-4">
           <section id="filters">
             <div className="flex flex-wrap p-3 rounded-md bg-neutral mt-5 bg-transparent">
-              <Search value={search} handle={handleSearchChange} filter={handleClick}/>
-              <Genres value={genres} handle={handleGenresChange} filter={handleClick}/>
-              <Year value={season_year} handle={handleYearChange} filter={handleClick}/>
-              <Season value={season} handle={handleSeasonChange} filter={handleClick}/>
-              <Format value={format} handle={handleFormatChange} filter={handleClick}/>
-              <AiringStatus value={airing_status} handle={handleAiringStatusChange} filter={handleClick}/>
+              <Search value={search} handle={handleSearchChange}/>
+              <Genres value={genres} handle={handleGenresChange}/>
+              <Year value={season_year} handle={handleYearChange}/>
+              <Season value={season} handle={handleSeasonChange}/>
+              <Format value={format} handle={handleFormatChange}/>
+              <AiringStatus value={airing_status} handle={handleAiringStatusChange}/>
             </div>
             <div className="ml-3 mb-6">
               <button 
