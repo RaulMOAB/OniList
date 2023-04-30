@@ -1,11 +1,12 @@
 import React from 'react';
-import Skeleton from 'react-loading-skeleton';
+import Skeleton, {SkeletonTheme} from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
 
 
 export default function Loader({ media, index }) {
 
     return (
+      <SkeletonTheme baseColor='gray' highlightColor='gray'>
         <div
         className={
           index <= 3
@@ -15,15 +16,12 @@ export default function Loader({ media, index }) {
             : "relative rounded-md bg-cover w-fit xl:block lg:hidden md:hidden"
         }
         key={index}
-      >
-        <div className="cursor-pointer">
-          <img
-            src={media.large_banner_image || media.extra_large_cover_image || media.large_cover_image}
-            className="rounded-md blur-sm"
-            alt="media image"
-          />
-          <div className="absolute inset-x-0 bottom-0 h-16 rounded-b-md backdrop-blur-md">
-            <div className="px-2">
+        >
+          <div className="cursor-pointer">
+            <Skeleton duration={0.5} width={185} height={230}/>
+          </div>
+          <div className="h-16 rounded-b-md">
+            <div className="">
               <div className="flex">
                 <p className="mt-2 sm-2 w-4/6 truncate">
                   {<Skeleton duration={0.5}/>}
@@ -40,7 +38,8 @@ export default function Loader({ media, index }) {
             </div>
           </div>
         </div>
-      </div>
+      </SkeletonTheme>
+      
     )
 
 } 

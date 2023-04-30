@@ -63,7 +63,7 @@ export default function Home() {
 
     setTimeout(() => {
       setLoading(false);
-    },600);
+    },650);
 
   },[search, genres, season_year, season, format, airing_status]);
 
