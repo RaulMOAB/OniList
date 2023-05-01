@@ -1,82 +1,120 @@
 import React from "react";
 import FavoritesCards from "../../../components/Card/FavoritesCards";
+import UserActivity from "../../../components/ActivityCard/UserActivity";
+import { useState, useContext, useEffect } from "react";
+import { AuthContext } from "@/contexts/AuthContext";
 
-export default function Home({ library }) {
+export default function Home() {
+	const { user, fetchData } = useContext(AuthContext);
+	const [library, setLibrary] = useState([]);
+
+	useEffect(() => {
+		if(user.username){
+			const endpoint = "http://127.0.0.1:8000/api/library/" + user.username;//TODO Sale Unauthenticated cuando no estas en esta pagina
+			const method = "GET";
+			fetchData(endpoint, method).then((res) => {
+				setLibrary(res);
+			});
+		}
+	}, [user,fetchData]);
+
+	const description = user.description;
 	const favoriteAnimes = [];
+	const favoriteMangas = [];
+	const userActivity = [];
+	let nothingToSee = false;
+
+	const [visibleCount, setVisibleCount] = useState(5);
+	const handleLoadMore = () => {
+		setVisibleCount(visibleCount + 5);
+	};
 
 	library.forEach((media_info, index) => {
-		favoriteAnimes.push(
-			<FavoritesCards
+		let media_status = media_info.status[0];
+		userActivity.push(
+			<UserActivity
 				key={index}
-				type={media_info.media.type}
-				media_id={media_info.media.media_id}
-				image={media_info.media.extra_large_cover_image}
-				title={media_info.media.title}
+				media={media_info.media}
+				status={media_info.status}
 			/>
 		);
+		if (media_info.media.type === "ANIME" && media_status.favorite === 1) {
+			favoriteAnimes.push(
+				<FavoritesCards
+					key={index}
+					type={media_info.media.type}
+					media_id={media_info.media.media_id}
+					image={media_info.media.extra_large_cover_image}
+					title={media_info.media.title}
+				/>
+			);
+		} else if (
+			media_info.media.type === "MANGA" &&
+			media_status.favorite === 1
+		) {
+			favoriteMangas.push(
+				<FavoritesCards
+					key={index}
+					type={media_info.media.type}
+					media_id={media_info.media.media_id}
+					image={media_info.media.extra_large_cover_image}
+					title={media_info.media.title}
+				/>
+			);
+		}
 	});
 
+	nothingToSee =
+		favoriteAnimes.length === 0 &&
+		favoriteMangas.length === 0 &&
+		userActivity.length === 0 && library.length !== 0;
 	return (
-		library && (
-			<>
-				<div className='w-full grid grid-cols-2 gap-4 p-6 text-accent'>
+		<>
+			{!nothingToSee ? (
+				<div className='w-full grid lg:grid-cols-2 gap-4 p-6 text-accent'>
 					<div>
-						<div className='mb-3'>
-							<p className='font-semibold'>Favorites Animes</p>
-							<div className='bg-neutral rounded-md p-5 grid grid-cols-5 gap-2'>
-								{favoriteAnimes}
-							</div>
+						<div className='bg-neutral p-5 w-full rounded-md mb-3'>
+							<p>{description}</p>
 						</div>
-						<div className='mb-3'>
-							<p className='font-semibold'>Favorites Mangas</p>
-							<div className='bg-neutral rounded-md p-5 grid grid-cols-5 gap-2'>
-								{favoriteAnimes}
+						{favoriteAnimes.length !== 0 ? (
+							<div className='mb-3'>
+								<p className='font-semibold mb-2'>Favorites Animes</p>
+								<div className='bg-neutral rounded-md p-5 grid grid-cols-4 md:grid-cols-5 gap-2'>
+									{favoriteAnimes.reverse()}
+								</div>
 							</div>
-						</div>
+						) : null}
+						{favoriteMangas.length !== 0 ? (
+							<div className='mb-3'>
+								<p className='font-semibold mb-2'>Favorites Mangas</p>
+								<div className='bg-neutral rounded-md p-5 grid grid-cols-4 md:grid-cols-5 gap-2'>
+									{favoriteMangas.reverse()}
+								</div>
+							</div>
+						) : null}
 					</div>
-					<div>
-						<p className='font-semibold'>Activity</p>
-						<div>
-							<div className='bg-neutral rounded-md w-full h-20 mb-3 text-center'>
-								Activity 1
+					{userActivity.length !== 0 ? (
+						<>
+							<div>
+								<p className='font-semibold mb-2'>Activity</p>
+								<div>{userActivity.slice(0, visibleCount)}</div>
+								{userActivity.length > 5 ? (
+									<div
+										onClick={handleLoadMore}
+										className='btn w-full bg-neutral rounded-md h-12'>
+										<p>Load More</p>
+									</div>
+								) : null}
 							</div>
-							<div className='bg-neutral rounded-md w-full h-20 mb-3 text-center'>
-								Activity 1
-							</div>
-							<div className='bg-neutral rounded-md w-full h-20 mb-3 text-center'>
-								Activity 1
-							</div>
-							<div className='bg-neutral rounded-md w-full h-20 mb-3 text-center'>
-								Activity 1
-							</div>
-							<div className='bg-neutral rounded-md w-full h-20 mb-3 text-center'>
-								Activity 1
-							</div>
-							<div className='bg-neutral rounded-md w-full h-20 mb-3 text-center'>
-								Activity 1
-							</div>
-						</div>
-					</div>
+						</>
+					) : null}
 				</div>
-			</>
-		)
+			) : (
+				<div className='h-screen text-accent text-center text-2xl pt-20'>
+					<p>(╯°□°）╯︵ ┻━┻ </p>
+					<i className='text-sm'>Nothing to see</i>
+				</div>
+			)}
+		</>
 	);
-}
-
-export async function getServerSideProps(context) {
-	let username = context.params.username;
-	const response = await fetch(
-		"http://127.0.0.1:8000/api/library/" + username,
-		{
-			method: "GET",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-			},
-		}
-	);
-	const data = await response.json();
-	return {
-		props: { library: data },
-	};
 }

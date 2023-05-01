@@ -2,6 +2,7 @@ import React from 'react'
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from '@/contexts/AuthContext'
 import Image from 'next/image'
+import Container from '../Common/PageContainer/Container';
 const getUserDetails = async (id) => {
 	const response = await fetch("http://127.0.0.1:8000/api/user/"+id, {
 		method: "GET",
@@ -25,7 +26,7 @@ export function ProfileBanner() {
 		<div className='max-w-screen bg-neutral h-80 relative'>
 			{user.banner_image ? (
 				<Image
-					className='w-full h-full filter saturate-100 contrast-100'
+					className='object-cover object-center h-full w-full filter saturate-100 contrast-100'
 					width={100000}
 					height={100000}
 					src={user.banner_image}
@@ -34,19 +35,15 @@ export function ProfileBanner() {
 			) : (
 				<div className='w-full h-full bg-base-300'></div>
 			)}
-			<div className='relative w-96'>
+			<div className='absolute left-1/2 transform -translate-x-1/2 container '>
 				<Image
-					className='absolute w-48 h-fit bottom-0 right-20'
+					className='absolute w-28 sm:w-40 h-fit bottom-0 left-0'
 					width={10000}
 					height={10000}
-					src={
-						user.profile_image
-							? user.profile_image
-							: ""
-					}
+					src={user.profile_image ? user.profile_image : "/"}
 					alt='banner'
 				/>
-				<p className='text-white absolute -right-5 bottom-2 font-bold text-lg'>
+				<p className='text-white absolute left-32 sm:left-44 bottom-2 font-bold text-lg'>
 					{user.username}
 				</p>
 			</div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 export default function ErrorAlert({ show, message, resetAlert, type }) {
   const [showAlert, setShowAlert] = useState(show);
+	
   useEffect(() => {
     setShowAlert(show);
   }, [show]);

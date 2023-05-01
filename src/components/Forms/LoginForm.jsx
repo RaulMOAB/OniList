@@ -8,6 +8,7 @@ import Link from "next/link";
 import LoginButton from "@/components/Buttons/AuthForms/SubmitButton";
 
 import ErrorAlert from "@/components/Alerts/Login/ErrorAlert";
+import Alert from "@/components/Alerts/Alert_prueba"
 
 const getLoginResponse = async (email, password) => {
   const body = JSON.stringify({
@@ -68,23 +69,26 @@ export default function LoginForm() {
       });
   };
 
-  const resetAlert = () => {
-    setShowError(false);
-  };
-
   const switchShownPassword = () => setShownPassword(!shownPassword);
-
   return (
     <>
       <div className=" md:min-h-screen sm:h-full">
         <div className="relative container mx-auto md:w-96 rounded-md p-5 sm:w-full">
           {loginResponse && (
-            <ErrorAlert
-              show={showError}
-              message={message}
-              resetAlert={resetAlert}
-              type={"alert-error"}
+            // <ErrorAlert
+            //   show={showError}
+            //   message={message}
+            //   resetAlert={resetAlert}
+            //   type={"alert-error"}
+            // />
+            <Alert 
+            show={showError}
+            message={message}
+            seconds={3}
+            setShowError={setShowError}
+            type={"error"}
             />
+            
           )}
         </div>
         <div className="container mx-auto bg-neutral md:w-96 my-20 rounded-md p-5 sm:w-full">

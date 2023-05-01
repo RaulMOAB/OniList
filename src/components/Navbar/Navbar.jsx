@@ -8,9 +8,11 @@ import Link from "next/link";
 import { AuthContext } from "@/contexts/AuthContext";
 import Image from "next/image";
 import HamMenu from "@/components/Navbar/HamMenu";
+import ConfirmModal from '@/components/Modals/ConfirmModal'
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
+	
   return (
     <>
       <div className={" hidden lg:flex navbar bg-base-100 " + styles.nb}>
@@ -382,7 +384,9 @@ export default function Navbar() {
                 <li>
                   <span className="  hover:bg-base-100  active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus">
                     <FiLogOut className="text-lg" />
-                    <button onClick={() => logout()}>Log out</button>
+                    <label htmlFor='confirm-logout'>
+											Log out
+										</label>
                   </span>
                 </li>
               </ul>
@@ -393,6 +397,13 @@ export default function Navbar() {
         )}
       </div>
       <HamMenu />
+			<ConfirmModal
+				id={"confirm-logout"}
+				header={'Confirm logout'}
+				message={"Are you sure you want to logout?"}
+				confirm_button_text="Yes, logout"
+				action={logout}
+			/>
       {/* MODAL*/}
       <input type="checkbox" id="my-modal-5" className="modal-toggle" />
       <label htmlFor="my-modal-5" className="modal hidden lg:flex -mt-80">
