@@ -9,10 +9,10 @@ export default function FavoritesCards({ type, media_id, image, title}) {
 			data-tip={title}>
 			<Link href={link}>
 				<Image
-					className='rounded-md w-32 h-44'
+					className='rounded-md w-fit h-full'
 					alt='cover image'
 					src={image}
-					width={100}
+					width={1000}
 					height={1}></Image>
 			</Link>
 		</div>

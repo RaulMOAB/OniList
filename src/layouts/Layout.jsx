@@ -29,7 +29,6 @@ export default function Layout({ children }) {
 					</>
 				) : (
 					<>
-						{console.log("No estoy en el home")}
 						<main>{children}</main>
 					</>
 				)}

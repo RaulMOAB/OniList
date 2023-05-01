@@ -8,33 +8,33 @@ function HomeNavbar() {
 
 	if(user){
 		return (
-			<div className='navbar bg-base-100 text-accent text-sm'>
+			<div className='navbar bg-base-100 text-accent text-sm overflow-x-auto'>
 				<div className='navbar-start'></div>
-				<div className='navbar-center hidden lg:flex'>
+				<div className='navbar-center '>
 					<ul className='menu menu-horizontal px-1'>
 						<li className='ml-10'>
-							<Link href={"/home/" + user.username}>Home</Link>
+							<Link className='active:bg-transparent hover:bg-transparent' href={"/home/" + user.username}>Home</Link>
 						</li>
 						<li className='ml-10'>
-							<Link href={"/home/" + user.username + "/animelist"}>
+							<Link className='active:bg-transparent hover:bg-transparent' href={"/home/" + user.username + "/animelist"}>
 								Anime List
 							</Link>
 						</li>
 						<li className='ml-10'>
-							<Link href={"/home/" + user.username + "/mangalist"}>
+							<Link className='active:bg-transparent hover:bg-transparent' href={"/home/" + user.username + "/mangalist"}>
 								Manga List
 							</Link>
 						</li>
 						<li className='ml-10'>
-							<Link href={"/home/" + user.username + "/favorites"}>
+							<Link className='active:bg-transparent hover:bg-transparent' href={"/home/" + user.username + "/favorites"}>
 								Favorites
 							</Link>
 						</li>
 						<li className='ml-10'>
-							<Link href={"/home/" + user.username + "/stats"}>Stats</Link>
+							<Link className='active:bg-transparent hover:bg-transparent' href={"/home/" + user.username + "/stats"}>Stats</Link>
 						</li>
 						<li className='ml-10'>
-							<Link href={"/home/" + user.username + "/social"}>Social</Link>
+							<Link className='active:bg-transparent hover:bg-transparent' href={"/home/" + user.username + "/social"}>Social</Link>
 						</li>
 					</ul>
 				</div>

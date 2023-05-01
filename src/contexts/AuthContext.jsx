@@ -7,14 +7,16 @@ export const AuthContext = createContext({});
 export function AuthContextProvider({ children }) {
 	const [user, setUser] = useState({});
 	const [token, setToken] = useState(null);
+	const [validToken, isValidToken] = useState(false);
 	const router = useRouter();
 
 	const login = (userData, userToken) => {
 		localStorage.setItem("token", userToken);
+		isValidToken(true);
 		localStorage.setItem("user", JSON.stringify(userData));
 		setUser(userData);
 		setToken(userToken);
-		router.push("/home/"+userData.username);
+		router.push("/home/" + userData.username+"/"); 
 	};
 
 	const getToken = () => {
@@ -22,7 +24,10 @@ export function AuthContextProvider({ children }) {
 	};
 
 	const logout = () => {
-		// Eliminar el token y la información del usuario de localStorage
+		// Eliminar el token y la información del usuario del localStorage
+		if(validToken){
+			fetchData("http://127.0.0.1:8000/api/logout", "POST");
+		}
 		localStorage.removeItem("token");
 		localStorage.removeItem("user");
 		// Actualizar el estado del usuario y el token en el contexto
@@ -31,10 +36,29 @@ export function AuthContextProvider({ children }) {
 		router.push("/");
 	};
 
-	const isUserAuthenticated = () =>{
-		let isAuth = token ? true : false; 
+	const fetchData = async (endpoint, method="GET", body=null) => {
+		const headers = {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		};
+		// Añadimos el token a los headers si existe
+		if (token) {
+			headers.Authorization = `Bearer ${token}`;
+		}
+		const response = body ? await fetch(endpoint, { method, headers, body }):await fetch(endpoint, { method, headers }); 
+		const data = await response.json();
+		if (!(data.message === "Unauthenticated.")) {
+			return data;
+		}
+		isValidToken(false);
+		logout();
+		router.push('/');
+	};
+
+	const isUserAuthenticated = () => {
+		let isAuth = token ? true : false;
 		return isAuth;
-	}
+	};
 
 	// Chequear si existe un token en localStorage al cargar la página
 	useEffect(() => {
@@ -48,14 +72,14 @@ export function AuthContextProvider({ children }) {
 	}, []);
 
 	const getUserID = () => {
-		if(user){
-			return user.id
+		if (user) {
+			return user.id;
 		}
 	};
 
 	return (
 		<AuthContext.Provider
-			value={{ user, login, logout, getToken, getUserID, isUserAuthenticated }}>
+			value={{ user, login, logout, getToken, getUserID, isUserAuthenticated, fetchData}}>
 			{children}
 		</AuthContext.Provider>
 	);

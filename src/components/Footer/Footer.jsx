@@ -11,6 +11,7 @@ function Footer() {
 				<div className='mx-16'>
 					<Image
 						alt='japann cloud'
+						className="h-fit w-fit"
 						src={"/assets/cloud/japan_cloud.png"}
 						width={80}
 						height={80}
