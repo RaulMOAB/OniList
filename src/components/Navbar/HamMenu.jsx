@@ -7,19 +7,19 @@ import { IoSettingsSharp, IoNotifications, IoSearch } from "react-icons/io5";
 import { AiFillHome } from "react-icons/ai";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useContext } from "react";
+import ConfirmModal from '@/components/Modals/ConfirmModal';
 
 import Link from "next/link";
 
 
 const HamMenu = () => {
 	const [showMenu, setShowMenu] = useState(false);
-	const {user, logout} = useContext(AuthContext)
+	const { user, logout, isUserAuthenticated } = useContext(AuthContext);
 
 	const toggleMenu = () => setShowMenu(!showMenu);
-
 	return (
 		<>
-			{user ? (
+			{isUserAuthenticated() ? (
 				<nav className='lg:hidden bg-base-100 fixed bottom-6 right-4 p-2 rounded-md z-50'>
 					<button
 						className='block lg:hidden text-4xl text-primary'
@@ -80,16 +80,15 @@ const HamMenu = () => {
 										<p className='text-accent text-xs'>browser</p>
 									</Link>
 								</div>
-								<div className='flex flex-col items-center mb-2'>
-									<button
-										onClick={() => {
-											logout();
-										}}>
-										<div className='flex items-center justify-center'>
-											<FiLogOut className='text-accent  w-6 h-6' />
-										</div>
-										<p className='text-accent text-xs'>logout</p>
-									</button>
+								<div className='flex flex-col items-center mb-2 '>
+									<div className='flex items-center justify-center'>
+										<label htmlFor='confirm-logout'>
+											<FiLogOut className='text-accent text-center cursor-pointer w-6 h-6' />
+											<p className='text-accent text-xs cursor-pointer'>
+												logout
+											</p>
+										</label>
+									</div>
 								</div>
 								<div className='flex flex-col items-center mt-4'>
 									<div className='absolute bottom-0  right-0 rounded-md bg-transparent w-12 h-12 flex items-center justify-center'>
@@ -155,6 +154,14 @@ const HamMenu = () => {
 					</div>
 				</nav>
 			)}
+
+			<ConfirmModal
+				id={"confirm-logout"}
+				header={"Confirm logout"}
+				message={"Are you sure you want to logout?"}
+				confirm_button_text='Yes, logout'
+				action={logout}
+			/>
 		</>
 	);
 };
