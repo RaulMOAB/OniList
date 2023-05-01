@@ -225,7 +225,12 @@ function MediaHeader() {
             {/* <ReadMoreToggle media={media}/> */}
           </div>
           <input type="checkbox" id="my-modal-4" className="modal-toggle" />
-          <MediaEditor media={media} status={status} />
+          <MediaEditor
+            user={user_id}
+            media={media}
+            actualStatus={status}
+            updateStatus={updateStatus}
+          />
           <div className="mx-auto text-center">
             <p>NAVBAR</p>
           </div>
