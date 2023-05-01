@@ -7,8 +7,10 @@ import style from "../../styles/Banner.module.css";
 import LoadingCloud from "@/components/Loading/LoadingCloud";
 import Container from "@/components/Common/PageContainer/Container";
 import MediaPageCard from "@/components/Card/MediaPageCard";
+import MediaEditor from "@/components/Modals/MediaEditor";
 import ReadMoreToggle from "../../components/utils/ReadMoreToggle";
-import ErrorAlert from "@/components/Alerts/Login/ErrorAlert";
+import SubmitButton from "../Buttons/AuthForms/SubmitButton";
+import Alert from "@/components/Alerts/Alert";
 import { BsFillHeartFill } from "react-icons/bs";
 
 const getMedia = async (id) => {
@@ -38,32 +40,38 @@ const getMediaSubscribed = async (user_id, media_id) => {
 
 function MediaHeader() {
   const router = useRouter();
-  const { getUserID } = useContext(AuthContext);
+  const { getUserID, isUserAuthenticated } = useContext(AuthContext);
   const { id } = router.query;
   const [media, setMedia] = useState();
   const user_id = getUserID();
   const [subscribe, isSubsribed] = useState([]);
+  const [status, setStatus] = useState(subscribe[0]);
 
   //*Alert state
   const [showError, setShowError] = useState(false);
   const [message, setMessage] = useState("");
 
+  const [isShowMore, setIsShowMore] = useState(true);
+
   useEffect(() => {
     getMedia(id)
       .then((res) => {
         setMedia(res);
+        getMediaSubscribed(user_id, id).then((res) => {
+          isSubsribed(res);
+          if (res[0]) {
+            setStatus(res[0].status);
+          }
+        });
       })
       .catch((e) => {
         console.log(e);
       });
-    getMediaSubscribed(user_id, id).then((res) => {
-      isSubsribed(res);
-    });
   }, [id]);
 
   //TODO hashMap con los status de las medias
   const updateStatus = async (status) => {
-    // console.log(status);
+    setStatus(status); // cambia el texto del boton
     const body = JSON.stringify({
       user_id,
       id,
@@ -78,11 +86,21 @@ function MediaHeader() {
       },
       body,
     });
-
+    if (response.status === 200) {
+      setMessage(`${media.title} added to ${status} list.`);
+      setShowError(true);
+    }
     //TODO alternative way?
-    router.reload();
+    //router.reload();
+    return response.json();
+  };
 
-    //return response.json();
+  const toggleDropdown = () => {
+    setIsShowMore(!isShowMore);
+  };
+
+  const resetAlert = () => {
+    setShowError(false);
   };
 
   if (media) {
@@ -96,6 +114,14 @@ function MediaHeader() {
           }}
         >
           <div className={style.banner_shadow}></div>
+          <div className="relative  container -mt-48 mx-auto  rounded-md p-5 sm:w-full">
+            <Alert
+              show={showError}
+              message={message}
+              resetAlert={resetAlert}
+              type={""}
+            />
+          </div>
         </div>
         <Container>
           <div className="grid grid-rows-1 gap-8 grid-flow-col 2xl:px-24">
@@ -108,18 +134,28 @@ function MediaHeader() {
                     style.custom_btn
                   }
                 >
-                  <div className=" text-white capitalize text-xs ">
-                    <label htmlFor="my-modal-4" className="cursor-pointer">
-                      {
-                        subscribe.length === 0
-                          ? "Add to Library"
-                          : subscribe[0].status /*TODO format string*/
+                  <label
+                    onClick={(event) => {
+                      if (isUserAuthenticated()) {
+                        setShowError(false);
+                        resetAlert();
+                        // updateStatus("PLAN TO WATCH");
+                      } else {
+                        setMessage("Unauthorized.");
+                        setShowError(true);
                       }
-                    </label>
-                  </div>
+                    }}
+                    htmlFor={showError ? "" : "my-modal-4"}
+                    className="text-white capitalize text-xs  cursor-pointer"
+                  >
+                    {status ? status : "Add to Library" /*TODO format string*/}
+                  </label>
                 </div>
                 <div className={" " + style.custom_btn}>
-                  <div className="dropdown hover:bg-opacity-95 ">
+                  <div
+                    className="dropdown hover:bg-opacity-95 "
+                    onClick={toggleDropdown}
+                  >
                     <label
                       tabIndex={0}
                       className={
@@ -140,15 +176,30 @@ function MediaHeader() {
                     {/* if users is not subscribe */}
                     <ul
                       tabIndex={0}
-                      className="dropdown-content -left-11 mt-2 menu p-2 shadow bg-base-100 rounded-box w-52"
+                      className={`dropdown-content -left-11 mt-2 menu p-2 shadow bg-base-100 rounded-box w-52 ${
+                        isShowMore ? "d-block" : "hidden"
+                      }`}
+                      onClick={toggleDropdown}
                     >
                       <li>
-                        <a onClick={(event) => updateStatus("PLAN TO WATCH")}>
+                        <a
+                          onClick={(event) => {
+                            if (isUserAuthenticated()) {
+                              updateStatus("PLAN TO WATCH");
+                            }
+                          }}
+                        >
                           Set as Planning
                         </a>
                       </li>
                       <li>
-                        <a onClick={(event) => updateStatus("WATCHING")}>
+                        <a
+                          onClick={(event) => {
+                            if (isUserAuthenticated()) {
+                              updateStatus("WATCHING");
+                            }
+                          }}
+                        >
                           Set as Watching
                         </a>
                       </li>
@@ -174,44 +225,7 @@ function MediaHeader() {
             {/* <ReadMoreToggle media={media}/> */}
           </div>
           <input type="checkbox" id="my-modal-4" className="modal-toggle" />
-          <label
-            htmlFor="my-modal-4"
-            className="modal bg-opacity-80 cursor-pointer"
-          >
-            <label
-              className={
-                "modal-box relative w-11/12 max-w-5xl rounded-none " +
-                style.modal_editor
-              }
-              htmlFor=""
-            >
-              <div
-                className={"hero opacity-80 " + style.banner_modal}
-                style={{
-                  backgroundImage: `url("${media.banner_image}")`,
-                }}
-              >
-                <div className={style.banner_shadow}></div>
-              </div>
-
-              <p className="px-4 py-4">
-                You've been selected for a chance to get one year of
-                subscription to use Wikipedia for free!
-              </p>
-              <p className="py-4">
-                You've been selected for a chance to get one year of
-                subscription to use Wikipedia for free!
-              </p>
-              <p className="py-4">
-                You've been selected for a chance to get one year of
-                subscription to use Wikipedia for free!
-              </p>
-              <p className="py-4">
-                You've been selected for a chance to get one year of
-                subscription to use Wikipedia for free!
-              </p>
-            </label>
-          </label>
+          <MediaEditor media={media} status={status} />
           <div className="mx-auto text-center">
             <p>NAVBAR</p>
           </div>
