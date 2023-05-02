@@ -10,7 +10,7 @@ import MediaPageCard from "@/components/Card/MediaPageCard";
 import MediaEditor from "@/components/Modals/MediaEditor";
 import ReadMoreToggle from "../../components/utils/ReadMoreToggle";
 import SubmitButton from "../Buttons/AuthForms/SubmitButton";
-import Alert from "@/components/Alerts/Alert";
+import Alert from "@/components/Alerts/Alert_prueba";
 import { BsFillHeartFill } from "react-icons/bs";
 
 const getMedia = async (id) => {
@@ -74,8 +74,8 @@ function MediaHeader() {
     setStatus(status); // cambia el texto del boton
     const body = JSON.stringify({
       user_id,
-      id,
-      status,
+      media_id: id,
+      status: status,
     });
 
     const response = await fetch(`http://127.0.0.1:8000/api/status`, {
@@ -114,12 +114,13 @@ function MediaHeader() {
           }}
         >
           <div className={style.banner_shadow}></div>
-          <div className="relative  container -mt-48 mx-auto  rounded-md p-5 sm:w-full">
+          <div className="relative  container -mt-48 mx-auto  rounded-md p-5 sm:w-1/4">
             <Alert
               show={showError}
               message={message}
-              resetAlert={resetAlert}
-              type={""}
+              seconds={3}
+              setShowError={setShowError}
+              type={"success"}
             />
           </div>
         </div>

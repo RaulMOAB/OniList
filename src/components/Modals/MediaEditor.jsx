@@ -4,17 +4,21 @@ import { BsFillHeartFill } from "react-icons/bs";
 import MediaPageCard from "@/components/Card/MediaPageCard";
 import moment from "moment";
 import { AuthContext } from "@/contexts/AuthContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 function MediaEditor({ media, actualStatus, updateStatus }) {
   const { user, fetchData } = useContext(AuthContext);
-  const [status, setStatus] = useState(actualStatus);
+  const [status, setStatus] = useState("");
   const [rate, setRating] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [progress, setProgress] = useState(0);
   const [rewatches, setRewatches] = useState(0);
   const [notes, setNotes] = useState("");
+
+  // useEffect(() => {
+  //   setStatus(actualStatus);
+  // }, [actualStatus, status]);
 
   const saveMediaData = async (
     user,
@@ -30,7 +34,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
     const body = JSON.stringify({
       user,
       media_id,
-      status,
+      status:actualStatus,
       rate,
       progress,
       startDate,
@@ -70,11 +74,8 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
   };
 
   const getOptionValue = (value) => {
-    console.log(value.target.value);
     setStatus(value.target.value);
     updateStatus(value.target.value);
-    console.log(status);
-
     if (value.target.value === "WATCHING") {
       setStartDate(getCurrentDate);
     } else if (value.target.value !== "COMPLETED") {
@@ -174,7 +175,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
                 </label>
                 <select
                   className="select select-sm w-full max-w-xs font-normal text-xs  rounded-md bg-neutral text-slate-400"
-                  value={status}
+                  value={actualStatus}
                 >
                   {mediaStatus.map((item, i) => (
                     <option key={i} value={item} onClick={getOptionValue}>

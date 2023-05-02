@@ -87,7 +87,7 @@ export default function Alert({
 						}
 					})()}
 
-					<span className=' w-64'>{message}</span>
+					<span className=' w-full'>{message}</span>
 				</div>
 			</div>
 		</>
