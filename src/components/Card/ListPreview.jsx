@@ -5,8 +5,8 @@ import { useContext } from "react";
 import LoadingCloud from "@/components/Loading/LoadingCloud";
 import Media_Tooltip from "./Media_Tooltip";
 
-function ListPreview({ title }) {
-  let data = useContext(MediaContext);
+function ListPreview({ title, data }) {
+  //let data = useContext(MediaContext);
   let media_data = [];
 
   data.map((item, i) => {

@@ -14,7 +14,23 @@ import Format from "./../components/Filters/Format";
 import AiringStatus from "./../components/Filters/AiringStatus";
 import MediaCard from "./../components/Card/MediaCard";
 import Loader from "./../components/Skeleton/Loader";
+import FadeInOut from "./../animations/FadeInOut";
 
+//Get medias
+const getTrendingAnime = async () => {
+  const response = await fetch('http://127.0.0.1:8000/api/trending/anime');
+  return response.json();
+};
+
+const getPopularAnime = async () => {
+  const response = await fetch('http://127.0.0.1:8000/api/anime');
+  return response.json();
+};
+
+const getUpcomingAnime = async () => {
+  const response = await fetch('http://127.0.0.1:8000/api/upcoming/anime');
+  return response.json();
+};
 
 //API Petition
 const filteredMedia = async (search, genres, season_year, season, format, airing_status) => {
@@ -50,6 +66,56 @@ export default function Home() {
   const [showFiltered, setShowFiltered] = useState(true);
   const [mediaComponents, setMediaComponents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [popularAnime, setPopularAnime] = useState([]);
+  const [trendingAnime, setTrendingAnime] = useState([]);
+  const [upcomingAnime, setUpcomingAnime] = useState([]);
+
+
+  useEffect(() => {
+    getTrendingAnime()
+      .then((res) => {
+        
+        let medias = res.data.data;
+        medias.forEach((media,index) => {
+          setTrendingAnime(trendingAnime => [...trendingAnime, media])
+        })
+        //setTrendingAnime(res);
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
+
+    getPopularAnime()
+    .then((res) => {
+      console.log("Popular Animes")
+      let medias = res.data.data;
+      console.log(medias)
+      medias.forEach((media,index) => {
+        setPopularAnime(popularAnime => [...popularAnime, media])
+      })
+    })
+    .catch((e) => {
+      console.log(e.message);
+    });
+
+    getUpcomingAnime()
+    .then((res) => {
+      let medias = res.data.data;
+      medias.forEach((media,index) => {
+        setUpcomingAnime(upcomingAnime => [...upcomingAnime, media])
+      })
+    })
+    .catch((e) => {
+      console.log(e.message);
+    });
+  }, []);
+
+
+
+
+
+
+
 
   //useEffect, call function every time dependencies change
   useEffect(() => {
@@ -141,30 +207,30 @@ export default function Home() {
   };
 
   // Get media data
-  let data = useContext(MediaContext);
-  let media_data = [];
+  // let data = useContext(MediaContext);
+  // let media_data = [];
 
-  data.map((item, i) => {
-    if (i < 6) {
-      media_data.push(item);
-    }
-    return media_data;
-  });
+  // data.map((item, i) => {
+  //   if (i < 6) {
+  //     media_data.push(item);
+  //   }
+  //   return media_data;
+  // });
 
-  if (data.length === 0) {
-    return (
-      <>
-        <LoadingCloud />
-      </>
-    );
-  }
+  // if (data.length === 0) {
+  //   return (
+  //     <>
+  //       <LoadingCloud />
+  //     </>
+  //   );
+  // }
   return (
     <>
       <Head>
         <title>OniList</title>
       </Head>
       <header>
-        <Hero media={media_data} />
+        {/* <Hero media={media_data} /> */}
       </header>
       <Container>
         <main className="pb-10 2xl:px-28 xl:px-16  lg:px-2 sm:px-4 px-4">
@@ -189,8 +255,24 @@ export default function Home() {
           </section>
           <div>
             {showFiltered ? (
+              <div>
+                
+                <ListPreview title="Trending Now" data={trendingAnime} />
+            
+                <ListPreview title="Popular this season" data={popularAnime} />
+            
+                <ListPreview title="Upcoming next season" data={upcomingAnime} />
+                
+              </div>
 
-              <ListPreview title="Popular Animes" />
+              
+
+
+              
+
+              
+
+              
 
             ) : ( 
               
@@ -211,12 +293,11 @@ export default function Home() {
                         mediaComponents.map((media, index) => {
                           // return <FadeInOut show={show} duration={500}>
                           //         <Loader key={index} media={media} index={index}/>
-                          //        </FadeInOut>
+                          //        </FadeInOut> //https://codesandbox.io/s/react-fadein-out-transition-component-eww6j?file=/src/index.js:517-554
                         })
                       }
                     </div>
                     
-
                   ) : (
                     <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6">
                       {
