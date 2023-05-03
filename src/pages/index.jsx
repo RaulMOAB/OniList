@@ -18,17 +18,17 @@ import FadeInOut from "./../animations/FadeInOut";
 
 //Get medias
 const getTrendingAnime = async () => {
-  const response = await fetch('http://127.0.0.1:8000/api/trending/anime');
+  const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'trending/anime');
   return response.json();
 };
 
 const getPopularAnime = async () => {
-  const response = await fetch('http://127.0.0.1:8000/api/anime');
+  const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'anime');
   return response.json();
 };
 
 const getUpcomingAnime = async () => {
-  const response = await fetch('http://127.0.0.1:8000/api/upcoming/anime');
+  const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'upcoming/anime');
   return response.json();
 };
 
@@ -42,7 +42,7 @@ const filteredMedia = async (search, genres, season_year, season, format, airing
     format,
     airing_status,
   });
-  const response = await fetch('http://127.0.0.1:8000/api/search/anime', {
+  const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'search/anime', {
     method: "POST",
     headers: {
       Accept: "application/json",

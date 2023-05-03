@@ -7,7 +7,7 @@ export function MediaContextProvider({ children }) {
   const [data, setData] = useState([]);
 
   const getMedia = async () => {
-    const response = await fetch("https://onilist.club/api/");
+    const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT);
     return response.json();
   };
 

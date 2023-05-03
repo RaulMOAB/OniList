@@ -15,7 +15,7 @@ const getLoginResponse = async (email, password) => {
     email,
     password,
   });
-  const response = await fetch("http://127.0.0.1:8000/api/login", {
+  const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+"login", {
     method: "POST",
     headers: {
       Accept: "application/json",

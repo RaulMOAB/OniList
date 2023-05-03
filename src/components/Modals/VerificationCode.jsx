@@ -13,7 +13,7 @@ const getRegisterResponse = async (username, email, password, code) => {
         password,
         code,
     });
-    const response = await fetch("http://127.0.0.1:8000/api/register", {
+    const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+"register", {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -25,7 +25,7 @@ const getRegisterResponse = async (username, email, password, code) => {
 };
 
 const sendEmail = async (email) => {
-	const response = await fetch('http://127.0.0.1:8000/api/send/'+email, {
+	const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'send/'+email, {
 		method: "GET",
 		headers: {
 			Accept: "application/json",

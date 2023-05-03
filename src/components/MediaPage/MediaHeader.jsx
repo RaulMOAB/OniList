@@ -14,27 +14,30 @@ import Alert from "@/components/Alerts/Alert_prueba";
 import { BsFillHeartFill } from "react-icons/bs";
 
 const getMedia = async (id) => {
-  const response = await fetch(`http://127.0.0.1:8000/api/anime/${id}`, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetch(
+		process.env.NEXT_PUBLIC_API_ENDPOINT + `anime/${id}`,
+		{
+			method: "GET",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
+		}
+	);
   return response.json();
 };
 
 const getMediaSubscribed = async (user_id, media_id) => {
   const response = await fetch(
-    `http://127.0.0.1:8000/api/status/${user_id}/${media_id}`,
-    {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    }
-  );
+		process.env.NEXT_PUBLIC_API_ENDPOINT+`status/${user_id}/${media_id}`,
+		{
+			method: "GET",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
+		}
+	);
   return response.json();
 };
 
@@ -78,14 +81,17 @@ function MediaHeader() {
       status: status,
     });
 
-    const response = await fetch(`http://127.0.0.1:8000/api/status`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body,
-    });
+    const response = await fetch(
+			process.env.NEXT_PUBLIC_API_ENDPOINT+`status`,
+			{
+				method: "POST",
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "application/json",
+				},
+				body,
+			}
+		);
     if (response.status === 200) {
       setMessage(`${media.title} added to ${status} list.`);
       setShowError(true);

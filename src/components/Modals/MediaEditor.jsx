@@ -43,7 +43,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
       notes,
     });
     console.log(body);
-    const endpoint = "http://127.0.0.1:8000/api/media/data";
+    const endpoint = "media/data";
     const method = "POST";
     // const response = await fetch("http://127.0.0.1:8000/api/media/data", {
     //   method: "POST",

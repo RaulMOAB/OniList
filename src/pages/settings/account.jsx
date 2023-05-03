@@ -8,15 +8,15 @@ import ErrorAlert from "@/components/Alerts/Login/ErrorAlert";
 
 const deleteAccountResponse = async (user_id) => {
   const response = await fetch(
-    `http://127.0.0.1:8000/api/account/delete/${user_id}`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    }
-  );
+		process.env.NEXT_PUBLIC_API_ENDPOINT+`account/delete/${user_id}`,
+		{
+			method: "POST",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
+		}
+	);
   console.log(response);
   return response.json();
 };

@@ -26,7 +26,7 @@ export function AuthContextProvider({ children }) {
 	const logout = () => {
 		// Eliminar el token y la información del usuario del localStorage
 		if(validToken){
-			fetchData("http://127.0.0.1:8000/api/logout", "POST");
+			fetchData(process.env.NEXT_PUBLIC_API_ENDPOINT+"logout", "POST");
 		}
 		localStorage.removeItem("token");
 		localStorage.removeItem("user");
@@ -41,11 +41,15 @@ export function AuthContextProvider({ children }) {
 			Accept: "application/json",
 			"Content-Type": "application/json",
 		};
+		const api_endpoint =
+			process.env.NEXT_PUBLIC_API_ENDPOINT + endpoint;
 		// Añadimos el token a los headers si existe
 		if (token) {
 			headers.Authorization = `Bearer ${token}`;
 		}
-		const response = body ? await fetch(endpoint, { method, headers, body }):await fetch(endpoint, { method, headers }); 
+		const response = body
+			? await fetch(api_endpoint, { method, headers, body })
+			: await fetch(api_endpoint, { method, headers }); 
 		const data = await response.json();
 		if (!(data.message === "Unauthenticated.")) {
 			return data;

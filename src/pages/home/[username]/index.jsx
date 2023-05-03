@@ -1,6 +1,6 @@
 import React from "react";
-import FavoritesCards from "../../../components/Card/FavoritesCards";
-import UserActivity from "../../../components/ActivityCard/UserActivity";
+import FavoritesCards from "@/components/Card/FavoritesCards";
+import UserActivity from "@/components/ActivityCard/UserActivity";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 
@@ -10,7 +10,7 @@ export default function Home() {
 
 	useEffect(() => {
 		if(user.username){
-			const endpoint = "http://127.0.0.1:8000/api/library/" + user.username;//TODO Sale Unauthenticated cuando no estas en esta pagina
+			const endpoint = "library/" + user.username;//TODO Sale Unauthenticated cuando no estas en esta pagina
 			const method = "GET";
 			fetchData(endpoint, method).then((res) => {
 				setLibrary(res);
@@ -29,8 +29,15 @@ export default function Home() {
 		setVisibleCount(visibleCount + 5);
 	};
 
-	library.forEach((media_info, index) => {
+	let recent_changes_library = library.sort(function (a, b) {
+		return new Date(b.status[0].updated_at) - new Date(a.status[0].updated_at);
+	});
+	console.log(recent_changes_library)
+	recent_changes_library.forEach((media_info, index) => {
 		let media_status = media_info.status[0];
+		if (index === 1) {
+			console.log(media_info);
+		}
 		userActivity.push(
 			<UserActivity
 				key={index}
