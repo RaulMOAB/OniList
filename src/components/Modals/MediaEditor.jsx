@@ -34,7 +34,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
     const body = JSON.stringify({
       user,
       media_id,
-      status:actualStatus,
+      status: actualStatus,
       rate,
       progress,
       startDate,
@@ -308,11 +308,19 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
             </div>
             <div className="flex justify-end">
               <div className="px-4">
-                <button className="py-2 px-4 bg-primary text-white font-normal  rounded-md shadow-md hover:shadow-blue-500/50 hover:text-white hover:border-transparent transition ease-in duration-200 transform hover:-translate-y-0.5 active:translate-y-0">
-                  Save
-                </button>
+                <label htmlFor="my-modal-4" className="btn py-2 px-4  bg-primary text-white font-normal  rounded-md shadow-md hover:shadow-blue-500/50 hover:text-white hover:border-transparent hover:bg-primary transition ease-in duration-200 transform hover:-translate-y-0.5 active:translate-y-0 text-base">
+                  <button className="px-2 ">
+                    Save
+                  </button>
+                </label>
+                <label
+                  htmlFor="my-modal-4"
+                  className="btn btn-sm btn-circle absolute right-2 top-2"
+                >
+                  ✕
+                </label>
               </div>
-              <button className="py-2 px-4 bg-error text-white font-normal  rounded-md shadow-md hover:shadow-red-500/50 hover:text-white hover:border-transparent transition ease-in duration-200 transform hover:-translate-y-0.5 active:translate-y-0">
+              <button className="py-2 px-4 bg-error text-white font-normal  rounded-md shadow-md hover:shadow-red-500/50 hover:text-white hover:border-transparent transition ease-in duration-200 transform hover:-translate-y-0.5 active:translate-y-0 text-base">
                 Delete
               </button>
             </div>

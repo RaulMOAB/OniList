@@ -226,6 +226,7 @@ function MediaHeader() {
             {/* <ReadMoreToggle media={media}/> */}
           </div>
           <input type="checkbox" id="my-modal-4" className="modal-toggle" />
+          
           <MediaEditor
             user={user_id}
             media={media}
