@@ -2,6 +2,7 @@ import { React, use, useState } from "react";
 import style from "../../styles/Banner.module.css";
 import { BsFillHeartFill } from "react-icons/bs";
 import MediaPageCard from "@/components/Card/MediaPageCard";
+import ConfirmModal from "../Modals/ConfirmModal";
 import moment from "moment";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useContext, useEffect } from "react";
@@ -15,10 +16,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
   const [progress, setProgress] = useState(0);
   const [rewatches, setRewatches] = useState(0);
   const [notes, setNotes] = useState("");
-
-  // useEffect(() => {
-  //   setStatus(actualStatus);
-  // }, [actualStatus, status]);
+  const [clicked, setClicked] = useState("");
 
   const saveMediaData = async (
     user,
@@ -34,7 +32,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
     const body = JSON.stringify({
       user,
       media_id,
-      status: actualStatus,
+      status: actualStatus ? actualStatus : "WATCHING",
       rate,
       progress,
       startDate,
@@ -43,21 +41,24 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
       notes,
     });
     console.log(body);
+    console.log(startDate);
+    console.log(endDate);
     const endpoint = "media/data";
     const method = "POST";
-    // const response = await fetch("http://127.0.0.1:8000/api/media/data", {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    //   body,
-    // });
-
     fetchData(endpoint, method, body).then((res) => {
       console.log(res);
     });
     //return response.json();
+  };
+
+  const deleteMedia = async (media_id) => {
+    console.log(media_id);
+    const endpoint = "media/delete/" + media_id;
+    console.log(endpoint);
+    const method = "DELETE";
+    fetchData(endpoint, method).then((res) => {
+      console.log(res);
+    });
   };
 
   const mediaStatus = [
@@ -78,13 +79,17 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
     updateStatus(value.target.value);
     if (value.target.value === "WATCHING") {
       setStartDate(getCurrentDate);
+      console.log(startDate);
     } else if (value.target.value !== "COMPLETED") {
       setStartDate("");
+    } else {
+      setStartDate(getCurrentDate);
     }
 
     if (value.target.value === "COMPLETED") {
       setEndDate(getCurrentDate);
     }
+    console.log(startDate);
   };
 
   const getCurrentDate = () => {
@@ -93,8 +98,20 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
     return currentDate;
   };
 
-  const handleOnChange = (date) => {
+  const formatDate = (date) => {
+    const format = moment(date).format("YYYY-MM-DD");
+    console.log(format);
+    return format;
+  };
+
+  const handleStartDateSelected = (date) => {
+    // console.log(date.target.value);
+    // formatDate(date.target.value);
     setStartDate(date.target.value);
+  };
+
+  const handleEndDateSelected = (date) => {
+    setEndDate(date.target.value);
   };
 
   const handleEpisodeChange = (episode) => {
@@ -115,17 +132,21 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    saveMediaData(
-      user.id,
-      media.id,
-      status,
-      rate,
-      progress,
-      startDate,
-      endDate,
-      rewatches,
-      notes
-    );
+    if (clicked === "SAVE") {
+      saveMediaData(
+        user.id,
+        media.id,
+        status,
+        rate,
+        progress,
+        startDate, //!not working
+        endDate,//! works sometimes xD
+        rewatches,
+        notes
+      );
+    } else {
+      deleteMedia(media.id);
+    }
   };
   return (
     <label htmlFor="my-modal-4" className="modal bg-opacity-80 cursor-pointer">
@@ -154,7 +175,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
             </div>
             <div className="flex justify-end items-center">
               <div className="">
-                <BsFillHeartFill className="text-white " />{" "}
+                <BsFillHeartFill className="text-white " />
                 {/*TODO cambiar color al hacer click */}
               </div>
             </div>
@@ -177,6 +198,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
                   className="select select-sm w-full max-w-xs font-normal text-xs  rounded-md bg-neutral text-slate-400"
                   value={actualStatus}
                 >
+                  <option value="">Status</option>
                   {mediaStatus.map((item, i) => (
                     <option key={i} value={item} onClick={getOptionValue}>
                       {item}
@@ -258,7 +280,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
                   className="appearance-none block w-full text-slate-400 rounded-md bg-neutral py-2 px-4 mb-3 leading-tight text-xs"
                   type="date"
                   value={startDate}
-                  onChange={handleOnChange}
+                  onChange={handleStartDateSelected}
                 />
               </div>
               <div className="w-1/5 px-3">
@@ -271,7 +293,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
                 <input
                   className="appearance-none block w-full text-gray-400 rounded-md bg-neutral py-2 px-4 mb-3 leading-tight text-xs"
                   value={endDate}
-                  onChange={handleOnChange}
+                  onChange={handleEndDateSelected}
                   type="date"
                 />
               </div>
@@ -308,22 +330,46 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
             </div>
             <div className="flex justify-end">
               <div className="px-4">
-                <label htmlFor="my-modal-4" className="btn py-2 px-4  bg-primary text-white font-normal  rounded-md shadow-md hover:shadow-blue-500/50 hover:text-white hover:border-transparent hover:bg-primary transition ease-in duration-200 transform hover:-translate-y-0.5 active:translate-y-0 text-base">
-                  <button className="px-2 ">
-                    Save
+                <label
+                  htmlFor="my-modal-4"
+                  className="btn py-2 px-4  bg-primary text-white font-normal  rounded-md shadow-md hover:shadow-blue-500/50 hover:text-white hover:border-transparent hover:bg-primary transition ease-in duration-200 transform hover:-translate-y-0.5 active:translate-y-0 text-base"
+                >
+                  <button
+                    type="submit"
+                    onClick={() => {
+                      setClicked("SAVE");
+                    }}
+                    className="px-2 "
+                  >
+                    <label htmlFor="my-modal-4" className="">
+                      Save
+                    </label>
                   </button>
                 </label>
                 <label
                   htmlFor="my-modal-4"
-                  className="btn btn-sm btn-circle absolute right-2 top-2"
+                  className="cursor-pointer hover:text-primary text-lg absolute right-6 top-4"
                 >
                   ✕
                 </label>
               </div>
-              <button className="py-2 px-4 bg-error text-white font-normal  rounded-md shadow-md hover:shadow-red-500/50 hover:text-white hover:border-transparent transition ease-in duration-200 transform hover:-translate-y-0.5 active:translate-y-0 text-base">
-                Delete
+              <button
+                type="submit"
+                onClick={() => {
+                  setClicked("DELETE");
+                }}
+                className="py-2 px-4 bg-error text-white font-normal  rounded-md shadow-md hover:shadow-red-500/50 hover:text-white hover:border-transparent transition ease-in duration-200 transform hover:-translate-y-0.5 active:translate-y-0 text-base"
+              >
+                <label htmlFor="confirm-delete">Delete</label>
               </button>
             </div>
+            {/* <ConfirmModal
+              id={"confirm-delete"}
+              header={"Warning"}
+              message={"Are you sure you want to delete this list entry?"}
+              confirm_button_text="Delete, Cancel"
+              action={handleSubmit}
+            /> */}
           </form>
         </div>
       </label>

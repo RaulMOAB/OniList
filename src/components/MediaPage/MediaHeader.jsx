@@ -15,29 +15,29 @@ import { BsFillHeartFill } from "react-icons/bs";
 
 const getMedia = async (id) => {
   const response = await fetch(
-		process.env.NEXT_PUBLIC_API_ENDPOINT + `anime/${id}`,
-		{
-			method: "GET",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-			},
-		}
-	);
+    process.env.NEXT_PUBLIC_API_ENDPOINT + `anime/${id}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
+  );
   return response.json();
 };
 
 const getMediaSubscribed = async (user_id, media_id) => {
   const response = await fetch(
-		process.env.NEXT_PUBLIC_API_ENDPOINT+`status/${user_id}/${media_id}`,
-		{
-			method: "GET",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-			},
-		}
-	);
+    process.env.NEXT_PUBLIC_API_ENDPOINT + `status/${user_id}/${media_id}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
+  );
   return response.json();
 };
 
@@ -49,6 +49,7 @@ function MediaHeader() {
   const user_id = getUserID();
   const [subscribe, isSubsribed] = useState([]);
   const [status, setStatus] = useState(subscribe[0]);
+  const [favorite, setFavorite] = useState(0);
 
   //*Alert state
   const [showError, setShowError] = useState(false);
@@ -80,18 +81,18 @@ function MediaHeader() {
       media_id: id,
       status: status,
     });
-
+    console.log(body);
     const response = await fetch(
-			process.env.NEXT_PUBLIC_API_ENDPOINT+`status`,
-			{
-				method: "POST",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-				},
-				body,
-			}
-		);
+      process.env.NEXT_PUBLIC_API_ENDPOINT + `status`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body,
+      }
+    );
     if (response.status === 200) {
       setMessage(`${media.title} added to ${status} list.`);
       setShowError(true);
@@ -99,6 +100,33 @@ function MediaHeader() {
     //TODO alternative way?
     //router.reload();
     return response.json();
+  };
+
+  const handleFavorite = async (data) => {
+    Number(data.target.value) === 0 ? setFavorite(1) : setFavorite(0);
+    console.log(favorite);
+     const body = JSON.stringify({
+      user_id,
+      media_id: id,
+      status: status,
+      favorite
+    });
+    console.log(body)
+    console.log(isUserAuthenticated())
+    if(isUserAuthenticated()){
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_API_ENDPOINT + `media/favorite`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body,
+        }
+      );
+        console.log(response.json())
+    }
   };
 
   const toggleDropdown = () => {
@@ -111,6 +139,10 @@ function MediaHeader() {
 
   if (media) {
     //if media is not undefined
+    const media_images = {
+      large: media.large_cover_image,
+      medium: media.medium_cover_image,
+    };
     return (
       <>
         <div
@@ -218,7 +250,11 @@ function MediaHeader() {
                     </ul>
                   </div>
                 </div>
-                <button className="w-20 bg-rose-600 rounded-md ">
+                <button
+                  className="w-20 bg-rose-600 rounded-md "
+                  value={favorite}
+                  onClick={handleFavorite}
+                >
                   <BsFillHeartFill className="text-white mx-auto hover:text-pink-100" />
                 </button>
               </div>
@@ -232,7 +268,7 @@ function MediaHeader() {
             {/* <ReadMoreToggle media={media}/> */}
           </div>
           <input type="checkbox" id="my-modal-4" className="modal-toggle" />
-          
+
           <MediaEditor
             user={user_id}
             media={media}
