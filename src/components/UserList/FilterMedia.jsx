@@ -5,19 +5,56 @@ import { format } from "path";
 import { useState } from "react";
 
 export default function FilterMedia({ type, medias, setFilteredMedia }) {
-	//TODO FILTER
 
 	const [format, setFormat] = useState("");
 	const [status, setStatus] = useState("");
 	const [genre, setGenre] = useState("");
 	const [search, setSearch] = useState("");
 	const [filteredMedia, setMedias] = useState(medias);
-	const [query, setQuery] = useState({
-		search: null,
-		status: null,
-		format: null,
-		genre: null,
-	});
+
+	const updateList = (list) => {
+		console.log(list)
+		if (list === "all") {
+			setFilteredMedia(filteredMedia);
+			setStatus("");
+			setFormat("")
+			setGenre("")
+			setSearch("")
+		} else {
+			let selected_list = medias.filter((media) => {
+				return media.status[0].status === list;
+			});
+			setFilteredMedia(selected_list);
+		}
+	};
+
+	const user_lists =medias.map((media)=>{
+		return media.status[0].status;
+	})
+
+	const item_list_counter = user_lists.reduce((acc, elem) => {//TODO
+		acc[elem] = (acc[elem] || 0) + 1;
+		return acc;
+	}, {});
+
+	let list_buttons = []
+
+	for (const key in item_list_counter) {
+		console.log(key);
+		list_buttons.push(
+			<button
+				value={key}
+				onClick={()=>{updateList(key)}}
+				className='bg-base-300 w-full text-left px-2 rounded-md text-sm py-1 mb-1 flex justify-between hover:opacity-70'>
+				<span className='mr-2'>{key}</span>
+				<span className='text-right'>{item_list_counter[key]}</span>
+			</button>
+		);
+	}
+
+
+
+	console.log(user_lists);
 
 	const status_array = [
 		"Finished",
@@ -27,12 +64,12 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 	];
 	const status_options = [];
 	status_array.forEach((item) => {
-		status_options.push(<option>{item}</option>);
+		status_options.push(<option value={item} >{item}</option>);
 	});
 	const formats = ["TV", "TV Short", "Movie", "Special", "OVA", "ONA", "Music"];
 	const formats_options = [];
-	formats.forEach((format) => {
-		formats_options.push(<option>{format}</option>);
+	formats.forEach((media_format) => {
+		formats_options.push(<option value={media_format}>{media_format}</option>);
 	});
 	const genres = [
 		"Action",
@@ -54,59 +91,59 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 		"Supernatural",
 		"Thriller",
 	];
+
 	const genres_options = [];
 	genres.forEach((genre) => {
-		genres_options.push(<option>{genre}</option>);
+		genres_options.push(<option value={genre}>{genre}</option>);
 	});
 
-	useEffect(() => {
-		setMedias(medias);
-		// console.log(format);
-		// console.log(status);
-		// console.log(genre);
-		// console.log(search)
-		setQuery({
-			search,
-			status,
-			format,
-			genre,
-		});
-		console.log(filteredMedia);
-	}, [format, status, genre, search, filteredMedia, medias]);
+	const handleSearchOnChange = (user_search) => {
+		if(user_search !== "Search"){
 
+		}
+		setSearch(user_search.toLowerCase());
+	};
+	const handleStatusOnChange = (media_status) => {
+		if(media_status !== "Status"){
+			setStatus(media_status.toLowerCase().replaceAll(" ","_"));
+		}
+	};
+
+	const handleFormatOnChange = (media_format) => {
+
+		setFormat(media_format.toLowerCase().replaceAll(" ", "_"));
+	};
+	const handleGenreOnChange = (media_genre) => {
+		setGenre(media_genre.toLowerCase());
+	};
 	const filter = () => {
-		let aux_filtered_medias = filteredMedia.filter((media) => {
+		let aux_filtered_medias = medias.filter((media) => {
 			let title = media.media.title;
 			let media_title = title.toLowerCase();
-			let media_format = media.media.format
-			//let media_genres = JSON.parse(media.media.genres)
-
-			let media_status = media.media.status
-			console.log(search)
-			return (media_title.includes(search)) ;
+			let media_format = media.media.format.toLowerCase()
+			let media_genres_json = media.media.genres;
+			let media_genres_array = JSON.parse(media_genres_json);
+			let media_genres_formatted = media_genres_array.map((g) => {
+				return g.toLowerCase().replaceAll(" ","_");
+			});
+			let media_status = media.media.airing_status.toLowerCase()
+			return (
+				(media_title.includes(search) || search === "") &&
+				(media_status === status || status === "") &&
+				(media_format === format || format === "") &&
+				(media_genres_formatted.includes(genre) || genre === "")
+			);
 		});
 
 		setMedias(aux_filtered_medias);
 		setFilteredMedia(aux_filtered_medias);
 	};
+	useEffect(() => {
+		setMedias(medias);
+		filter()
+	}, [search,status,format,genre,medias]);
 
-	const handleSearchOnChange = (user_search) => {
-		setSearch(user_search.toLowerCase());
-		filter()
-	};
-	const handleStatusOnChange = (media_status) => {
-		setStatus(media_status);
-		filter()
-	};
 
-	const handleFormatOnChange = (media_format) => {
-		setFormat(media_format);
-		filter()
-	};
-	const handleGenreOnChange = (media_genre) => {
-		setGenre(media_genre);
-		filter()
-	};
 
 	return (
 		<div className='p-3'>
@@ -119,6 +156,7 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 						type='email'
 						onChange={(event) => handleSearchOnChange(event.target.value)}
 						placeholder='Search'
+						value={search}
 						className={
 							"w-full h-12 focus:outline-none bg-base-300  text-accent font-semibold p-3"
 						}
@@ -126,40 +164,54 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 				</label>
 			</div>
 
-			<div className='mb-3 overflow-auto'>
-				<small className='text-accent'>Filters</small>
+			<div className='mb-3'>
+				<div>
+					<small className='text-accent'>Lists</small>
+				</div>
+				<button
+					onClick={() => {
+						updateList('all');
+					}}
+					className='bg-base-300 w-full text-left px-2 rounded-md text-sm py-1 mb-1 flex justify-between hover:opacity-70'>
+					<span className='mr-2'>All</span>
+					<span className='text-right'>9</span>
+				</button>
+				{list_buttons}
+			</div>
+
+			<div className='mb-3'>
+				<small className='text-accent'>Filters</small> <br />
 				<select
-					className='select w-full max-w-xs mb-1 bg-base-300'
-					value={format}
+					className='select w-full mb-1 bg-base-300'
 					onChange={(event) => {
 						handleFormatOnChange(event.target.value);
 					}}>
 					<option
-						disabled
+						value={""}
 						selected>
 						Format
 					</option>
 					{formats_options}
 				</select>
 				<select
-					className='select w-full max-w-xs mb-1 bg-base-300'
+					className='select w-full mb-1 bg-base-300'
 					onChange={(event) => {
 						handleStatusOnChange(event.target.value);
 					}}>
 					<option
-						disabled
+						value={""}
 						selected>
 						Status
 					</option>
 					{status_options}
 				</select>
 				<select
-					className='select w-full max-w-xs mb-1 bg-base-300 overflow-auto'
+					className='select w-full mb-1 bg-base-300 overflow-auto'
 					onChange={(event) => {
 						handleGenreOnChange(event.target.value);
 					}}>
 					<option
-						disabled
+						value={""}
 						selected>
 						Genres
 					</option>
