@@ -54,9 +54,9 @@ export function AuthContextProvider({ children }) {
 		if (!(data.message === "Unauthenticated.")) {
 			return data;
 		}
-		isValidToken(false);
-		logout();
-		router.push('/');
+		// isValidToken(false);
+		// logout();
+		// router.push('/');
 	};
 
 	const isUserAuthenticated = () => {

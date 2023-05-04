@@ -35,7 +35,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
       status: actualStatus ? actualStatus : "WATCHING",
       rate,
       progress,
-      startDate,
+      start_date: startDate,
       endDate,
       rewatches,
       notes,
@@ -78,14 +78,14 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
     setStatus(value.target.value);
     updateStatus(value.target.value);
     if (value.target.value === "WATCHING") {
-      setStartDate(getCurrentDate);
-      console.log(startDate);
-    } else if (value.target.value !== "COMPLETED") {
-      setStartDate("");
-    } else {
-      setStartDate(getCurrentDate);
+      // setStartDate(getCurrentDate);
+      // console.log(startDate);
+      // } else if (value.target.value !== "COMPLETED") {
+      //   setStartDate("");
+      // } else {
+      //   setStartDate(getCurrentDate);
+      // }
     }
-
     if (value.target.value === "COMPLETED") {
       setEndDate(getCurrentDate);
     }
@@ -95,6 +95,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
   const getCurrentDate = () => {
     let date = moment();
     const currentDate = date.format("YYYY-MM-DD");
+    console.log(currentDate);
     return currentDate;
   };
 
@@ -105,9 +106,10 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
   };
 
   const handleStartDateSelected = (date) => {
-    // console.log(date.target.value);
+    //console.log(typeof date.target.value);
     // formatDate(date.target.value);
     setStartDate(date.target.value);
+    console.log(startDate);
   };
 
   const handleEndDateSelected = (date) => {
@@ -140,7 +142,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
         rate,
         progress,
         startDate, //!not working
-        endDate,//! works sometimes xD
+        endDate, //! works sometimes xD
         rewatches,
         notes
       );
@@ -278,9 +280,9 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
                 </label>
                 <input
                   className="appearance-none block w-full text-slate-400 rounded-md bg-neutral py-2 px-4 mb-3 leading-tight text-xs"
-                  type="date"
                   value={startDate}
                   onChange={handleStartDateSelected}
+                  type="date"
                 />
               </div>
               <div className="w-1/5 px-3">

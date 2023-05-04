@@ -43,13 +43,14 @@ const getMediaSubscribed = async (user_id, media_id) => {
 
 function MediaHeader() {
   const router = useRouter();
-  const { getUserID, isUserAuthenticated } = useContext(AuthContext);
+  const { getUserID, isUserAuthenticated, fetchData } = useContext(AuthContext);
+  // const { user, fetchData } = useContext(AuthContext);
   const { id } = router.query;
   const [media, setMedia] = useState();
   const user_id = getUserID();
   const [subscribe, isSubsribed] = useState([]);
   const [status, setStatus] = useState(subscribe[0]);
-  const [favorite, setFavorite] = useState(0);
+  const [favorite, setFavorite] = useState();
 
   //*Alert state
   const [showError, setShowError] = useState(false);
@@ -58,13 +59,16 @@ function MediaHeader() {
   const [isShowMore, setIsShowMore] = useState(true);
 
   useEffect(() => {
+    // setFavorite(favorite)
     getMedia(id)
       .then((res) => {
         setMedia(res);
         getMediaSubscribed(user_id, id).then((res) => {
           isSubsribed(res);
+          console.log(res);
           if (res[0]) {
             setStatus(res[0].status);
+            setFavorite(res[0].favorite);
           }
         });
       })
@@ -72,6 +76,11 @@ function MediaHeader() {
         console.log(e);
       });
   }, [id]);
+
+  useEffect(() => {
+    console.log(favorite); //*valor actual
+    setFavoriteToMedia(favorite);
+  }, [favorite]);
 
   //TODO hashMap con los status de las medias
   const updateStatus = async (status) => {
@@ -102,31 +111,43 @@ function MediaHeader() {
     return response.json();
   };
 
-  const handleFavorite = async (data) => {
-    Number(data.target.value) === 0 ? setFavorite(1) : setFavorite(0);
-    console.log(favorite);
-     const body = JSON.stringify({
-      user_id,
+  const handleFavorite = (event) => {
+    event.preventDefault();
+    let aux_fav;
+    //console.log(favorite)
+    // favorite === 0 ? setFavorite(1) : setFavorite(0);
+    if (favorite === 0) {
+      aux_fav = 1;
+      setFavorite(aux_fav);
+    } else {
+      aux_fav = 0;
+      setFavorite(aux_fav);
+    }
+
+    //*Llamada Api
+    //setFavoriteToMedia(favorite);
+    //return favorite;
+  };
+
+  const setFavoriteToMedia = async (favorite) => {
+    const body = JSON.stringify({
+      user_id: user_id,
       media_id: id,
       status: status,
-      favorite
+      favorite: favorite,
     });
-    console.log(body)
-    console.log(isUserAuthenticated())
-    if(isUserAuthenticated()){
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_API_ENDPOINT + `media/favorite`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body,
-        }
-      );
-        console.log(response.json())
-    }
+    //console.log(body);
+    // console.log(isUserAuthenticated())
+    const endpoint = "media/favorite";
+    const method = "POST";
+    fetchData(endpoint, method, body).then((res) => {
+      //console.log(res);
+      // if (res === 1) {
+      //   setFavorite(1);
+      //   console.log(favorite);
+      // }
+      // console.log(favorite);
+    });
   };
 
   const toggleDropdown = () => {
@@ -163,8 +184,8 @@ function MediaHeader() {
           </div>
         </div>
         <Container>
-          <div className="grid grid-rows-1 gap-8 grid-flow-col 2xl:px-24">
-            <div className="-mt-28 z-30 w-fit">
+          <div className="grid grid-rows-1 gap-8 md:grid-flow-col 2xl:px-24">
+            <div className="mx-auto -mt-28 z-30 w-fit">
               <MediaPageCard img={media.large_cover_image} />
               <div className=" flex flex-shrink gap-4 mt-3 ">
                 <div
@@ -252,16 +273,15 @@ function MediaHeader() {
                 </div>
                 <button
                   className="w-20 bg-rose-600 rounded-md "
-                  value={favorite}
                   onClick={handleFavorite}
                 >
                   <BsFillHeartFill className="text-white mx-auto hover:text-pink-100" />
                 </button>
               </div>
             </div>
-            <div className="py-10 text-left">
-              <h2 className="2xl:text-3xl">{media.title}</h2>
-              <p className={"mt-3 2xl:text-sm " + style.description}>
+            <div className="py-10 pr-8 text-left">
+              <h2 className="2xl:text-3xl md:text-xl">{media.title}</h2>
+              <p className={"mt-3 2xl:text-sm md:text-sm " + style.description}>
                 {media.description}
               </p>
             </div>
@@ -275,9 +295,6 @@ function MediaHeader() {
             actualStatus={status}
             updateStatus={updateStatus}
           />
-          <div className="mx-auto text-center">
-            <p>NAVBAR</p>
-          </div>
         </Container>
       </>
     );
