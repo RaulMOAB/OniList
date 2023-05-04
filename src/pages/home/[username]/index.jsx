@@ -13,7 +13,7 @@ export default function Home() {
 			const endpoint = "library/" + user.username;//TODO Sale Unauthenticated cuando no estas en esta pagina
 			const method = "GET";
 			fetchData(endpoint, method).then((res) => {
-				setLibrary(res);
+				setLibrary(res ?? []);
 			});
 		}
 	}, [user,fetchData]);

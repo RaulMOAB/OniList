@@ -10,7 +10,7 @@ import MediaEditor from "@/components/Modals/MediaEditor";
 export default function AnimeList() {
 	const {user, fetchData } = useContext(AuthContext);
 	const [animelistStatus ,setAnimelistStatus] = useState([]);
-	const [filteredAnime, setFilteredAnime] = useState(animelistStatus);//TODO
+	const [filteredAnime, setFilteredAnime] = useState(animelistStatus ?? []);//TODO
 	const [status, setStatus] = useState("");
 	const [selectedMedia, setSelectedMedia] = useState({});
 	

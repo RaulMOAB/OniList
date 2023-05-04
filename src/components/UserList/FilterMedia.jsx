@@ -174,7 +174,7 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 					}}
 					className='bg-base-300 w-full text-left px-2 rounded-md text-sm py-1 mb-1 flex justify-between hover:opacity-70'>
 					<span className='mr-2'>All</span>
-					<span className='text-right'>9</span>
+					<span className='text-right'>{user_lists.length}</span>
 				</button>
 				{list_buttons}
 			</div>
