@@ -10,28 +10,39 @@ import { useContext, useEffect } from "react";
 function MediaEditor({ media, actualStatus, updateStatus }) {
   const { user, fetchData } = useContext(AuthContext);
   const [status, setStatus] = useState("");
-  const [rate, setRating] = useState("");
+  const [rate, setRating] = useState(0);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [progress, setProgress] = useState(0);
   const [rewatches, setRewatches] = useState(0);
   const [notes, setNotes] = useState("");
   const [clicked, setClicked] = useState("");
+  const [mediaState, setMediaState] = useState([]);
 
-  const saveMediaData = async (
-    user,
-    media_id,
-    status,
-    rate,
-    progress,
-    startDate,
-    endDate,
-    rewatches,
-    notes
-  ) => {
+  useEffect(() => {
+    const endpoint = `status/${user.id}/${media.id}`;
+    fetchData(endpoint).then((res) => {
+      console.log(res);
+      if (res[0]) {
+        setMediaState(res);
+        setRating(res[0].rate);
+        setStartDate(res[0].start_date);
+        setEndDate(res[0].end_date);
+        setProgress(res[0].progress);
+        setRewatches(res[0].rewatches);
+        setNotes(res[0].notes);
+      } else {
+        setRating(0);
+      }
+    });
+  }, [media]);
+
+  let stars_array = [];
+
+  const saveMediaData = async () => {
     const body = JSON.stringify({
-      user,
-      media_id,
+      user: user.id,
+      media_id: media.id,
       status: actualStatus ? actualStatus : "WATCHING",
       rate,
       progress,
@@ -40,6 +51,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
       rewatches,
       notes,
     });
+
     console.log(body);
     console.log(startDate);
     console.log(endDate);
@@ -78,16 +90,18 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
     setStatus(value.target.value);
     updateStatus(value.target.value);
     if (value.target.value === "WATCHING") {
-      // setStartDate(getCurrentDate);
-      // console.log(startDate);
-      // } else if (value.target.value !== "COMPLETED") {
-      //   setStartDate("");
-      // } else {
-      //   setStartDate(getCurrentDate);
-      // }
+      setStartDate(getCurrentDate);
+      console.log(startDate);
+    }else{
+      setEndDate("");
     }
+
     if (value.target.value === "COMPLETED") {
       setEndDate(getCurrentDate);
+    }
+
+    if (value.target.value === "PLAN TO WATCH") {
+      resetForm();
     }
     console.log(startDate);
   };
@@ -99,15 +113,13 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
     return currentDate;
   };
 
-  const formatDate = (date) => {
-    const format = moment(date).format("YYYY-MM-DD");
-    console.log(format);
-    return format;
-  };
+  // const formatDate = (date) => {
+  //   const format = moment(date).format("YYYY-MM-DD");
+  //   console.log(format);
+  //   return format;
+  // };
 
   const handleStartDateSelected = (date) => {
-    //console.log(typeof date.target.value);
-    // formatDate(date.target.value);
     setStartDate(date.target.value);
     console.log(startDate);
   };
@@ -135,21 +147,51 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
     event.preventDefault();
 
     if (clicked === "SAVE") {
-      saveMediaData(
-        user.id,
-        media.id,
-        status,
-        rate,
-        progress,
-        startDate, //!not working
-        endDate, //! works sometimes xD
-        rewatches,
-        notes
-      );
+      saveMediaData();
     } else {
       deleteMedia(media.id);
     }
   };
+
+  const resetForm = () => {
+    setRating(0);
+    setStartDate("");
+    setEndDate("");
+    setProgress("");
+    setRewatches("");
+    setNotes("");
+  };
+  // Set stars rating when page is reloaded or changed
+  if (rate >= 0) {
+    for (let index = 0; index < 6; index++) {
+      if (rate === index) {
+        stars_array.push(
+          <input
+            type="radio"
+            name="rating-2"
+            className={
+              index !== 0 ? "mask mask-star-2 bg-orange-400 " : "rating-hidden"
+            }
+            value={index}
+            onClick={handleClick}
+            defaultChecked
+          />
+        );
+      } else {
+        stars_array.push(
+          <input
+            type="radio"
+            name="rating-2"
+            className={
+              index !== 0 ? "mask mask-star-2 bg-orange-400 " : "rating-hidden"
+            }
+            value={index}
+            onClick={handleClick}
+          />
+        );
+      }
+    }
+  }
   return (
     <label htmlFor="my-modal-4" className="modal bg-opacity-80 cursor-pointer">
       <label
@@ -215,44 +257,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
                 >
                   Score
                 </label>
-                <div className="flex rating">
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                    value={1}
-                    onClick={handleClick}
-                    defaultChecked
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                    onClick={handleClick}
-                    value={2}
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                    onClick={handleClick}
-                    value={3}
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                    onClick={handleClick}
-                    value={4}
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                    onClick={handleClick}
-                    value={5}
-                  />
-                </div>
+                <div className="flex rating">{stars_array}</div>
               </div>
               <div className="w-full md:w-1/5 px-1 mb-6 md:mb-0">
                 <label
@@ -266,6 +271,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
                   type="number"
                   min={0}
                   max={media.episodes}
+                  value={status === "COMPLETE" ? media.episodes : progress}
                   onChange={handleEpisodeChange}
                 />
               </div>
@@ -310,6 +316,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
                   className="appearance-none block w-full text-slate-400 rounded-md bg-neutral py-2 px-4 mb-3 leading-tight "
                   type="number"
                   min={0}
+                  value={rewatches === 0 ? "" : rewatches}
                   onChange={handleRewatchesChange}
                 />
               </div>
@@ -326,6 +333,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
                 <textarea
                   className="textarea textarea-bordered  w-full "
                   placeholder="Write a note"
+                  value={notes}
                   onChange={handleNotesChange}
                 ></textarea>
               </div>

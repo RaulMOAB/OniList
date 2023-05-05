@@ -64,8 +64,7 @@ function MediaHeader() {
       .then((res) => {
         setMedia(res);
         getMediaSubscribed(user_id, id).then((res) => {
-          isSubsribed(res);
-          console.log(res);
+          isSubsribed(res);          
           if (res[0]) {
             setStatus(res[0].status);
             setFavorite(res[0].favorite);
@@ -140,14 +139,17 @@ function MediaHeader() {
     // console.log(isUserAuthenticated())
     const endpoint = "media/favorite";
     const method = "POST";
-    fetchData(endpoint, method, body).then((res) => {
-      //console.log(res);
-      // if (res === 1) {
-      //   setFavorite(1);
-      //   console.log(favorite);
-      // }
-      // console.log(favorite);
-    });
+    if (isUserAuthenticated()) {
+      fetchData(endpoint, method, body).then((res) => {
+        //console.log(res);
+      });
+    }
+    //console.log(res);
+    // if (res === 1) {
+    //   setFavorite(1);
+    //   console.log(favorite);
+    // }
+    // console.log(favorite);
   };
 
   const toggleDropdown = () => {
@@ -198,8 +200,7 @@ function MediaHeader() {
                     onClick={(event) => {
                       if (isUserAuthenticated()) {
                         setShowError(false);
-                        resetAlert();
-                        // updateStatus("PLAN TO WATCH");
+                        resetAlert();                        
                       } else {
                         setMessage("Unauthorized.");
                         setShowError(true);
