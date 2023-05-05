@@ -32,11 +32,9 @@ export default function Home() {
 	let recent_changes_library = library.sort(function (a, b) {
 		return new Date(b.status[0].updated_at) - new Date(a.status[0].updated_at);
 	});
-	console.log(recent_changes_library)
 	recent_changes_library.forEach((media_info, index) => {
 		let media_status = media_info.status[0];
 		if (index === 1) {
-			console.log(media_info);
 		}
 		userActivity.push(
 			<UserActivity

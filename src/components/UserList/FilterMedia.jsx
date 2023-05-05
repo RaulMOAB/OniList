@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import { IoAt } from "react-icons/io5";
 import { AiOutlineSearch } from "react-icons/ai";
-import { format } from "path";
 import { useState } from "react";
 
 export default function FilterMedia({ type, medias, setFilteredMedia }) {
@@ -13,7 +11,6 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 	const [filteredMedia, setMedias] = useState(medias);
 
 	const updateList = (list) => {
-		console.log(list)
 		if (list === "all") {
 			setFilteredMedia(filteredMedia);
 			setStatus("");
@@ -40,7 +37,6 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 	let list_buttons = []
 
 	for (const key in item_list_counter) {
-		console.log(key);
 		list_buttons.push(
 			<button
 				value={key}
@@ -54,7 +50,6 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 
 
 
-	console.log(user_lists);
 
 	const status_array = [
 		"Finished",
@@ -66,7 +61,7 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 	status_array.forEach((item) => {
 		status_options.push(<option value={item} >{item}</option>);
 	});
-	const formats = ["TV", "TV Short", "Movie", "Special", "OVA", "ONA", "Music"];
+	const formats = type === "ANIME" ? ["TV", "TV Short", "Movie", "Special", "OVA", "ONA", "Music"] : ["Manga", "Light Novel", "One Shot"];
 	const formats_options = [];
 	formats.forEach((media_format) => {
 		formats_options.push(<option value={media_format}>{media_format}</option>);

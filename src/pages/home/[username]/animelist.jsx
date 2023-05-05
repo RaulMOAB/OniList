@@ -3,7 +3,6 @@ import Container from '@/components/Common/PageContainer/Container';
 import { useState, useEffect, useContext } from 'react';
 import FilterMedia from '@/components/UserList/FilterMedia';
 import MediaList from '@/components/UserList/MediaList';
-import FavoritesCards from "@/components/Card/FavoritesCards";
 import {AuthContext} from '@/contexts/AuthContext'
 import MediaEditor from "@/components/Modals/MediaEditor";
 
@@ -26,7 +25,6 @@ export default function AnimeList() {
 			if (response.status === 200) {
 				//TODO poner alert
 			}
-			console.log(response);
 		};
 	
 	
@@ -65,7 +63,6 @@ export default function AnimeList() {
 	const planning_list = filteredAnime.filter((media) => {
 		return media.status[0].status === "PLAN TO WATCH";
 	});
-	console.log(completed_list)
 	
 
 
