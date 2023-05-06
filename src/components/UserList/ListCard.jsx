@@ -8,8 +8,6 @@ import {AiFillHeart} from 'react-icons/ai'
 import { AuthContext } from "@/contexts/AuthContext";
 
 export default function ListCards({ media ,setStatus, setSelectedMedia}) {
-	
-
 	const handleClick = ()=>{
 		setStatus(media.status[0].status)
 		setSelectedMedia(media.media)
@@ -19,6 +17,8 @@ export default function ListCards({ media ,setStatus, setSelectedMedia}) {
 		"/" + media.media.type.toLowerCase() + "/" + media.media.media_id;
 	const image = media.media.extra_large_cover_image;
 	const title = media.media.title;
+	const episodes = media.media.episodes;
+
 	return (
 		<div className='relative h-full'>
 			<Link href={link}>
@@ -47,6 +47,7 @@ export default function ListCards({ media ,setStatus, setSelectedMedia}) {
 				<div className='absolute bottom-0 h-1/3 w-full bg-base-100'>
 					<Link href={link}>
 						<p className='hover:text-blue-500 hover:opacity-100 p-1'>{title}</p>
+						<p className='hover:text-blue-500 hover:opacity-100 p-1'>{`${media.status[0].progress}/${episodes}`}</p>
 					</Link>
 				</div>
 			</div>
