@@ -77,7 +77,7 @@ function MediaHeader() {
   }, [id]);
 
   useEffect(() => {
-    console.log(favorite); //*valor actual
+    //console.log(favorite); //*valor actual
     setFavoriteToMedia(favorite);
   }, [favorite]);
 

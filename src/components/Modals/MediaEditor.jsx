@@ -22,7 +22,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
   useEffect(() => {
     const endpoint = `status/${user.id}/${media.id}`;
     fetchData(endpoint).then((res) => {
-      console.log(res);
+      //console.log(res);
       if (res[0]) {
         setMediaState(res);
         setRating(res[0].rate);
@@ -52,9 +52,9 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
       notes,
     });
 
-    console.log(body);
-    console.log(startDate);
-    console.log(endDate);
+    // console.log(body);
+    // console.log(startDate);
+    // console.log(endDate);
     const endpoint = "media/data";
     const method = "POST";
     fetchData(endpoint, method, body).then((res) => {
@@ -64,10 +64,9 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
   };
 
   const deleteMedia = async (media_id) => {
-    console.log(media_id);
     const endpoint = "media/delete/" + media_id;
-    console.log(endpoint);
     const method = "DELETE";
+
     fetchData(endpoint, method).then((res) => {
       console.log(res);
     });
@@ -82,7 +81,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
     "DROPPED",
   ];
   const handleClick = (rating) => {
-    console.log(Number(rating.target.value));
+    //console.log(Number(rating.target.value));
     return setRating(Number(rating.target.value));
   };
 
@@ -91,8 +90,8 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
     updateStatus(value.target.value);
     if (value.target.value === "WATCHING") {
       setStartDate(getCurrentDate);
-      console.log(startDate);
-    }else{
+      //console.log(startDate);
+    } else {
       setEndDate("");
     }
 
@@ -103,13 +102,13 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
     if (value.target.value === "PLAN TO WATCH") {
       resetForm();
     }
-    console.log(startDate);
+    //console.log(startDate);
   };
 
   const getCurrentDate = () => {
     let date = moment();
     const currentDate = date.format("YYYY-MM-DD");
-    console.log(currentDate);
+    //console.log(currentDate);
     return currentDate;
   };
 
@@ -121,7 +120,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
 
   const handleStartDateSelected = (date) => {
     setStartDate(date.target.value);
-    console.log(startDate);
+    //console.log(startDate);
   };
 
   const handleEndDateSelected = (date) => {
@@ -129,17 +128,17 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
   };
 
   const handleEpisodeChange = (episode) => {
-    console.log(setProgress(Number(episode.target.value)));
+    //console.log(setProgress(Number(episode.target.value)));
     return setProgress(Number(episode.target.value));
   };
 
   const handleRewatchesChange = (rewatches) => {
-    console.log(rewatches.target.value);
+    //console.log(rewatches.target.value);
     return setRewatches(Number(rewatches.target.value));
   };
 
   const handleNotesChange = (notes) => {
-    console.log(notes.target.value);
+    //console.log(notes.target.value);
     return setNotes(notes.target.value);
   };
 
@@ -172,6 +171,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
             className={
               index !== 0 ? "mask mask-star-2 bg-orange-400 " : "rating-hidden"
             }
+            key={index}
             value={index}
             onClick={handleClick}
             defaultChecked
@@ -185,6 +185,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
             className={
               index !== 0 ? "mask mask-star-2 bg-orange-400 " : "rating-hidden"
             }
+            key={index}
             value={index}
             onClick={handleClick}
           />
