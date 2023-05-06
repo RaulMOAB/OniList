@@ -1,23 +1,103 @@
 import React from 'react'
 import { useState, useContext, useEffect } from 'react'
 import { AuthContext } from "@/contexts/AuthContext";
-
+import FavoriteMediaCard from '@/components/UserList/FavoriteMediaCard';
+import ConfirmModal from "@/components/Modals/ConfirmModal";
 export default function Favorites() {
   const {user, fetchData} = useContext(AuthContext)
   const [favoritesMedias, setFavoritesMedias] = useState([]);
+	const [selectedMedia, setSelectedMedia] = useState({})
+  const [noData, setNoData] = useState(false);
 
   	useEffect(() => {
 			if (user.username) {
 				let endpoint = `library/${user.username}/favorites`;
 				let method = "GET";
 				fetchData(endpoint, method).then((res_favorites) => {
-					setFavoritesMedias(res_favorites);
+					if(res_favorites.length !== 0){
+						setNoData(false)
+						setFavoritesMedias(res_favorites ?? []);
+					}else{
+						setNoData(true);
+					}
 				});
 			}
-		}, [user, fetchData,]);
+		}, [user, fetchData, selectedMedia]);
+		
+		const updateFavoriteStatus = ()=>{
+			let endpoint = "media/favorite"
+			let method = "POST"
+			const favorite = 0;
+			console.log(selectedMedia)
+			
+			let body = JSON.stringify({
+				user_id: user.id,
+				media_id:selectedMedia.media_id,
+				favorite
+			})
 
-    console.log(favoritesMedias)
+			fetchData(endpoint, method, body).then((res)=>{
+				console.log(res)
+			});
+			setSelectedMedia({})
+		}
+
+		let favoritesAnimes = [];
+		let favoritesMangas = [];
+
+		favoritesMedias.forEach((media, index)=>{
+			if (media.status.length !== 0 && media.status[0].favorite === 1) {
+				if (media.media.type === "ANIME") {
+					favoritesAnimes.push(
+						<FavoriteMediaCard
+						key={index}
+							media={media}
+							setSelectedMedia={setSelectedMedia}
+						/>
+					);
+				} else {
+					favoritesMangas.push(
+						<FavoriteMediaCard
+						key={index}
+							media={media}
+							setSelectedMedia={setSelectedMedia}
+						/>
+					);
+				}
+			}
+		})
+
+
   return (
-    <div>favorites</div>
-  )
+		<>
+		{!noData ? ( 
+			<div className='grid grid-cols-12 my-5 py-5 rounded-md bg-base-100'>
+				<div className='col-span-12 p-8 mb-4 '>
+					<span className='text-accent'>Anime</span>
+					<div className='grid grid-cols-3 lg:grid-cols-10 md:grid-cols-6 sm:grid-cols-4 gap-5 mt-3 p-5 rounded-md bg-base-300'>
+						{favoritesAnimes}
+					</div>
+				</div>
+				<div className='col-span-12 p-8 mb-4 '>
+					<span className='text-accent'>Manga</span>
+					<div className='grid grid-cols-3 lg:grid-cols-10 md:grid-cols-6 sm:grid-cols-4 gap-5 mt-3 p-5 rounded-md bg-base-300'>
+						{favoritesMangas}
+					</div>
+				</div>
+				<ConfirmModal
+					id={"confirm-delete-favorite"}
+					header={"Delete from favorites"}
+					message={"Are you sure you want to delete this media from favorites?"}
+					confirm_button_text='Yes, delete'
+					action={updateFavoriteStatus}
+				/>
+			</div>
+		):(
+				<div className='h-screen text-accent text-center text-2xl pt-20'>
+					<p>(╯°□°）╯︵ ┻━┻ </p>
+					<i className='text-sm'>Nothing to see here</i>
+				</div>
+		)}
+	</>
+	);
 }

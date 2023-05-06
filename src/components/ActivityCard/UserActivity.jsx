@@ -9,14 +9,15 @@ export default function UserActivity({media, status}) {
 	const [startedAt, setStartedAt] = useState("");
 
   let url ='/'+media.type.toLowerCase()+'/'+media.media_id
-  let media_status = status[0];
 
-	useEffect(() => { //Arregla el hidratation
-		setTimeLetf(timeLeftSince(status[0].updated_at));
-			if (media_status.start_date) {
-				setStartedAt(formatDate(media_status.start_date));
-			}
-	}, [status, media_status]);
+
+	useEffect(() => {
+		console.log(status.updated_at)
+		setTimeLetf(timeLeftSince(status.updated_at));
+		if (media.start_date) {
+			setStartedAt(formatDate(status.start_date));
+		}
+	}, [status, status, media]);
 
 
 
@@ -33,7 +34,7 @@ export default function UserActivity({media, status}) {
 			</div>
 			<div className='flex w-1/2 items-center'>
 				<p className='pl-5 inline-block'>
-					{media_status.status + " "}
+					{status.status + " "}
 					<Link href={url}>
 						<span className='text-primary'>{media.title}</span>
 					</Link>

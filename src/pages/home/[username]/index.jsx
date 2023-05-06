@@ -34,13 +34,11 @@ export default function Home() {
 	});
 	recent_changes_library.forEach((media_info, index) => {
 		let media_status = media_info.status[0];
-		if (index === 1) {
-		}
 		userActivity.push(
 			<UserActivity
 				key={index}
 				media={media_info.media}
-				status={media_info.status}
+				status={media_status}
 			/>
 		);
 		if (media_info.media.type === "ANIME" && media_status.favorite === 1) {

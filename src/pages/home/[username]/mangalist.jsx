@@ -12,6 +12,7 @@ export default function MangaList() {
 	const [filteredManga, setFilteredManga] = useState(mangalistStatus ?? []); //TODO
 	const [status, setStatus] = useState("");
 	const [selectedMedia, setSelectedMedia] = useState({});
+	const [noData, setNoData] = useState(false);
 
 	const updateStatus = async (status) => {
 		setStatus(status); // cambia el texto del boton
@@ -32,8 +33,13 @@ export default function MangaList() {
 			let endpoint = `library/${user.username}/mangalist`;
 			let method = "GET";
 			fetchData(endpoint, method).then((res_mangalist) => {
-				setMangaListStatus(res_mangalist);
-				setFilteredManga(res_mangalist);
+				if (res_mangalist.length !== 0) {
+					setNoData(false);
+					setFilteredManga(res_mangalist ?? []);
+					setMangaListStatus(res_mangalist);
+				} else {
+					setNoData(true);
+				}
 			});
 		}
 	}, [user, fetchData, status, selectedMedia]);
@@ -59,67 +65,74 @@ export default function MangaList() {
 
 	return (
 		<>
-			<Container>
-				<div className='grid lg:grid-cols-6 gap-4 py-6'>
-					<div className=' bg-neutral col-span-5 lg:col-span-1 h-fit md:sticky md:top-5 rounded-md'>
-						<FilterMedia
-							type='MANGA'
-							medias={mangalistStatus}
-							setFilteredMedia={setFilteredManga}
-						/>
+			{!noData ? (
+				<Container>
+					<div className='grid lg:grid-cols-6 gap-4 py-6'>
+						<div className=' bg-neutral col-span-5 lg:col-span-1 h-fit lg:sticky lg:top-5 rounded-md'>
+							<FilterMedia
+								type='MANGA'
+								medias={mangalistStatus}
+								setFilteredMedia={setFilteredManga}
+							/>
+						</div>
+						<div className=' col-span-5 w-full gap-2 bg-neutral p-5 rounded-md'>
+							<MediaList
+								list={"Reading"}
+								medias={watching_list}
+								setStatus={setStatus}
+								setSelectedMedia={setSelectedMedia}
+							/>
+							<MediaList
+								list={"Plan to read"}
+								medias={planning_list}
+								setStatus={setStatus}
+								setSelectedMedia={setSelectedMedia}
+							/>
+							<MediaList
+								list={"Completed"}
+								medias={completed_list}
+								setStatus={setStatus}
+								setSelectedMedia={setSelectedMedia}
+							/>
+							<MediaList
+								list={"Rereading"}
+								medias={rewatching_list}
+								setStatus={setStatus}
+								setSelectedMedia={setSelectedMedia}
+							/>
+							<MediaList
+								list={"Paused"}
+								medias={paused_list}
+								setStatus={setStatus}
+								setSelectedMedia={setSelectedMedia}
+							/>
+							<MediaList
+								list={"Dropped"}
+								medias={dropped_list}
+								setStatus={setStatus}
+								setSelectedMedia={setSelectedMedia}
+							/>
+						</div>
 					</div>
-					<div className=' col-span-5 w-full gap-2 bg-neutral p-5 rounded-md'>
-						<MediaList
-							list={"Watching"}
-							medias={watching_list}
-							setStatus={setStatus}
-							setSelectedMedia={setSelectedMedia}
-						/>
-						<MediaList
-							list={"Plan to watch"}
-							medias={planning_list}
-							setStatus={setStatus}
-							setSelectedMedia={setSelectedMedia}
-						/>
-						<MediaList
-							list={"Completed"}
-							medias={completed_list}
-							setStatus={setStatus}
-							setSelectedMedia={setSelectedMedia}
-						/>
-						<MediaList
-							list={"Rewatching"}
-							medias={rewatching_list}
-							setStatus={setStatus}
-							setSelectedMedia={setSelectedMedia}
-						/>
-						<MediaList
-							list={"Paused"}
-							medias={paused_list}
-							setStatus={setStatus}
-							setSelectedMedia={setSelectedMedia}
-						/>
-						<MediaList
-							list={"Dropped"}
-							medias={dropped_list}
-							setStatus={setStatus}
-							setSelectedMedia={setSelectedMedia}
-						/>
-					</div>
+					{/* MODAL */}
+					<input
+						type='checkbox'
+						id='my-modal-4'
+						className='modal-toggle'
+					/>
+					<MediaEditor
+						user={user.id}
+						media={selectedMedia}
+						actualStatus={status}
+						updateStatus={updateStatus}
+					/>
+				</Container>
+			) : (
+				<div className='h-screen text-accent text-center text-2xl pt-20'>
+					<p>(╯°□°）╯︵ ┻━┻ </p>
+					<i className='text-sm'>Nothing to see here</i>
 				</div>
-				{/* MODAL */}
-				<input
-					type='checkbox'
-					id='my-modal-4'
-					className='modal-toggle'
-				/>
-				<MediaEditor
-					user={user.id}
-					media={selectedMedia}
-					actualStatus={status}
-					updateStatus={updateStatus}
-				/>
-			</Container>
+			)}
 		</>
 	);
 }

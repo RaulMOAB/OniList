@@ -36,13 +36,19 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 
 	let list_buttons = []
 
-	for (const key in item_list_counter) {
+	for (let key in item_list_counter) {
+		let manga_key = "READING";
+		if(type === "MANGA"){
+			manga_key = key === "WATCHING" ? "READING" : key;
+			manga_key = key === "REWATCHING" ? "REREADING" : key;
+			manga_key = key === "PLAN TO WATCH" ? "PLAN TO READ" : key;
+		}
 		list_buttons.push(
 			<button
 				value={key}
 				onClick={()=>{updateList(key)}}
 				className='bg-base-300 w-full text-left px-2 rounded-md text-sm py-1 mb-1 flex justify-between hover:opacity-70'>
-				<span className='mr-2'>{key}</span>
+				<span className='mr-2'>{type === "MANGA" ? manga_key : key}</span>
 				<span className='text-right'>{item_list_counter[key]}</span>
 			</button>
 		);
