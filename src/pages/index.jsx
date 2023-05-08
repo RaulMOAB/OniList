@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { MediaContext } from "@/contexts/MediaContext";
 import { useContext, useState, useEffect} from "react";
 import { GrPowerReset } from "react-icons/gr";
 import ListPreview from "../components/Card/ListPreview";
@@ -14,7 +13,6 @@ import Format from "./../components/Filters/Format";
 import AiringStatus from "./../components/Filters/AiringStatus";
 import MediaCard from "./../components/Card/MediaCard";
 import Loader from "./../components/Skeleton/Loader";
-import FadeInOut from "./../animations/FadeInOut";
 
 //Get medias
 const getTrendingAnime = async () => {
@@ -33,8 +31,9 @@ const getUpcomingAnime = async () => {
 };
 
 //API Petition
-const filteredMedia = async (search, genres, season_year, season, format, airing_status) => {
+const filteredMediaAnime = async (search, genres, season_year, season, format, airing_status, type = 'ANIME') => {
   const body = JSON.stringify({
+    type,
     search,
     genres,
     season_year,
@@ -173,7 +172,7 @@ export default function Home() {
   function handleClick() {
     console.log(search + "  " + genres + "  " + season_year + " " + season + " " + format + " " + airing_status);
 
-    filteredMedia(search, genres, season_year, season, format, airing_status)
+    filteredMediaAnime(search, genres, season_year, season, format, airing_status)
       .then((res) => {
         if (res.status === "success" && res.media_length > 0) {
           setMediaComponents([]);
@@ -207,30 +206,30 @@ export default function Home() {
   };
 
   // Get media data
-  // let data = useContext(MediaContext);
-  // let media_data = [];
+  let data = upcomingAnime;
+  let media_data = [];
 
-  // data.map((item, i) => {
-  //   if (i < 6) {
-  //     media_data.push(item);
-  //   }
-  //   return media_data;
-  // });
+  data.map((item, i) => {
+    if (i < 6) {
+      media_data.push(item);
+    }
+    return media_data;
+  });
 
-  // if (data.length === 0) {
-  //   return (
-  //     <>
-  //       <LoadingCloud />
-  //     </>
-  //   );
-  // }
+  if (data.length === 0) {
+    return (
+      <>
+        <LoadingCloud />
+      </>
+    );
+  }
   return (
     <>
       <Head>
         <title>OniList</title>
       </Head>
       <header>
-        {/* <Hero media={media_data} /> */}
+        <Hero media={media_data} />
       </header>
       <Container>
         <main className="pb-10 2xl:px-28 xl:px-16  lg:px-2 sm:px-4 px-4">
@@ -262,17 +261,10 @@ export default function Home() {
                 <ListPreview title="Popular this season" data={popularAnime} />
             
                 <ListPreview title="Upcoming next season" data={upcomingAnime} />
+
+                <ListPreview title="All time popular" data={popularAnime} />
                 
               </div>
-
-              
-
-
-              
-
-              
-
-              
 
             ) : ( 
               
@@ -305,8 +297,6 @@ export default function Home() {
                       }
                     </div>
                   )
-
-                  
                 )            
             )}
             

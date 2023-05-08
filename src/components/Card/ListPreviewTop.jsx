@@ -5,12 +5,12 @@ import { useContext } from "react";
 import LoadingCloud from "@/components/Loading/LoadingCloud";
 import Media_Tooltip from "./Media_Tooltip";
 
-function ListPreview({ title, data }) {
+function ListPreviewTop({ title, data }) {
   //let data = useContext(MediaContext);
   let media_data = [];
 
   data.map((item, i) => {
-    if (i < 6) {
+    if (i < 100) {
       media_data.push(item);
     }
     return media_data;
@@ -47,4 +47,4 @@ function ListPreview({ title, data }) {
 	);
 }
 
-export default ListPreview;
+export default ListPreviewTop;
