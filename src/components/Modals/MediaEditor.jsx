@@ -81,25 +81,25 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
     "DROPPED",
   ];
   const handleClick = (rating) => {
-    //console.log(Number(rating.target.value));
-    return setRating(Number(rating.target.value));
+    //console.log(Number(rating.target.defaultValue));
+    return setRating(Number(rating.target.defaultValue));
   };
 
-  const getOptionValue = (value) => {
-    setStatus(value.target.value);
-    updateStatus(value.target.value);
-    if (value.target.value === "WATCHING") {
+  const getOptionValue = (defaultValue) => {
+    setStatus(defaultValue.target.defaultValue);
+    updateStatus(defaultValue.target.defaultValue);
+    if (defaultValue.target.defaultValue === "WATCHING") {
       setStartDate(getCurrentDate);
       //console.log(startDate);
     } else {
       setEndDate("");
     }
 
-    if (value.target.value === "COMPLETED") {
+    if (defaultValue.target.defaultValue === "COMPLETED") {
       setEndDate(getCurrentDate);
     }
 
-    if (value.target.value === "PLAN TO WATCH") {
+    if (defaultValue.target.defaultValue === "PLAN TO WATCH") {
       resetForm();
     }
     //console.log(startDate);
@@ -119,27 +119,27 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
   // };
 
   const handleStartDateSelected = (date) => {
-    setStartDate(date.target.value);
+    setStartDate(date.target.defaultValue);
     //console.log(startDate);
   };
 
   const handleEndDateSelected = (date) => {
-    setEndDate(date.target.value);
+    setEndDate(date.target.defaultValue);
   };
 
   const handleEpisodeChange = (episode) => {
-    //console.log(setProgress(Number(episode.target.value)));
-    return setProgress(Number(episode.target.value));
+    //console.log(setProgress(Number(episode.target.defaultValue)));
+    return setProgress(Number(episode.target.defaultValue));
   };
 
   const handleRewatchesChange = (rewatches) => {
-    //console.log(rewatches.target.value);
-    return setRewatches(Number(rewatches.target.value));
+    //console.log(rewatches.target.defaultValue);
+    return setRewatches(Number(rewatches.target.defaultValue));
   };
 
   const handleNotesChange = (notes) => {
-    //console.log(notes.target.value);
-    return setNotes(notes.target.value);
+    //console.log(notes.target.defaultValue);
+    return setNotes(notes.target.defaultValue);
   };
 
   const handleSubmit = (event) => {
@@ -172,7 +172,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
               index !== 0 ? "mask mask-star-2 bg-orange-400 " : "rating-hidden"
             }
             key={index}
-            value={index}
+            defaultValue={index}
             onClick={handleClick}
             defaultChecked
           />
@@ -186,7 +186,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
               index !== 0 ? "mask mask-star-2 bg-orange-400 " : "rating-hidden"
             }
             key={index}
-            value={index}
+            defaultValue={index}
             onClick={handleClick}
           />
         );
@@ -241,11 +241,11 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
                 </label>
                 <select
                   className="select select-sm w-full max-w-xs font-normal text-xs  rounded-md bg-neutral text-slate-400"
-                  value={actualStatus}
+                  defaultValue={actualStatus}
                 >
-                  <option value="">Status</option>
+                  <option defaultValue="">Status</option>
                   {mediaStatus.map((item, i) => (
-                    <option key={i} value={item} onClick={getOptionValue}>
+                    <option key={i} defaultValue={item} onClick={getOptionValue}>
                       {item}
                     </option>
                   ))}
@@ -272,7 +272,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
                   type="number"
                   min={0}
                   max={media.episodes}
-                  value={status === "COMPLETE" ? media.episodes : progress}
+                  defaultValue={status === "COMPLETE" ? media.episodes : progress}
                   onChange={handleEpisodeChange}
                 />
               </div>
@@ -287,7 +287,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
                 </label>
                 <input
                   className="appearance-none block w-full text-slate-400 rounded-md bg-neutral py-2 px-4 mb-3 leading-tight text-xs"
-                  value={startDate}
+                  defaultValue={startDate}
                   onChange={handleStartDateSelected}
                   type="date"
                 />
@@ -301,7 +301,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
                 </label>
                 <input
                   className="appearance-none block w-full text-gray-400 rounded-md bg-neutral py-2 px-4 mb-3 leading-tight text-xs"
-                  value={endDate}
+                  defaultValue={endDate}
                   onChange={handleEndDateSelected}
                   type="date"
                 />
@@ -317,7 +317,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
                   className="appearance-none block w-full text-slate-400 rounded-md bg-neutral py-2 px-4 mb-3 leading-tight "
                   type="number"
                   min={0}
-                  value={rewatches === 0 ? "" : rewatches}
+                  defaultValue={rewatches === 0 ? "" : rewatches}
                   onChange={handleRewatchesChange}
                 />
               </div>
@@ -334,7 +334,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
                 <textarea
                   className="textarea textarea-bordered  w-full "
                   placeholder="Write a note"
-                  value={notes}
+                  defaultValue={notes}
                   onChange={handleNotesChange}
                 ></textarea>
               </div>

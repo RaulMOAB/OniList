@@ -20,10 +20,10 @@ export default function ListCards({ media ,setStatus, setSelectedMedia}) {
 	const episodes = media.media.episodes;
 
 	return (
-		<div className='relative'>
+		<div className='relative aspect-2/3 rounded-md overflow-hidden'>
 			<Link href={link}>
 				<Image
-					className='rounded-md'
+					className=' object-cover w-full h-full max-w-full'
 					alt='cover image'
 					src={image}
 					width={10000}
@@ -44,7 +44,7 @@ export default function ListCards({ media ,setStatus, setSelectedMedia}) {
 						<RiEdit2Fill className='h-8 w-8 p-2 text-white bg-primary-content hover:bg-primary border-none rounded-md cursor-pointer ' />
 					</label>
 				</div>
-				<div className='absolute bottom-0 h-fit w-full p-1 bg-base-100'>
+				<div className='absolute bottom-0 h-fit w-full p-1 bg-base-100 text-sm'>
 					<Link href={link}>
 						<p className='hover:text-blue-500 hover:opacity-100 p-1'>{title}</p>
 						<p className='hover:text-blue-500 hover:opacity-100 p-1'>{`${media.status[0].progress}/${episodes}`}</p>
