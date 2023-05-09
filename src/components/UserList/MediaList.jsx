@@ -6,12 +6,11 @@ export default function MediaList({ list, medias, setStatus, setSelectedMedia })
 		let listCards = [];
 		medias.forEach((media, index) => {
 			listCards.push(
-				<div>
+				<div key={index}>
 					<ListCards
 						media={media}
 						setStatus={setStatus}
 						setSelectedMedia={setSelectedMedia}
-						key={index}
 					/>
 				</div>
 			);
@@ -19,7 +18,7 @@ export default function MediaList({ list, medias, setStatus, setSelectedMedia })
 		return (
 			<div className=''>
 				<p className='text-accent mb-1 text-lg'>{list}</p>
-				<div className='grid grid-cols-2 lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 gap-3 mb-5 w-full'>
+				<div className='grid grid-cols-2 lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 gap-6 mb-5'>
 					{listCards}
 				</div>
 			</div>

@@ -12,7 +12,6 @@ export default function UserActivity({media, status}) {
 
 
 	useEffect(() => {
-		console.log(status.updated_at)
 		setTimeLetf(timeLeftSince(status.updated_at));
 		if (media.start_date) {
 			setStartedAt(formatDate(status.start_date));

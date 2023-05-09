@@ -5,6 +5,7 @@ import FilterMedia from "@/components/UserList/FilterMedia";
 import MediaList from "@/components/UserList/MediaList";
 import { AuthContext } from "@/contexts/AuthContext";
 import MediaEditor from "@/components/Modals/MediaEditor";
+import NoContent from "@/components/Skeleton/NoContent";
 
 export default function MangaList() {
 	const { user, fetchData } = useContext(AuthContext);
@@ -33,7 +34,7 @@ export default function MangaList() {
 			let endpoint = `library/${user.username}/mangalist`;
 			let method = "GET";
 			fetchData(endpoint, method).then((res_mangalist) => {
-				if (res_mangalist.length !== 0) {
+				if (res_mangalist !== undefined) {
 					setNoData(false);
 					setFilteredManga(res_mangalist ?? []);
 					setMangaListStatus(res_mangalist);
@@ -75,43 +76,49 @@ export default function MangaList() {
 								setFilteredMedia={setFilteredManga}
 							/>
 						</div>
-						<div className=' col-span-5 w-full gap-2 bg-neutral p-5 rounded-md'>
-							<MediaList
-								list={"Reading"}
-								medias={watching_list}
-								setStatus={setStatus}
-								setSelectedMedia={setSelectedMedia}
-							/>
-							<MediaList
-								list={"Plan to read"}
-								medias={planning_list}
-								setStatus={setStatus}
-								setSelectedMedia={setSelectedMedia}
-							/>
-							<MediaList
-								list={"Completed"}
-								medias={completed_list}
-								setStatus={setStatus}
-								setSelectedMedia={setSelectedMedia}
-							/>
-							<MediaList
-								list={"Rereading"}
-								medias={rewatching_list}
-								setStatus={setStatus}
-								setSelectedMedia={setSelectedMedia}
-							/>
-							<MediaList
-								list={"Paused"}
-								medias={paused_list}
-								setStatus={setStatus}
-								setSelectedMedia={setSelectedMedia}
-							/>
-							<MediaList
-								list={"Dropped"}
-								medias={dropped_list}
-								setStatus={setStatus}
-								setSelectedMedia={setSelectedMedia}
-							/>
+						<div className=' col-span-5 w-full gap-2 bg-neutral p-5 rounded-md h-fit'>
+							{filteredManga.length !== 0 ? (
+								<>
+									<MediaList
+										list={"Reading"}
+										medias={watching_list}
+										setStatus={setStatus}
+										setSelectedMedia={setSelectedMedia}
+									/>
+									<MediaList
+										list={"Plan to read"}
+										medias={planning_list}
+										setStatus={setStatus}
+										setSelectedMedia={setSelectedMedia}
+									/>
+									<MediaList
+										list={"Completed"}
+										medias={completed_list}
+										setStatus={setStatus}
+										setSelectedMedia={setSelectedMedia}
+									/>
+									<MediaList
+										list={"Rereading"}
+										medias={rewatching_list}
+										setStatus={setStatus}
+										setSelectedMedia={setSelectedMedia}
+									/>
+									<MediaList
+										list={"Paused"}
+										medias={paused_list}
+										setStatus={setStatus}
+										setSelectedMedia={setSelectedMedia}
+									/>
+									<MediaList
+										list={"Dropped"}
+										medias={dropped_list}
+										setStatus={setStatus}
+										setSelectedMedia={setSelectedMedia}
+									/>
+								</>
+							) : (
+								<NoContent message={"Manga not found"} />
+							)}
 						</div>
 					</div>
 					{/* MODAL */}
@@ -128,10 +135,7 @@ export default function MangaList() {
 					/>
 				</Container>
 			) : (
-				<div className='h-screen text-accent text-center text-2xl pt-20'>
-					<p>(╯°□°）╯︵ ┻━┻ </p>
-					<i className='text-sm'>Nothing to see here</i>
-				</div>
+				<NoContent message={"You dont have Manga in your library"} />
 			)}
 		</>
 	);

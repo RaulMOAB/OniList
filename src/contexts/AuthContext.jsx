@@ -56,6 +56,7 @@ export function AuthContextProvider({ children }) {
     isValidToken(false);
     logout();
     router.push("/");
+    return null
   };
 
   const isUserAuthenticated = () => {

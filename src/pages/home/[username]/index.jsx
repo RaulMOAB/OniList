@@ -3,6 +3,7 @@ import FavoritesCards from "@/components/Card/FavoritesCards";
 import UserActivity from "@/components/ActivityCard/UserActivity";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
+import NoContent from "@/components/Skeleton/NoContent";
 
 export default function Home() {
 	const { user, fetchData } = useContext(AuthContext);
@@ -29,43 +30,46 @@ export default function Home() {
 		setVisibleCount(visibleCount + 5);
 	};
 
-	let recent_changes_library = library.sort(function (a, b) {
-		return new Date(b.status[0].updated_at) - new Date(a.status[0].updated_at);
-	});
-	recent_changes_library.forEach((media_info, index) => {
-		let media_status = media_info.status[0];
-		userActivity.push(
-			<UserActivity
-				key={index}
-				media={media_info.media}
-				status={media_status}
-			/>
-		);
-		if (media_info.media.type === "ANIME" && media_status.favorite === 1) {
-			favoriteAnimes.push(
-				<FavoritesCards
+	if(library){
+		
+		let recent_changes_library = library.sort(function (a, b) {
+			return new Date(b.status[0].updated_at) - new Date(a.status[0].updated_at);
+		});
+		recent_changes_library.forEach((media_info, index) => {
+			let media_status = media_info.status[0];
+			userActivity.push(
+				<UserActivity
 					key={index}
-					type={media_info.media.type}
-					media_id={media_info.media.media_id}
-					image={media_info.media.extra_large_cover_image}
-					title={media_info.media.title}
+					media={media_info.media}
+					status={media_status}
 				/>
 			);
-		} else if (
-			media_info.media.type === "MANGA" &&
-			media_status.favorite === 1
-		) {
-			favoriteMangas.push(
-				<FavoritesCards
-					key={index}
-					type={media_info.media.type}
-					media_id={media_info.media.media_id}
-					image={media_info.media.extra_large_cover_image}
-					title={media_info.media.title}
-				/>
-			);
-		}
-	});
+			if (media_info.media.type === "ANIME" && media_status.favorite === 1) {
+				favoriteAnimes.push(
+					<FavoritesCards
+						key={index}
+						type={media_info.media.type}
+						media_id={media_info.media.media_id}
+						image={media_info.media.extra_large_cover_image}
+						title={media_info.media.title}
+					/>
+				);
+			} else if (
+				media_info.media.type === "MANGA" &&
+				media_status.favorite === 1
+			) {
+				favoriteMangas.push(
+					<FavoritesCards
+						key={index}
+						type={media_info.media.type}
+						media_id={media_info.media.media_id}
+						image={media_info.media.extra_large_cover_image}
+						title={media_info.media.title}
+					/>
+				);
+			}
+		});
+	}
 
 	nothingToSee =
 		favoriteAnimes.length === 0 &&
@@ -79,22 +83,30 @@ export default function Home() {
 						<div className='bg-neutral p-5 w-full rounded-md mb-3'>
 							<p>{description}</p>
 						</div>
-						{favoriteAnimes.length !== 0 ? (
-							<div className='mb-3'>
-								<p className='font-semibold mb-2'>Favorites Animes</p>
+						<div className='mb-3'>
+							<p className='font-semibold mb-2'>Favorites Animes</p>
+							{favoriteAnimes.length !== 0 ? (
 								<div className='bg-neutral rounded-md p-5 grid grid-cols-4 md:grid-cols-5 gap-2'>
 									{favoriteAnimes.reverse()}
 								</div>
-							</div>
-						) : null}
-						{favoriteMangas.length !== 0 ? (
-							<div className='mb-3'>
-								<p className='font-semibold mb-2'>Favorites Mangas</p>
-								<div className='bg-neutral rounded-md p-5 grid grid-cols-4 md:grid-cols-5 gap-2'>
-									{favoriteMangas.reverse()}
+							) : (
+								<div className='bg-neutral rounded-md h-40 col-span-full'>
+									<NoContent message="You don't have favorites animes" />
 								</div>
-							</div>
-						) : null}
+							)}
+						</div>
+						<div className='mb-3'>
+							<p className='font-semibold mb-2'>Favorites Mangas</p>
+								{favoriteMangas.length !== 0 ? (
+									<div className='bg-neutral rounded-md p-5 grid grid-cols-4 md:grid-cols-5 gap-2'>
+										{favoriteMangas.reverse()}
+									</div>
+								) : (
+									<div className='bg-neutral rounded-md h-40 col-span-full'>
+										<NoContent message="You don't have favorites mangas" />
+									</div>
+								)}
+						</div>
 					</div>
 					{userActivity.length !== 0 ? (
 						<>
@@ -110,13 +122,14 @@ export default function Home() {
 								) : null}
 							</div>
 						</>
-					) : null}
+					) : (
+						<div className='bg-neutral rounded-md h-fit'>
+							<NoContent message="You don't have recent activities" />
+						</div>
+					)}
 				</div>
 			) : (
-				<div className='h-screen text-accent text-center text-2xl pt-20'>
-					<p>(╯°□°）╯︵ ┻━┻ </p>
-					<i className='text-sm'>Nothing to see</i>
-				</div>
+				<NoContent message="Error" />
 			)}
 		</>
 	);
