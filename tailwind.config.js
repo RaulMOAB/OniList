@@ -9,6 +9,9 @@ module.exports = {
 			fontFamily: {
 				sans: ["Roboto", "sans-serif"],
 			},
+			aspectRatio: {
+				"2/3": "2 / 3",
+			},
 		},
 	},
 	// add daisyUI plugin
