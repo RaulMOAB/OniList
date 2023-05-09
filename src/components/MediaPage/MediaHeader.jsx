@@ -60,20 +60,22 @@ function MediaHeader() {
 
   useEffect(() => {
     // setFavorite(favorite)
-    getMedia(id)
-      .then((res) => {
-        setMedia(res);
-        getMediaSubscribed(user_id, id).then((res) => {
-          isSubsribed(res);          
-          if (res[0]) {
-            setStatus(res[0].status);
-            setFavorite(res[0].favorite);
-          }
+    if (id) {
+      getMedia(id)
+        .then((res) => {
+          setMedia(res);
+          getMediaSubscribed(user_id, id).then((res) => {
+            isSubsribed(res);
+            if (res[0]) {
+              setStatus(res[0].status);
+              setFavorite(res[0].favorite);
+            }
+          });
+        })
+        .catch((e) => {
+          console.log(e);
         });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    }
   }, [id]);
 
   useEffect(() => {
@@ -200,7 +202,7 @@ function MediaHeader() {
                     onClick={(event) => {
                       if (isUserAuthenticated()) {
                         setShowError(false);
-                        resetAlert();                        
+                        resetAlert();
                       } else {
                         setMessage("Unauthorized.");
                         setShowError(true);
