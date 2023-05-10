@@ -44,7 +44,7 @@ export default function MediaCard({ media, index }) {
 							media.extra_large_cover_image ||
 							media.large_cover_image
 						}
-						className='rounded-md object-cover object-center w-full h-full'
+						className='rounded-md aspect-2/3' //aspect-2/3
 						alt='media image'
 					/>
 					<div className='absolute inset-x-0 bottom-0 h-16 rounded-b-md text-white backdrop-blur-md'>

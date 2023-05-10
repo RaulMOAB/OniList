@@ -89,24 +89,24 @@ export default function Navbar() {
                           <div
                             className={"lg:text-xs mt-2 px-6 " + styles.links}
                           >
-                            <a
+                            <Link
                               className="text-accent hover:text-accent-focus "
-                              href=""
+                              href={"/search/anime/top-100"}
                             >
                               Top 100
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                               className="text-accent hover:text-accent-focus "
-                              href=""
+                              href={"/search/anime/trending"}
                             >
                               Trending
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                               className="text-accent hover:text-accent-focus "
-                              href=""
+                              href={"/search/anime/trending"}
                             >
                               Top Movies
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -131,24 +131,24 @@ export default function Navbar() {
                           <div
                             className={"lg:text-xs mt-2 px-6 " + styles.links}
                           >
-                            <a
+                            <Link
                               className=" text-accent hover:text-accent-focus "
-                              href=""
+                              href={"/search/manga/top-100"}
                             >
                               Top 100
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                               className=" text-accent hover:text-accent-focus "
-                              href=""
+                              href={"/search/manga/trending"}
                             >
                               Trending
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                               className=" text-accent hover:text-accent-focus "
-                              href=""
+                              href={"/search/manga/top-manhwa"}
                             >
                               Top Novels
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -196,24 +196,24 @@ export default function Navbar() {
                           <div
                             className={"lg:text-xs mt-2 px-6 " + styles.links}
                           >
-                            <a
+                            <Link
                               className="text-accent hover:text-accent-focus "
-                              href=""
+                              href={"/search/anime/top-100"}
                             >
                               Top 100
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                               className="text-accent hover:text-accent-focus "
-                              href=""
+                              href={"/search/anime/trending"}
                             >
                               Trending
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                               className="text-accent hover:text-accent-focus "
-                              href=""
+                              href={"/search/anime/top-movies"}
                             >
                               Top Movies
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -238,24 +238,24 @@ export default function Navbar() {
                           <div
                             className={"lg:text-xs mt-2 px-6 " + styles.links}
                           >
-                            <a
+                            <Link
                               className=" text-accent hover:text-accent-focus "
-                              href=""
+                              href={"/search/manga/top-100"}
                             >
                               Top 100
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                               className=" text-accent hover:text-accent-focus "
-                              href=""
+                              href={"/search/manga/trending"}
                             >
                               Trending
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                               className=" text-accent hover:text-accent-focus "
-                              href=""
+                              href={"/search/manga/top-manhwa"}
                             >
                               Top Novels
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </div>

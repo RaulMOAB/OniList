@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { useContext, useState, useEffect} from "react";
-import { GrPowerReset } from "react-icons/gr";
 import ListPreview from "../components/Card/ListPreview";
 import Hero from "../components/Hero/Hero";
 import LoadingCloud from "@/components/Loading/LoadingCloud";
@@ -13,20 +12,21 @@ import Format from "./../components/Filters/Format";
 import AiringStatus from "./../components/Filters/AiringStatus";
 import MediaCard from "./../components/Card/MediaCard";
 import Loader from "./../components/Skeleton/Loader";
+import ResetButton from "./../components/Buttons/ResetButton";
 
 //Get medias
 const getTrendingAnime = async () => {
-  const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'trending/anime');
+  const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'anime/trending');
   return response.json();
 };
 
 const getPopularAnime = async () => {
-  const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'anime');
+  const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'anime/popular');
   return response.json();
 };
 
 const getUpcomingAnime = async () => {
-  const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'upcoming/anime');
+  const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'anime/upcoming');
   return response.json();
 };
 
@@ -69,7 +69,7 @@ export default function Home() {
   const [trendingAnime, setTrendingAnime] = useState([]);
   const [upcomingAnime, setUpcomingAnime] = useState([]);
 
-
+  // initials animes
   useEffect(() => {
     getTrendingAnime()
       .then((res) => {
@@ -88,7 +88,7 @@ export default function Home() {
     .then((res) => {
       console.log("Popular Animes")
       let medias = res.data.data;
-      console.log(medias)
+      console.log(res.data)
       medias.forEach((media,index) => {
         setPopularAnime(popularAnime => [...popularAnime, media])
       })
@@ -110,20 +110,14 @@ export default function Home() {
   }, []);
 
 
-
-
-
-
-
-
   //useEffect, call function every time dependencies change
   useEffect(() => {
 
-    // setLoading(true);
     handleClick();
 
   },[search, genres, season_year, season, format, airing_status]);
 
+  // skeleton loading time
   useEffect(() => {
 
     setTimeout(() => {
@@ -149,6 +143,14 @@ export default function Home() {
     setSeason(data);
   };
 
+  const handleFormatChange = (data) => {
+    setFormat(data);
+  };
+
+  const handleAiringStatusChange = (data) => {
+    setAiringStatus(data);
+  };
+
   function emptyFields() {
     if(search == "" && genres == "" && season_year == "" &&
       season == "" && format == "" && airing_status == "") 
@@ -159,6 +161,7 @@ export default function Home() {
     return false;
   }
 
+  //reset filter
   function resetFilter(){
     setSearch("");
     setGenres("");
@@ -169,6 +172,7 @@ export default function Home() {
     handleClick();
   }
 
+  // call filtered medias every time variable change
   function handleClick() {
     console.log(search + "  " + genres + "  " + season_year + " " + season + " " + format + " " + airing_status);
 
@@ -196,15 +200,7 @@ export default function Home() {
       });
     
   }
-
-  const handleFormatChange = (data) => {
-    setFormat(data);
-  };
-
-  const handleAiringStatusChange = (data) => {
-    setAiringStatus(data);
-  };
-
+  
   // Get media data
   let data = upcomingAnime;
   let media_data = [];
@@ -223,6 +219,7 @@ export default function Home() {
       </>
     );
   }
+
   return (
     <>
       <Head>
@@ -243,13 +240,7 @@ export default function Home() {
               <AiringStatus value={airing_status} handle={handleAiringStatusChange}/>
             </div>
             <div className="ml-3 mb-6">
-              <button 
-                className="bg-green-600 hover:bg-green-900 btn-sm rounded-md p-1"
-                onClick={resetFilter}
-              >
-                <GrPowerReset className="text-lg inline-block"/>
-                <span className="align-middle text-sm text-black ml-1">Reset</span>
-              </button>
+              <ResetButton text="Reset" reset={resetFilter}/>
             </div>
           </section>
           <div>
@@ -268,7 +259,6 @@ export default function Home() {
 
             ) : ( 
               
-              
               mediaComponents.length == 0 ? (
 
                 <div className="mb-14">
@@ -283,7 +273,7 @@ export default function Home() {
                     <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6">
                       {
                         mediaComponents.map((media, index) => {
-                          return <Loader key={index} media={media} index={index}/> //https://codesandbox.io/s/react-fadein-out-transition-component-eww6j?file=/src/index.js:517-554
+                          return <Loader key={index} media={media} index={index}/>
                         })
                       }
                     </div>
