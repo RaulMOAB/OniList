@@ -6,7 +6,7 @@ import LoadingCloud from "@/components/Loading/LoadingCloud";
 import Media_Tooltip from "./Media_Tooltip";
 import Link from "next/link";
 
-function ListPreview({ title, data , route}) {
+function ListPreview({ title, data , type = 'anime'}) {
   //let data = useContext(MediaContext);
   let media_data = [];
 
@@ -42,6 +42,7 @@ function ListPreview({ title, data , route}) {
 								key={i}
 								media={media}
 								index={i}
+								type = {type}
 							/>
 						);
 					})}
