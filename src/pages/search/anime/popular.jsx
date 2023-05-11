@@ -1,11 +1,12 @@
 import AnimePage from "./../../../components/AnimePage/AnimePage";
 
 
-export default function TopAnime() {
+export default function TrendingAnime() {
 
-  let url   = "anime/top"
-  let title = "Top 100 Anime"
-  
+  let url   = "anime/popular"
+  let title = "All-Time Popular anime"
+
+
   return (
     <>
       <AnimePage url={url} title={title} />
