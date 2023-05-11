@@ -21,7 +21,7 @@ function MediaRelations({ relation }) {
     });
     return (
       <>
-        <p className="text-accent mb-1 text-md font-medium ">Relations</p>
+        <p className="text-accent mb-3 text-md font-medium ">Relations</p>
         <div className="grid grid-cols-3 lg:grid-cols-8 lg:gap-28 md:grid-cols-5 sm:grid-cols-4  mb-3 w-full">
           {relationCards}
         </div>
