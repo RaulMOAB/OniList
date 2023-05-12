@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 function CharacterCard({ character, index, role, dubber }) {
-  console.log(dubber);
+  //console.log(dubber);
   const link =
     "/character/" + character.id + "/" + character.romaji.replace(/ /g, "-"); //* like /character/1/name-name
   const dubber_link =
@@ -16,7 +16,7 @@ function CharacterCard({ character, index, role, dubber }) {
   //   const role = character.role
 
   return (
-    <div className="flex text-xs justify-between h-fit bg-neutral">
+    <div className="flex text-xs justify-between h-fit bg-neutral ">
       <div className="grid grid-flow-col">
         <div className="row-span-3 relative aspect-2/3 h-24 ">
           <Link href={link}>
