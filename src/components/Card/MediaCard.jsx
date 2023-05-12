@@ -3,7 +3,7 @@ import Media_Tooltip from "./Media_Tooltip";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function MediaCard({ media, index }) {
+export default function MediaCard({ media, index, type = 'anime' }) {
   const route = useRouter();
   //get parameters
   let genres = JSON.parse(media.genres).splice(0, 3).join(" ");
@@ -22,7 +22,7 @@ export default function MediaCard({ media, index }) {
     // console.log(type);
     // getMediaInfo(media.id, type, encoded_title);
     // console.log();
-    route.push(`/anime/${media.id}`);
+    route.push(`/${type}/${media.id}`);//TODO add media type 
   };
 
   return (
@@ -37,14 +37,14 @@ export default function MediaCard({ media, index }) {
 				}
 				key={media.id}
 				onClick={mediaPage}>
-				<div className='cursor-pointer'>
+				<div className='cursor-pointer aspect-2/3 '>
 					<img
 						src={
 							media.large_banner_image ||
 							media.extra_large_cover_image ||
 							media.large_cover_image
 						}
-						className='rounded-md aspect-2/3' //aspect-2/3
+						className='rounded-md object-cover w-full h-full  ' //aspect-2/3
 						alt='media image'
 					/>
 					<div className='absolute inset-x-0 bottom-0 h-16 rounded-b-md text-white backdrop-blur-md'>
