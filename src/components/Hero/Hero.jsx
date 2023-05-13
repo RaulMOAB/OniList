@@ -8,7 +8,7 @@ function Hero({ media }) {
       key: media[0].id,
       content: (
         <CarrouselCard
-          img={media[0].large_banner_image}
+          img={media[0].extra_large_cover_image || media[0].large_cover_image || media[0].medium_cover_image}
           title={media[0].title}
           genres={JSON.parse(media[0].genres).splice(0, 3).join(" ")}
         />
@@ -18,7 +18,7 @@ function Hero({ media }) {
       key: media[1].id,
       content: (
         <CarrouselCard
-          img={media[1].large_banner_image}
+          img={media[1].extra_large_cover_image || media[1].large_cover_image || media[1].medium_cover_image}
           title={media[1].title}
           genres={JSON.parse(media[1].genres).splice(0, 3).join(" ")}
         />
@@ -28,7 +28,7 @@ function Hero({ media }) {
       key: media[2].id,
       content: (
         <CarrouselCard
-          img={media[2].large_banner_image}
+          img={media[2].extra_large_cover_image || media[2].large_cover_image || media[2].medium_cover_image}
           title={media[2].title}
           genres={JSON.parse(media[2].genres).splice(0, 3).join(" ")}
         />
@@ -38,7 +38,7 @@ function Hero({ media }) {
       key: media[3].id,
       content: (
         <CarrouselCard
-          img={media[3].large_banner_image}
+          img={media[3].extra_large_cover_image || media[3].large_cover_image || media[3].medium_cover_image}
           title={media[3].title}
           genres={JSON.parse(media[3].genres).splice(0, 3).join(" ")}
         />
@@ -48,7 +48,7 @@ function Hero({ media }) {
       key: media[4].id,
       content: (
         <CarrouselCard
-          img={media[4].large_banner_image}
+          img={media[4].extra_large_cover_image || media[4].large_cover_image || media[4].medium_cover_image}
           title={media[4].title}
           genres={JSON.parse(media[4].genres).splice(0, 3).join(" ")}
         />

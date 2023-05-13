@@ -23,10 +23,10 @@ function MediaCharacters({ characters, dubbers, role }) {
       <>
         {/* //TODO link to a character page */}
         <Link href={""}>
-          <p className="text-accent mb-1 text-md font-medium ">Characters</p>
+          <p className="text-accent mb-3 text-md font-medium ">Characters</p>
         </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-10 md:grid-cols-5 sm:grid-cols-4  mb-3 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-10 md:grid-cols-1 md:grid-flow-row md:gap-4 md:w-full sm:grid-cols-4  mb-3 w-full">
           {characterCards}
         </div>
       </>

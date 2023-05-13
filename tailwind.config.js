@@ -1,21 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: [
-		// Or if using `src` directory:
-		"./src/**/*.{js,ts,jsx,tsx}",
-	],
-	theme: {
-		extend: {
-			fontFamily: {
-				sans: ["Roboto", "sans-serif"],
-			},
-			aspectRatio: {
-				"2/3": "2 / 3",
-			},
-		},
-	},
-	// add daisyUI plugin
-	plugins: [require("daisyui"), require("tailwindcss-animated")],
+  content: [
+    // Or if using `src` directory:
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ["Roboto", "sans-serif"],
+      },
+      aspectRatio: {
+        "2/3": "2 / 3",
+      },
+      display: ["group-hover"],
+    },
+  },
+  // add daisyUI plugin
+  plugins: [require("daisyui"), require("tailwindcss-animated")],
 
   // daisyUI config (optional)
   daisyui: {

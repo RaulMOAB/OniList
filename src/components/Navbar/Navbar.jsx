@@ -15,270 +15,316 @@ export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
 	
   return (
-		<>
-			<div className={" hidden lg:flex navbar bg-base-100 " + styles.nb}>
-				<div className='navbar-start  my-auto'>
-					<Link
-						href={"/"}
-						className='btn btn-ghost uppercase text-accent-focus tracking-wide text-2xl md:text-3xl hover:bg-transparent'>
-						<img
-							src='/avatar/oni_logo.png'
-							alt=''
-							width={40}
-							height={40}
-						/>
-						<span className={"" + styles.title}>Oni</span>List
-					</Link>
-				</div>
-				<div className='navbar-center hidden lg:flex '>
-					{Object.keys(user).length !== 0 ? (
-						<div>
-							<ul className='menu menu-horizontal px-1'>
-								<li>
-									<Link
-										href={"/home/" + user.username}
-										className=' active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus'>
-										Home
-									</Link>
-								</li>
-								<li>
-									<Link
-										href={"/home/" + user.username + "/animelist"}
-										className=' active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus'>
-										Anime List
-									</Link>
-								</li>
-								<li>
-									<Link
-										href={"/home/" + user.username + "/mangalist"}
-										className=' active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus'>
-										Manga List
-									</Link>
-								</li>
-								<li
-									tabIndex={0}
-									className=''>
-									<Link
-										href={"/search/anime"}
-										className='active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus  h-14'>
-										Browse
-										<svg
-											className='fill-current'
-											xmlns='http://www.w3.org/2000/svg'
-											width='20'
-											height='20'
-											viewBox='0 0 24 24'>
-											<path d='M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z' />
-										</svg>
-									</Link>
-									<ul className='p-2 bg-base-200 shadow z-50 '>
-										<li>
-											<div
-												className={
-													"text-accent active:bg-transparent hover:bg-transparent  hover:text-accent-focus hover:bg-base-100"
-												}>
-												<div className='text-left'>
-													<span className='flex  '>
-														<FaPlay className='my-auto text-accent hover:text-accent-focus ' />
-														<Link
-															href={"/search/anime"}
-															className='px-3 text-accent hover:text-accent-focus '>
-															Anime
-														</Link>
-													</span>
-													<div
-														className={"lg:text-xs mt-2 px-6 " + styles.links}>
-														<a
-															className='text-accent hover:text-accent-focus '
-															href=''>
-															Top 100
-														</a>
-														<a
-															className='text-accent hover:text-accent-focus '
-															href=''>
-															Trending
-														</a>
-														<a
-															className='text-accent hover:text-accent-focus '
-															href=''>
-															Top Movies
-														</a>
-													</div>
-												</div>
-											</div>
-										</li>
+    <>
+      <div className={" hidden lg:flex navbar bg-base-100 " + styles.nb}>
+        <div className="navbar-start  my-auto">
+          <Link
+            href={"/"}
+            className="btn btn-ghost uppercase text-accent-focus tracking-wide text-2xl md:text-3xl hover:bg-transparent"
+          >
+            <Image src="/avatar/oni_logo.png" alt="" width={40} height={40} />
+            <span className={"" + styles.title}>Oni</span>List
+          </Link>
+        </div>
+        <div className="navbar-center hidden lg:flex ">
+          {Object.keys(user).length !== 0 ? (
+            <div>
+              <ul className="menu menu-horizontal px-1">
+                <li>
+                  <Link
+                    href={"/home/" + user.username}
+                    className=" active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus"
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={"/home/" + user.username + "/animelist"}
+                    className=" active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus"
+                  >
+                    Anime List
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={"/home/" + user.username + "/mangalist"}
+                    className=" active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus"
+                  >
+                    Manga List
+                  </Link>
+                </li>
+                <li tabIndex={0} className="">
+                  <Link
+                    href={"/search/anime"}
+                    className="active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus  h-14"
+                  >
+                    Browse
+                    <svg
+                      className="fill-current"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                    </svg>
+                  </Link>
+                  <ul className="p-2 bg-base-200 shadow z-50 ">
+                    <li>
+                      <div
+                        className={
+                          "text-accent active:bg-transparent hover:bg-transparent  hover:text-accent-focus hover:bg-base-100"
+                        }
+                      >
+                        <div className="text-left">
+                          <span className="flex  ">
+                            <FaPlay className="my-auto text-accent hover:text-accent-focus " />
+                            <Link
+                              href={"/search/anime"}
+                              className="px-3 text-accent hover:text-accent-focus "
+                            >
+                              Anime
+                            </Link>
+                          </span>
+                          <div
+                            className={"lg:text-xs mt-2 px-6 " + styles.links}
+                          >
+                            <Link
+                              className="text-accent hover:text-accent-focus "
+                              href={"/search/anime/top-100"}
+                            >
+                              Top 100
+                            </Link>
+                            <Link
+                              className="text-accent hover:text-accent-focus "
+                              href={"/search/anime/trending"}
+                            >
+                              Trending
+                            </Link>
+                            <Link
+                              className="text-accent hover:text-accent-focus "
+                              href={"/search/anime/trending"}
+                            >
+                              Top Movies
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
 
-										<li>
-											<div
-												className={
-													"text-accent hover:bg-base-100 active:bg-transparent hover:bg-transparent  hover:text-accent-focus"
-												}>
-												<div className='text-left'>
-													<span className='flex  '>
-														<FaBookOpen className='my-auto text-accent hover:text-accent-focus ' />
-														<Link
-															href={"/search/manga"}
-															className='px-3 text-accent hover:text-accent-focus '>
-															Manga
-														</Link>
-													</span>
-													<div
-														className={"lg:text-xs mt-2 px-6 " + styles.links}>
-														<a
-															className=' text-accent hover:text-accent-focus '
-															href=''>
-															Top 100
-														</a>
-														<a
-															className=' text-accent hover:text-accent-focus '
-															href=''>
-															Trending
-														</a>
-														<a
-															className=' text-accent hover:text-accent-focus '
-															href=''>
-															Top Novels
-														</a>
-													</div>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					) : (
-						<div>
-							<ul className='menu menu-horizontal px-1'>
-								<li
-									tabIndex={0}
-									className=''>
-									<Link
-										href={"/search/anime"}
-										className='  active:bg-transparent hover:bg-transparent text-accent  hover:text-accent-focus  h-14'>
-										Browse
-										<svg
-											className='fill-current'
-											xmlns='http://www.w3.org/2000/svg'
-											width='20'
-											height='20'
-											viewBox='0 0 24 24'>
-											<path d='M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z' />
-										</svg>
-									</Link>
-									<ul className='p-2 bg-base-200 shadow z-50 '>
-										<li>
-											<div
-												className={
-													"text-accent active:bg-transparent hover:bg-transparent  hover:text-accent-focus hover:bg-base-100"
-												}>
-												<div className='text-left'>
-													<span className='flex  '>
-														<FaPlay className='my-auto text-accent hover:text-accent-focus ' />
-														<Link
-															href={"/search/anime"}
-															className='px-3 text-accent hover:text-accent-focus '>
-															Anime
-														</Link>
-													</span>
-													<div
-														className={"lg:text-xs mt-2 px-6 " + styles.links}>
-														<a
-															className='text-accent hover:text-accent-focus '
-															href=''>
-															Top 100
-														</a>
-														<a
-															className='text-accent hover:text-accent-focus '
-															href=''>
-															Trending
-														</a>
-														<a
-															className='text-accent hover:text-accent-focus '
-															href=''>
-															Top Movies
-														</a>
-													</div>
-												</div>
-											</div>
-										</li>
+                    <li>
+                      <div
+                        className={
+                          "text-accent hover:bg-base-100 active:bg-transparent hover:bg-transparent  hover:text-accent-focus"
+                        }
+                      >
+                        <div className="text-left">
+                          <span className="flex  ">
+                            <FaBookOpen className="my-auto text-accent hover:text-accent-focus " />
+                            <Link
+                              href={"/search/manga"}
+                              className="px-3 text-accent hover:text-accent-focus "
+                            >
+                              Manga
+                            </Link>
+                          </span>
+                          <div
+                            className={"lg:text-xs mt-2 px-6 " + styles.links}
+                          >
+                            <Link
+                              className=" text-accent hover:text-accent-focus "
+                              href={"/search/manga/top-100"}
+                            >
+                              Top 100
+                            </Link>
+                            <Link
+                              className=" text-accent hover:text-accent-focus "
+                              href={"/search/manga/trending"}
+                            >
+                              Trending
+                            </Link>
+                            <Link
+                              className=" text-accent hover:text-accent-focus "
+                              href={"/search/manga/top-manhwa"}
+                            >
+                              Top Novels
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <div>
+              <ul className="menu menu-horizontal px-1">
+                <li tabIndex={0} className="">
+                  <Link
+                    href={"/search/anime"}
+                    className="  active:bg-transparent hover:bg-transparent text-accent  hover:text-accent-focus  h-14"
+                  >
+                    Browse
+                    <svg
+                      className="fill-current"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                    </svg>
+                  </Link>
+                  <ul className="p-2 bg-base-200 shadow z-50 ">
+                    <li>
+                      <div
+                        className={
+                          "text-accent active:bg-transparent hover:bg-transparent  hover:text-accent-focus hover:bg-base-100"
+                        }
+                      >
+                        <div className="text-left">
+                          <span className="flex  ">
+                            <FaPlay className="my-auto text-accent hover:text-accent-focus " />
+                            <Link
+                              href={"/search/anime"}
+                              className="px-3 text-accent hover:text-accent-focus "
+                            >
+                              Anime
+                            </Link>
+                          </span>
+                          <div
+                            className={"lg:text-xs mt-2 px-6 " + styles.links}
+                          >
+                            <Link
+                              className="text-accent hover:text-accent-focus "
+                              href={"/search/anime/top-100"}
+                            >
+                              Top 100
+                            </Link>
+                            <Link
+                              className="text-accent hover:text-accent-focus "
+                              href={"/search/anime/trending"}
+                            >
+                              Trending
+                            </Link>
+                            <Link
+                              className="text-accent hover:text-accent-focus "
+                              href={"/search/anime/top-movies"}
+                            >
+                              Top Movies
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
 
-										<li>
-											<div
-												className={
-													"text-accent hover:bg-base-100 active:bg-transparent hover:bg-transparent  hover:text-accent-focus"
-												}>
-												<div className='text-left'>
-													<span className='flex  '>
-														<FaBookOpen className='my-auto text-accent hover:text-accent-focus ' />
-														<Link
-															href={"/search/manga"}
-															className='px-3 text-accent hover:text-accent-focus '>
-															Manga
-														</Link>
-													</span>
-													<div
-														className={"lg:text-xs mt-2 px-6 " + styles.links}>
-														<a
-															className=' text-accent hover:text-accent-focus '
-															href=''>
-															Top 100
-														</a>
-														<a
-															className=' text-accent hover:text-accent-focus '
-															href=''>
-															Trending
-														</a>
-														<a
-															className=' text-accent hover:text-accent-focus '
-															href=''>
-															Top Novels
-														</a>
-													</div>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<Link
-										href={"/login"}
-										className=' text-accent hover:text-accent-focus  active:bg-transparent hover:bg-transparent'>
-										Login
-									</Link>
-								</li>
-								<li>
-									<Link
-										href={"/register"}
-										className={"btn normal-case mt-1 " + styles.sing_up_btn}>
-										Sign Up
-									</Link>
-								</li>
-							</ul>
-						</div>
-					)}
-				</div>
-				{Object.keys(user).length !== 0 ? (
-					<div className='navbar-end pr-6'>
-						<button className='mr-1'>
-							<label
-								htmlFor='my-modal-5'
-								className='btn btn-circle border-0 bg-base-300 hover:bg-base-300 text-accent hover:text-accent-focus'>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									className='h-5 w-5 '
-									fill='none'
-									viewBox='0 0 24 24'
-									stroke='currentColor'>
-									<path
-										strokeLinecap='round'
-										strokeLinejoin='round'
-										strokeWidth='2'
-										d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-									/>
-								</svg>
-							</label>
-						</button>
+                    <li>
+                      <div
+                        className={
+                          "text-accent hover:bg-base-100 active:bg-transparent hover:bg-transparent  hover:text-accent-focus"
+                        }
+                      >
+                        <div className="text-left">
+                          <span className="flex  ">
+                            <FaBookOpen className="my-auto text-accent hover:text-accent-focus " />
+                            <Link
+                              href={"/search/manga"}
+                              className="px-3 text-accent hover:text-accent-focus "
+                            >
+                              Manga
+                            </Link>
+                          </span>
+                          <div
+                            className={"lg:text-xs mt-2 px-6 " + styles.links}
+                          >
+                            <Link
+                              className=" text-accent hover:text-accent-focus "
+                              href={"/search/manga/top-100"}
+                            >
+                              Top 100
+                            </Link>
+                            <Link
+                              className=" text-accent hover:text-accent-focus "
+                              href={"/search/manga/trending"}
+                            >
+                              Trending
+                            </Link>
+                            <Link
+                              className=" text-accent hover:text-accent-focus "
+                              href={"/search/manga/top-manhwa"}
+                            >
+                              Top Novels
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <Link
+                    href={"/login"}
+                    className=" text-accent hover:text-accent-focus  active:bg-transparent hover:bg-transparent"
+                  >
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={"/register"}
+                    className={"btn normal-case mt-1 " + styles.sing_up_btn}
+                  >
+                    Sign Up
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
+        {Object.keys(user).length !== 0 ? (
+          <div className="navbar-end pr-6">
+            <button className="mr-1">
+              <label
+                htmlFor="my-modal-5"
+                className="btn btn-circle border-0 bg-base-300 hover:bg-base-300 text-accent hover:text-accent-focus"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 "
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </label>
+            </button>
+            <button className="btn btn-circle border-0 bg-base-300 hover:bg-base-300 text-accent hover:text-accent-focus mr-1">
+              <div className="indicator">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                  />
+                </svg>
+                <span className="badge badge-xs badge-error indicator-item"></span>
+              </div>
+            </button>
 
 						<div className='dropdown dropdown-bottom dropdown-start group'>
 							<div
