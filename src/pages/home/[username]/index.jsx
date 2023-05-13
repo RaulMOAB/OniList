@@ -90,7 +90,7 @@ export default function Home() {
 									{favoriteAnimes.reverse()}
 								</div>
 							) : (
-								<div className='bg-neutral rounded-md h-40 col-span-full'>
+								<div className='bg-neutral rounded-md col-span-full'>
 									<NoContent message="You don't have favorites animes" />
 								</div>
 							)}
@@ -102,7 +102,7 @@ export default function Home() {
 										{favoriteMangas.reverse()}
 									</div>
 								) : (
-									<div className='bg-neutral rounded-md h-40 col-span-full'>
+									<div className='bg-neutral rounded-md  col-span-full'>
 										<NoContent message="You don't have favorites mangas" />
 									</div>
 								)}

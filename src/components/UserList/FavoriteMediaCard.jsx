@@ -10,7 +10,7 @@ export default function FavoriteMediaCard({ media, setSelectedMedia }) {
 
 	return (
 		<div
-			className='tooltip'
+			className='tooltip tooltip-bottom'
 			data-tip={title}>
 			<div className='relative h-full'>
 				<Link href={link}>

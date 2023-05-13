@@ -29,6 +29,7 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 			setFormatSelectedOption("");
 			setStatusSelectedOption("");
 			setGenreSelectedOption("");
+			setSearch("");
 		}
 	};
 
