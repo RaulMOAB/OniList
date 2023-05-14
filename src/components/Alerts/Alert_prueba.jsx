@@ -8,6 +8,7 @@ export default function Alert({
   seconds,
   setShowError,
   type = "error",
+  top = 14
 }) {
   const [counter, setCounter] = useState(0);
   let type_class = "";
@@ -36,7 +37,7 @@ export default function Alert({
   return (
     <>
 
-			<div className='fixed inset-x-0  text-center z-50 container mx-auto w-full md:max-w-md rounded-md p-5 '>
+			<div className={`fixed inset-x-0 top-${top} text-center z-50 container mx-auto w-full md:max-w-md rounded-md p-5`}>
       <div
         className={`${
           show ? " " : "hidden "

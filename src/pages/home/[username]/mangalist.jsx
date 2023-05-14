@@ -43,7 +43,7 @@ export default function MangaList() {
 				}
 			});
 		}
-	}, [user, fetchData, status, selectedMedia]);
+	}, [user, fetchData]);
 
 	const watching_list = filteredManga.filter((media) => {
 		return media.status[0].status === "WATCHING";

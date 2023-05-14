@@ -1,6 +1,7 @@
 import React from "react";
 import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import {redirect} from 'next/navigation'
 
 export const AuthContext = createContext({});
 
@@ -59,8 +60,7 @@ export function AuthContextProvider({ children }) {
     }
     isValidToken(false);
     logout();
-    router.push("/");
-    return null
+    redirect('/')
     }catch(error){
       if(type === "image"){
         return { error: "This is not an image please select an image." };

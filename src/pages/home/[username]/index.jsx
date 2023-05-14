@@ -11,7 +11,7 @@ export default function Home() {
 
 	useEffect(() => {
 		if(user.username){
-			const endpoint = "library/" + user.username;//TODO Sale Unauthenticated cuando no estas en esta pagina
+			const endpoint = "library/" + user.username;
 			const method = "GET";
 			fetchData(endpoint, method).then((res) => {
 				setLibrary(res ?? []);

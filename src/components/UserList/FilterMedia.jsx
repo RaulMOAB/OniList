@@ -23,7 +23,7 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 			setGenreSelectedOption("");
 		} else {
 			let selected_list = medias.filter((media) => {
-				return media.status[0].status === list;
+				return media.status.status === list;
 			});
 			setFilteredMedia(selected_list);
 			setFormatSelectedOption("");
@@ -34,7 +34,7 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 	};
 
 	const user_lists = medias.map((media) => {
-		return media.status[0].status;
+		return media.status.status;
 	});
 
 	const item_list_counter = user_lists.reduce((acc, elem) => {

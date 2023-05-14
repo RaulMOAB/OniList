@@ -9,7 +9,8 @@ import { AuthContext } from "@/contexts/AuthContext";
 
 export default function ListCards({ media ,setStatus, setSelectedMedia}) {
 	const handleClick = ()=>{
-		setStatus(media.status[0].status)
+		setStatus(media.status.status)
+		console.log(media.media)
 		setSelectedMedia(media.media)
 	}
 
@@ -31,7 +32,7 @@ export default function ListCards({ media ,setStatus, setSelectedMedia}) {
 			</Link>
 			<div className='text-accent text-sm absolute opacity-90 lg:opacity-0 lg:hover:opacity-90 h-full w-full bottom-0'>
 				<div className='absolute top-2 left-2'>
-					{media.status[0].favorite === 1 ? (
+					{media.status.favorite === 1 ? (
 						<AiFillHeart className='text-red-500 w-6 h-6 shadow-2xl drop-shadow-2xl' />
 					) : null}
 				</div>
@@ -47,7 +48,7 @@ export default function ListCards({ media ,setStatus, setSelectedMedia}) {
 				<div className='absolute bottom-0 h-fit w-full p-1 bg-base-100 text-sm'>
 					<Link href={link}>
 						<p className='hover:text-blue-500 hover:opacity-100 p-1'>{title}</p>
-						<p className='hover:text-blue-500 hover:opacity-100 p-1'>{`${media.status[0].progress}/${episodes}`}</p>
+						<p className='hover:text-blue-500 hover:opacity-100 p-1'>{`${media.status.progress}/${episodes}`}</p>
 					</Link>
 				</div>
 			</div>
