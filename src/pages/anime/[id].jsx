@@ -6,7 +6,7 @@ function AnimePage() {
   return (
     <>
       <MediaHeader />
-      <MediaBody/>
+      <MediaBody />
     </>
   );
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 function MediaPageCard({ img }) {
   const [image, setImage] = useState();

@@ -100,7 +100,9 @@ function MediaBody() {
   const [genres, setGenres] = useState([]);
   const [romaji, setRomaji] = useState("");
   const [title, setTitle] = useState("");
+  const [format, setFormat] = useState("");
   const [native, setNative] = useState("");
+  const [type, setType] = useState("");
 
   //airing schedule
   //* format
@@ -150,8 +152,9 @@ function MediaBody() {
 
         setMediaStatus(res.airing_status.toLowerCase());
 
-        setSeason(res.season.toLowerCase());
-        setSeasonYear(res.season_year);
+        if (res.season) setSeason(res.season.toLowerCase() ?? "");
+
+        if (res.season_year) setSeasonYear(res.season_year ?? "");
 
         let start_date = formatDate(res.start_date);
         setStartDate(start_date);
@@ -162,9 +165,8 @@ function MediaBody() {
         setTrailer(JSON.parse(res.trailer));
 
         setStudio(JSON.parse(res.studios));
-        console.log(studio);
 
-        setSource(res.source.toLowerCase());
+        setSource(res.source.toLowerCase() ?? "");
 
         setGenres(JSON.parse(res.genres));
 
@@ -172,6 +174,10 @@ function MediaBody() {
 
         setTitle(res.title);
         setNative(res.native);
+
+        setType(res.type);
+
+        setFormat(res.format.toLowerCase());
       });
     }
   }, [id]);
@@ -187,19 +193,29 @@ function MediaBody() {
             ""
           ) : (
             <div className="pb-2">
-              <div className="font-semibold">Airing</div>
-              <div className="pt-1"></div>
+              <div className="font-semibold">Status</div>
+              <div className="pt-1 capitalize">{mediaStatus}</div>
             </div>
           )}
 
           <div className="pb-2">
             <div className="font-semibold">Format</div>
-            <div className="pt-1">{mediaDetails.format}</div>
+            <div className="pt-1 capitalize">{format}</div>
           </div>
-          <div className="pb-2">
-            <div className="font-semibold">Airing</div>
-            <div className="pt-1">{mediaDetails.episodes}</div>
-          </div>
+          {type === "ANIME" ? (
+            <div className="pb-2">
+              <div className="font-semibold">Episodes</div>
+              <div className="pt-1">{mediaDetails.episodes}</div>
+            </div>
+          ) : mediaDetails.chapters ? (
+            <div className="pb-2">
+              <div className="font-semibold">Chapters</div>
+              <div className="pt-1">{mediaDetails.chapters}</div>
+            </div>
+          ) : (
+            ""
+          )}
+
           <div className="pb-2">
             <div className="font-semibold">Episode duration</div>
             <div className="pt-1">24 mins</div>
@@ -267,7 +283,7 @@ function MediaBody() {
           <div className="pb-10 md:w-full ">
             <MediaCharacters
               characters={characters}
-              dubbers={dubbs}
+              dubbers={type === "ANIME" ? dubbs : null}
               role={role}
             />
           </div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 function MediaCharacters({ characters, dubbers, role }) {
   //console.log(dubbers)
-  if (characters.length !== 0) {
+  if (characters.length !== 0 ) {
     let characterCards = [];
     characters.forEach((element, index) => {
       if (index < 6) {
@@ -13,7 +13,7 @@ function MediaCharacters({ characters, dubbers, role }) {
           <CharacterCard
             character={element.character_data}
             role={role[index]}
-            dubber={dubbers[index]}
+            dubber={dubbers !== null ? dubbers[index]: ''}
             key={index}
           />
         );

@@ -15,7 +15,7 @@ import { BsFillHeartFill } from "react-icons/bs";
 
 const getMedia = async (id) => {
   const response = await fetch(
-    process.env.NEXT_PUBLIC_API_ENDPOINT + `anime/${id}`,
+    process.env.NEXT_PUBLIC_API_ENDPOINT + `media/${id}`,
     {
       method: "GET",
       headers: {
@@ -173,7 +173,8 @@ function MediaHeader() {
         <div
           className={"hero opacity-80 " + style.banner}
           style={{
-            backgroundImage: `url("${media.banner_image}")`,
+            backgroundImage: `url("${media.banner_image ?? ''}")`,
+            backgroundColor: '#151f2e'
           }}
         >
           <div className={style.banner_shadow}></div>
@@ -189,7 +190,7 @@ function MediaHeader() {
         </div>
         <Container>
           <div className="grid grid-rows-1 gap-8 md:grid-flow-col 2xl:px-24">
-            <div className="mx-auto -mt-28 z-30 w-fit">
+            <div className="m-auto sm:m-0 sm:-mt-28 z-30 w-fit">
               <MediaPageCard img={media.large_cover_image} />
               <div className=" flex flex-shrink gap-4 mt-3 ">
                 <div
@@ -282,7 +283,7 @@ function MediaHeader() {
                 </button>
               </div>
             </div>
-            <div className="py-10 pr-8 text-left">
+            <div className=" py-10 pr-8 text-left">
               <h2 className="2xl:text-3xl md:text-xl">{media.title}</h2>
               <p className={"mt-3 2xl:text-sm md:text-sm " + style.description}>
                 {media.description}
