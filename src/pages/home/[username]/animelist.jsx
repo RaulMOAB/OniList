@@ -51,9 +51,7 @@ export default function AnimeList() {
 					setFilteredAnime(res_animelist ?? []);
 					setAnimelistStatus(res_animelist ?? []);
 				} else {
-					setFilteredAnime(res_animelist ?? []);
-					setAnimelistStatus(res_animelist ?? []);
-					setNoData(true);
+					return
 				}
 			});
 			// setFilteredAnime(animelistStatus);

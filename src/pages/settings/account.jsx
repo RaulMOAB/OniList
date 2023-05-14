@@ -8,6 +8,7 @@ import SecondaryButton from "@/components/Buttons/SecondaryButton";
 import AuthConfirmModal from "@/components/Modals/AuthConfirmModal";
 import { AiFillEyeInvisible, AiFillEye, AiFillHeart } from "react-icons/ai";
 import Alert from "@/components/Alerts/Alert_prueba";
+import Head from "next/head";
 
 function Account() {
 	const router = useRouter();
@@ -208,6 +209,9 @@ function Account() {
 
 	return (
 		<>
+			<Head>
+				<title>Settings · OniList</title>
+			</Head>
 			<Alert
 				show={showAlert}
 				message={message}
@@ -384,9 +388,9 @@ function Account() {
 								target='_blank'
 								className='cursor-pointer py-2 pr-7 px-4 bg-primary text-white font-semibold  rounded-sm shadow-md hover:shadow-blue-500/50 hover:text-white hover:border-transparent transition ease-in duration-200 transform'>
 								Donate
-							<div className='absolute top-1/2 transform -translate-y-1/2 right-2'>
-								<AiFillHeart className="text-md text-red-400 " />
-							</div>
+								<div className='absolute top-1/2 transform -translate-y-1/2 right-2'>
+									<AiFillHeart className='text-md text-red-400 ' />
+								</div>
 							</a>
 						</div>
 					</div>

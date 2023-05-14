@@ -4,7 +4,7 @@ import UserActivity from "@/components/ActivityCard/UserActivity";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import NoContent from "@/components/Skeleton/NoContent";
-
+import AuthRequired from "../../../components/Common/AuthRequired";
 export default function Home() {
 	const { user, fetchData } = useContext(AuthContext);
 	const [library, setLibrary] = useState([]);
@@ -15,6 +15,7 @@ export default function Home() {
 			const method = "GET";
 			fetchData(endpoint, method).then((res) => {
 				setLibrary(res ?? []);
+				
 			});
 		}
 	}, [user,fetchData]);
@@ -77,6 +78,7 @@ export default function Home() {
 		userActivity.length === 0 && library.length !== 0;
 	return (
 		<>
+
 			{!nothingToSee ? (
 				<div className='w-full grid lg:grid-cols-2 gap-4 p-6 text-accent'>
 					<div>

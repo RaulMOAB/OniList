@@ -1,5 +1,5 @@
 import AnimePage from "./../../../components/AnimePage/AnimePage";
-
+import Head from "next/head";
 
 export default function NextSeason() {
 
@@ -24,8 +24,14 @@ export default function NextSeason() {
 
 
     return (
-        <>
-        <AnimePage url={url} title={title} />
-        </>
-    );
+			<>
+				<Head>
+					<title>Next season Anime · OniList</title>
+				</Head>
+				<AnimePage
+					url={url}
+					title={title}
+				/>
+			</>
+		);
 }

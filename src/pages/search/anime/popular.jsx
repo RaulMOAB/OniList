@@ -1,5 +1,5 @@
 import AnimePage from "./../../../components/AnimePage/AnimePage";
-
+import Head from "next/head";
 
 export default function TrendingAnime() {
 
@@ -8,8 +8,14 @@ export default function TrendingAnime() {
 
 
   return (
-    <>
-      <AnimePage url={url} title={title} />
-    </>
-  );
+		<>
+			<Head>
+				<title>Popular Anime · OniList</title>
+			</Head>
+			<AnimePage
+				url={url}
+				title={title}
+			/>
+		</>
+	);
 }

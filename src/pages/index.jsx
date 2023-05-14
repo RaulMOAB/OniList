@@ -1,14 +1,16 @@
 import Hero from "./../components/Hero/Hero";
 import IndexAnimePage from "./../components/AnimePage/IndexAnimePage";
-import { useContext, useState, useEffect} from "react";
-
+import Head from "next/head";
 
 export default function Home() {
 
 
   return (
-    <>
-      <IndexAnimePage />
-    </>
-  );
+		<>
+			<Head>
+				<title>Home · OniList</title>
+			</Head>
+			<IndexAnimePage />
+		</>
+	);
 }

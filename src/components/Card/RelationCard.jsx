@@ -41,7 +41,7 @@ function RelationCard({ related_media, media_relationship, index }) {
           </div>
         </Link>
 
-        <div className="absolute bottom-0 h-fit w-full p-1 bg-base-100 rounded-b-sm text-slate-300">
+        <div className="absolute bottom-0 h-fit w-full p-1 bg-base-100 rounded-b-sm text-accent">
           <p className="text-center drop-shadow capitalize text-xs">
             {source !== "OTHER" ? formatSanitize(format) : "Manga"}
           </p>

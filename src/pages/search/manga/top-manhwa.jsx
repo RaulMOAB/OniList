@@ -1,5 +1,5 @@
 import MangaPage from "./../../../components/MangaPage/MangaPage";
-
+import Head from "next/head";
 
 export default function TopManhwa() {
 
@@ -7,8 +7,14 @@ export default function TopManhwa() {
   let title = "Top Manhwa"
 
   return (
-    <>
-      <MangaPage url={url} title={title}/>
-    </>
-  );
+		<>
+			<Head>
+				<title>Top Mangas · OniList</title>
+			</Head>
+			<MangaPage
+				url={url}
+				title={title}
+			/>
+		</>
+	);
 }

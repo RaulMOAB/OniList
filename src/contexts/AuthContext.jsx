@@ -23,7 +23,8 @@ export function AuthContextProvider({ children }) {
   const getToken = () => {
     return token;
   };
-
+  
+  
   const logout = () => {
     // Eliminar el token y la información del usuario del localStorage
     if (validToken) {
@@ -34,13 +35,13 @@ export function AuthContextProvider({ children }) {
     // Actualizar el estado del usuario y el token en el contexto
     setUser({});
     setToken(null);
-    router.push("/");
+    router.push("/login", undefined, { shallow: true });
   };
 
   const fetchData = async (endpoint, method = "GET", body = null, type="normal") => {
     let headers = {};
     if(type !== "image"){
-       headers = {
+      headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
       };
@@ -51,16 +52,18 @@ export function AuthContextProvider({ children }) {
       headers.Authorization = `Bearer ${token}`;
     }
     try{
-    const response = body
+      const response = body
       ? await fetch(api_endpoint, { method, headers, body })
       : await fetch(api_endpoint, { method, headers });
-    const data = await response.json();
-    if (!(data.message === "Unauthenticated.")) {
-      return data;
-    }
-    isValidToken(false);
-    logout();
-    redirect('/')
+      const data = await response.json();
+      if (!(data.message === "Unauthenticated.")) {
+        return data;
+      }
+      if(type !== "auth-required"){
+        isValidToken(false);
+        logout();
+      }
+      return { error: "Unauthenticated." };
     }catch(error){
       if(type === "image"){
         return { error: "This is not an image please select an image." };
@@ -69,6 +72,18 @@ export function AuthContextProvider({ children }) {
       }
     }
   };
+
+  // const verifyToken = ()=>{
+  //   fetchData("verify-token", "GET", null, "auth-required").then((response) => {
+	// 		if (response.error) {
+	// 			console.log(response.error);
+	// 			return false;
+	// 		} else {
+	// 			console.log(response);
+	// 			return true;
+	// 		}
+	// 	});
+  // }
 
   const updateUser = ()=>{
     let endpoint = "user/"+user.id;

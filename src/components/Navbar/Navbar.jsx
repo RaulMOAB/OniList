@@ -23,8 +23,6 @@ export default function Navbar() {
     setIsDropdownOpen(false);
   };
 
-  console.log(user.profile_image);
-
   return (
     <>
       <div className={" hidden lg:flex navbar bg-base-100 " + styles.nb}>

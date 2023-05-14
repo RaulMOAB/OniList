@@ -9,6 +9,7 @@ import { useContext, useState, useEffect } from "react";
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
 import { BsImageFill } from "react-icons/bs";
 import Alert from "@/components/Alerts/Alert_prueba";
+import Head from "next/head";
 
 function Settings() {
 	const { changeTheme } = useContext(ThemeContext);
@@ -86,13 +87,16 @@ function Settings() {
 		//TODO verifyLogin
 		//TODO NAVBAR LINKS
 		<>
-				<Alert
-					show={showError}
-					message={message}
-					seconds={3.5}
-					setShowError={setShowError}
-					type={typeAlert}
-				/>
+			<Head>
+				<title>Profile · OniList</title>
+			</Head>
+			<Alert
+				show={showError}
+				message={message}
+				seconds={3.5}
+				setShowError={setShowError}
+				type={typeAlert}
+			/>
 			<SettingsPage>
 				<div className='w-full text-accent font-semibold text-sm mb-8'>
 					<h5 className='mb-2'>Site theme</h5>
