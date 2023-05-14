@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import {React, useState} from "react";
 import styles from "../../styles/Navbar.module.css";
 import { IoNotifications, IoSettingsSharp } from "react-icons/io5";
 import { useContext } from "react";
@@ -13,6 +13,15 @@ import ConfirmModal from "@/components/Modals/ConfirmModal";
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsDropdownOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDropdownOpen(false);
+  };
 
   console.log(user.profile_image);
 
@@ -56,7 +65,7 @@ export default function Navbar() {
                     Manga List
                   </Link>
                 </li>
-                <li tabIndex={0} className="">
+                <li tabIndex={0} className="" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                   <Link
                     href={"/search/anime"}
                     className="active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus  h-14"
@@ -72,7 +81,8 @@ export default function Navbar() {
                       <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                     </svg>
                   </Link>
-                  <ul className="p-2 bg-base-200 shadow z-50 ">
+                  <ul className="p-2 bg-base-200 shadow z-50 " >
+                    {isDropdownOpen && (
                     <li>
                       <div
                         className={
@@ -114,6 +124,9 @@ export default function Navbar() {
                         </div>
                       </div>
                     </li>
+
+                    )
+                    }
 
                     <li>
                       <div

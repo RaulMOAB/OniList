@@ -2,12 +2,12 @@ import React, { use } from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Container from "@/components/Common/PageContainer/Container";
-import FilterMedia from "@/components/UserList/FilterMedia";
 import MediaRelations from "./MediaRelations";
 import MediaCharacters from "./MediaCharacters";
 import MediaStaff from "./MediaStaff";
 import MediaTrailer from "./MediaTrailer";
 import { formatDate } from "@/components/utils/DateUtils";
+
 
 /**
  * Get media relationship and related media info
@@ -215,11 +215,15 @@ function MediaBody() {
           ) : (
             ""
           )}
+          {mediaDetails.type === "ANIME" ? (
+            <div className="pb-2">
+              <div className="font-semibold">Episode duration</div>
+              <div className="pt-1">24 mins</div>
+            </div>
+          ) : (
+            ""
+          )}
 
-          <div className="pb-2">
-            <div className="font-semibold">Episode duration</div>
-            <div className="pt-1">24 mins</div>
-          </div>
           <div className="pb-2">
             <div className="font-semibold">Status</div>
             <div className="capitalize pt-1">{mediaStatus}</div>
@@ -232,20 +236,31 @@ function MediaBody() {
             <div className="font-semibold">End Date</div>
             <div className="pt-1">{endDate}</div>
           </div>
-          <div className="pb-2">
-            <div className="font-semibold">Season</div>
-            <div className="capitalize pt-1">{season + ", " + seasonYear}</div>
-          </div>
-          <div className="pb-2">
-            <div className="font-semibold">Studios</div>
-            {studio.map((e, i) => {
-              return (
-                <div className="pt-1" key={i}>
-                  {e}
-                </div>
-              );
-            })}
-          </div>
+          {mediaDetails.type === "ANIME" ? (
+            <div className="pb-2">
+              <div className="font-semibold">Season</div>
+              <div className="capitalize pt-1">
+                {season + ", " + seasonYear}
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+          {studio.length > 0 ? (
+            <div className="pb-2">
+              <div className="font-semibold">Studios</div>
+              {studio.map((e, i) => {
+                return (
+                  <div className="pt-1" key={i}>
+                    {e}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            ""
+          )}
+
           <div className="pb-2">
             <div className="font-semibold">Source</div>
             <div className="capitalize">{source}</div>

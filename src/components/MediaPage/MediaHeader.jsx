@@ -8,7 +8,7 @@ import LoadingCloud from "@/components/Loading/LoadingCloud";
 import Container from "@/components/Common/PageContainer/Container";
 import MediaPageCard from "@/components/Card/MediaPageCard";
 import MediaEditor from "@/components/Modals/MediaEditor";
-import ReadMoreToggle from "../../components/utils/ReadMoreToggle";
+import ReadMore from "../utils/ReadMore";
 import SubmitButton from "../Buttons/AuthForms/SubmitButton";
 import Alert from "@/components/Alerts/Alert_prueba";
 import { BsFillHeartFill } from "react-icons/bs";
@@ -28,144 +28,142 @@ const getMedia = async (id) => {
 };
 
 const getMediaSubscribed = async (user_id, media_id) => {
-	const response = await fetch(
-		process.env.NEXT_PUBLIC_API_ENDPOINT + `status/${user_id}/${media_id}`,
-		{
-			method: "GET",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-			},
-		}
-	);
-	return response.json();
+  const response = await fetch(
+    process.env.NEXT_PUBLIC_API_ENDPOINT + `status/${user_id}/${media_id}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.json();
 };
 
 function MediaHeader() {
-	const router = useRouter();
-	const { getUserID, isUserAuthenticated, fetchData } = useContext(AuthContext);
-	// const { user, fetchData } = useContext(AuthContext);
-	const { id } = router.query;
-	const [media, setMedia] = useState();
-	const user_id = getUserID();
-	const [subscribe, isSubsribed] = useState({});
-	const [status, setStatus] = useState("Add to Library");
-	const [favorite, setFavorite] = useState();
+  const router = useRouter();
+  const { getUserID, isUserAuthenticated, fetchData } = useContext(AuthContext);
+  const { id } = router.query;
+  const [media, setMedia] = useState();
+  const user_id = getUserID();
+  const [subscribe, isSubsribed] = useState({});
+  const [status, setStatus] = useState("Add to Library");
+  const [favorite, setFavorite] = useState();
+  const [type, setType] = useState("");
 
-	//*Alert state
-	const [showError, setShowError] = useState(false);
-	const [message, setMessage] = useState("");
+  //*Alert state
+  const [showError, setShowError] = useState(false);
+  const [message, setMessage] = useState("");
 
-	const [isShowMore, setIsShowMore] = useState(true);
+  const [isShowMore, setIsShowMore] = useState(true);
 
-	useEffect(() => {
-		// setFavorite(favorite)
-		if (id) {
-			getMedia(id)
-				.then((res) => {
-					setMedia(res);
-					getMediaSubscribed(user_id, id).then((res) => {
-						isSubsribed(res);
-						if (res) {
-							setStatus(res.status);
-							setFavorite(res.favorite);
-						}
-					});
-				})
-				.catch((e) => {
-					console.log(e);
-				});
-		}
-	}, [id]);
+  //Dropdown state
+  const [isOpen, setIsOpen] = useState(false);
 
-	useEffect(() => {
-		//console.log(favorite); //*valor actual
-		setFavoriteToMedia(favorite);
-	}, [favorite]);
+  useEffect(() => {
+    // setFavorite(favorite)
+    if (id) {
+      getMedia(id)
+        .then((res) => {
+          setMedia(res);
+          setType(res.type);
+          getMediaSubscribed(user_id, id).then((res) => {
+            isSubsribed(res);
+            if (res) {
+              setStatus(res.status);
+              setFavorite(res.favorite);
+            }
+          });
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, [id]);
 
-	//TODO hashMap con los status de las medias
-	const updateStatus = async (status, deleted) => {
-		setStatus(status); // cambia el texto del boton
-		const body = JSON.stringify({
-			user_id,
-			media_id: id,
-			status: status,
-		});
+  useEffect(() => {
+    //console.log(favorite); //*valor actual
+    setFavoriteToMedia(favorite);
+  }, [favorite]);
 
-		const response = await fetch(
-			process.env.NEXT_PUBLIC_API_ENDPOINT + `status`,
-			{
-				method: "POST",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-				},
-				body,
-			}
-		);
-		if (deleted) {
-			setMessage(`${media.title} was deleted from your list.`);
-			setShowError(true);
-		}else{
+  //TODO hashMap con los status de las medias
+  const updateStatus = async (status, deleted) => {
+    setStatus(status); // cambia el texto del boton
+    const body = JSON.stringify({
+      user_id,
+      media_id: id,
+      status: status,
+    });
+
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_API_ENDPOINT + `status`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body,
+      }
+    );
+    if (deleted) {
+      setMessage(`${media.title} was deleted from your list.`);
+      setShowError(true);
+    } else {
       if (response.status === 200) {
         setMessage(`${media.title} added to ${status} list.`);
         setShowError(true);
       }
       return response.json();
     }
-	};
+  };
 
-	const handleFavorite = (event) => {
-		event.preventDefault();
-		let aux_fav;
-		//console.log(favorite)
-		// favorite === 0 ? setFavorite(1) : setFavorite(0);
-		if (favorite === 0) {
-			aux_fav = 1;
-			setFavorite(aux_fav);
-		} else {
-			aux_fav = 0;
-			setFavorite(aux_fav);
-		}
+  const handleFavorite = (event) => {
+    event.preventDefault();
+    let aux_fav;
+    //console.log(favorite)
+    // favorite === 0 ? setFavorite(1) : setFavorite(0);
+    if (favorite === 0) {
+      aux_fav = 1;
+      setFavorite(aux_fav);
+    } else {
+      aux_fav = 0;
+      setFavorite(aux_fav);
+    }
 
-		//*Llamada Api
-		//setFavoriteToMedia(favorite);
-		//return favorite;
-	};
+    //*Llamada Api
+    //setFavoriteToMedia(favorite);
+    //return favorite;
+  };
 
-	const setFavoriteToMedia = async (favorite) => {
-		const body = JSON.stringify({
-			user_id: user_id,
-			media_id: id,
-			status: status,
-			favorite: favorite,
-		});
-		//console.log(body);
-		// console.log(isUserAuthenticated())
-		const endpoint = "media/favorite";
-		const method = "POST";
-		if (isUserAuthenticated()) {
-			fetchData(endpoint, method, body).then((res) => {
-				//console.log(res);
-			});
-		}
-		//console.log(res);
-		// if (res === 1) {
-		//   setFavorite(1);
-		//   console.log(favorite);
-		// }
-		// console.log(favorite);
-	};
+  const setFavoriteToMedia = async (favorite) => {
+    const body = JSON.stringify({
+      user_id: user_id,
+      media_id: id,
+      status: status,
+      favorite: favorite,
+    });
+    //console.log(body);
+    // console.log(isUserAuthenticated())
+    const endpoint = "media/favorite";
+    const method = "POST";
+    if (isUserAuthenticated()) {
+      fetchData(endpoint, method, body).then((res) => {
+        console.log(res);
+        setFavorite(res.favorite);
+        //console.log(res);
+      });
+    }
+  };
 
-	const toggleDropdown = () => {
-		setIsShowMore(() => {
-			return !isShowMore;
-		});
-	};
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
 
-	const resetAlert = () => {
-		setShowError(false);
-	};
+  const resetAlert = () => {
+    setShowError(false);
+  };
 
   if (media) {
     //if media is not undefined
@@ -178,8 +176,8 @@ function MediaHeader() {
         <div
           className={"hero opacity-80 " + style.banner}
           style={{
-            backgroundImage: `url("${media.banner_image ?? ''}")`,
-            backgroundColor: '#151f2e'
+            backgroundImage: `url("${media.banner_image ?? ""}")`,
+            backgroundColor: "#151f2e",
           }}
         >
           <div className={style.banner_shadow}></div>
@@ -269,7 +267,9 @@ function MediaHeader() {
                             }
                           }}
                         >
-                          Set as Watching
+                          {type === "ANIME"
+                            ? " Set as Watching"
+                            : "Set as Reading"}
                         </a>
                       </li>
                       <li className="w-full border-t border-accent">
@@ -284,36 +284,39 @@ function MediaHeader() {
                   className="w-20 bg-rose-600 rounded-md "
                   onClick={handleFavorite}
                 >
-                  <BsFillHeartFill className="text-white mx-auto hover:text-pink-100" />
+                  <BsFillHeartFill
+                    className="text-white mx-auto hover:text-pink-100"
+                    fill={favorite == 1 ? "#ffaebc" : "#ffff"}
+                  />
                 </button>
               </div>
             </div>
             <div className=" py-10 pr-8 text-left">
               <h2 className="2xl:text-3xl md:text-xl">{media.title}</h2>
               <p className={"mt-3 2xl:text-sm md:text-sm " + style.description}>
-                {media.description}
+                <ReadMore>{media.description}</ReadMore>
               </p>
             </div>
             {/* <ReadMoreToggle media={media}/> */}
           </div>
           <input type="checkbox" id="my-modal-4" className="modal-toggle" />
 
-					<MediaEditor
-						user={user_id}
-						media={media}
-						actualStatus={status}
-						updateStatus={updateStatus}
-					/>
-				</Container>
-			</>
-		);
-	} else {
-		return (
-			<div>
-				<LoadingCloud />
-			</div>
-		);
-	}
+          <MediaEditor
+            user={user_id}
+            media={media}
+            actualStatus={status}
+            updateStatus={updateStatus}
+          />
+        </Container>
+      </>
+    );
+  } else {
+    return (
+      <div>
+        <LoadingCloud />
+      </div>
+    );
+  }
 }
 
 export default MediaHeader;

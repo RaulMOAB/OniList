@@ -33,7 +33,7 @@ export default function ReadMore({ children, maxCharacterCount = 500 }) {
 					className={
 						text.length <= maxCharacterCount
 							? "text-primary invisible"
-							: "text-primary visible"
+							: "text-primary cursor-pointer visible"
 					}
 					onClick={toggleIsTruncated}>
 					{isTruncated ? "Read More" : "Read Less"}
