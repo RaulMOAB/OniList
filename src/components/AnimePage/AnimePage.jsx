@@ -201,7 +201,7 @@ export default function AnimePage({url, title}) {
       </Head>
       <Container>
         <main className="pb-10 2xl:px-28 xl:px-16  lg:px-2 sm:px-4 px-4">
-            <h1 className="text-accent font-semibold ml-3 text-2xl mt-10">{title}</h1>
+            <h1 className="text-accent font-semibold ml-3 text-2xl md:mt-10 pt-10">{title}</h1>
           <section id="filters">
             <div className="flex flex-wrap p-3 rounded-md bg-neutral mt-5 bg-transparent">
               <Search value={search} handle={handleSearchChange}/>

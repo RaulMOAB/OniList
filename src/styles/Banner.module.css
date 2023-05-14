@@ -2,6 +2,10 @@
     min-height:  40vh; 
 }
 
+.banner_character{
+    min-height:  17vh;
+}
+
 .modal_editor{
     box-sizing: content-box;
     margin: 0;

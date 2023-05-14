@@ -241,7 +241,7 @@ export default function MainMangaPage() {
                     <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6">
                       {
                         mediaComponents.map((media, index) => {
-                          return <MediaCard key={index} media={media} index={index} type="manga"/>
+                          return <MediaCard key={index} media={media} index={index} />
                         })
                       }
                     </div>
