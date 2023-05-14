@@ -5,7 +5,7 @@ import Image from "next/image";
 function StaffCard({ staff, index }) {
   const link =
     "/staff/" +
-    staff.staff.id +
+    staff.staff.person_id +
     "/" +
     staff.staff_data.romaji.replace(/ /g, "-"); //* like /staff/1/name-name
   const image = staff.staff_data.image_medium;

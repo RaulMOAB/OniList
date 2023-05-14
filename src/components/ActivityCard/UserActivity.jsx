@@ -9,13 +9,24 @@ export default function UserActivity({media, status}) {
 	const [startedAt, setStartedAt] = useState("");
 
   let url ='/'+media.type.toLowerCase()+'/'+media.media_id
-
-
+	let type_status = status.status;
+	if(media.type==="MANGA"){
+		switch (type_status) {
+			case "WATCHING":
+					type_status = "READING";
+					break;
+				case "REWATCHING":
+					type_status = "REREADING";
+					break;
+				case "PLAN TO WATCH":
+					type_status = "PLAN TO READ";
+					break;
+				default:
+					break;
+			}
+		}
 	useEffect(() => {
 		setTimeLetf(timeLeftSince(status.updated_at));
-		if (media.start_date) {
-			setStartedAt(formatDate(status.start_date));
-		}
 	}, [status, status, media]);
 
 
@@ -33,7 +44,7 @@ export default function UserActivity({media, status}) {
 			</div>
 			<div className='flex w-1/2 items-center'>
 				<p className='pl-5 inline-block'>
-					{status.status + " "}
+					{type_status + " "}
 					<Link href={url}>
 						<span className='text-primary'>{media.title}</span>
 					</Link>
@@ -45,7 +56,7 @@ export default function UserActivity({media, status}) {
 				</div>
 				<div className='h-1/3'></div>
 				{startedAt ? (
-					<div className='h-1/3'>Started at {startedAt}</div>
+					<div className='h-1/3'></div>
 				) : (
 					<div className='h-1/3'></div>
 				)}

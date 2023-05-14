@@ -19,7 +19,7 @@ export function ProfileBanner() {
 	const { user } = useContext(AuthContext);
 
 	return (
-		<div className='max-w-screen bg-neutral h-80 relative'>
+		<div className='max-w-screen bg-neutral h-80 z-10 relative'>
 			{user ? (
 				<>
 					<img

@@ -34,11 +34,11 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 	};
 
 	const user_lists = medias.map((media) => {
+		console.log(media.status.status);
 		return media.status.status;
 	});
 
 	const item_list_counter = user_lists.reduce((acc, elem) => {
-		//TODO
 		acc[elem] = (acc[elem] || 0) + 1;
 		return acc;
 	}, {});
@@ -47,12 +47,24 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 
 	let index = 0;
 	for (let key in item_list_counter) {
+		console.log(item_list_counter)
 		let manga_key = "READING";
-		if (type === "MANGA") {
-			manga_key = key === "WATCHING" ? "READING" : key;
-			manga_key = key === "REWATCHING" ? "REREADING" : key;
-			manga_key = key === "PLAN TO WATCH" ? "PLAN TO READ" : key;
-		}
+				if (type === "MANGA") {
+					switch (key) {
+						case "WATCHING":
+							manga_key = "READING";
+							break;
+						case "REWATCHING":
+							manga_key = "REREADING";
+							break;
+						case "PLAN TO WATCH":
+							manga_key = "PLAN TO READ";
+							break;
+						default:
+							break;
+					}
+				}
+		console.log(manga_key)
 		list_buttons.push(
 			<button
 				value={key}

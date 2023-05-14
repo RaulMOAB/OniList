@@ -14,24 +14,29 @@ export default function AnimeList() {
 	const [filteredAnime, setFilteredAnime] = useState([]); //TODO
 	const [status, setStatus] = useState("");
 	const [selectedMedia, setSelectedMedia] = useState({});
+	const [deletedMedia , setDeletedMedia] = useState(false);
 	const [noData, setNoData] = useState(false);
 	//*Alert state
 	const [showError, setShowError] = useState(false);
 	const [message, setMessage] = useState("");
 
-	const updateStatus = async (status, firstTime) => {
-		setStatus(status); // cambia el texto del boton
+	const updateStatus = async (status, deleted) => {
+		setStatus(status); 
 
 		const body = JSON.stringify({
 			user_id: user.id,
 			media_id: selectedMedia.media_id,
 			status: status,
 		});
-
-		const response = await fetchData("status", "POST", body);
-		if (response) {
-			setMessage(`${selectedMedia.title} added to ${status} list.`);
-			setShowError(true);
+		if (deleted){
+						setMessage(`${selectedMedia.title} was deleted from your list.`);
+						setShowError(true);
+		}else{
+			const response = await fetchData("status", "POST", body);
+			if (response) {
+				setMessage(`${selectedMedia.title} added to ${status} list.`);
+				setShowError(true);
+			}
 		}
 	};
 
@@ -79,9 +84,10 @@ export default function AnimeList() {
 			<Alert
 				show={showError}
 				message={message}
-				seconds={3}
+				seconds={4}
 				setShowError={setShowError}
 				type={"success"}
+				top="-top-24"
 			/>
 			{!noData ? (
 				<Container>

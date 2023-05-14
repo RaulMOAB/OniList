@@ -8,7 +8,7 @@ export default function Alert({
   seconds,
   setShowError,
   type = "error",
-  top = 14
+  custom_class = "top-14"
 }) {
   const [counter, setCounter] = useState(0);
   let type_class = "";
@@ -35,39 +35,42 @@ export default function Alert({
   }, [show, setShowError, seconds]);
 
   return (
-    <>
+		<>
+			<div
+				className={`fixed inset-x-0 ${custom_class} text-center z-50 container mx-auto w-full md:max-w-md rounded-md p-5`}>
+				<div
+					className={`${
+						show ? " " : "hidden "
+					} absolute flex left-0 w-full  alert  shadow-lg rounded-none md:rounded-md transition-all animate-fade-down ${
+						disapearEffect ? "bg-blue-700 " : " "
+					}  animate-duration-300  ${type_class}`}>
+					<div className=''>
+						{(() => {
+							if (type === "success") {
+								return (
+									<div className='stroke-current grow-0'>
+										<BsFillCheckCircleFill />
+									</div>
+								);
+							} else if (type === "info") {
+								return (
+									<div className='stroke-current grow-0'>
+										<AiFillInfoCircle />
+									</div>
+								);
+							} else {
+								return (
+									<div className='stroke-current grow-0'>
+										<MdOutlineError />
+									</div>
+								);
+							}
+						})()}
 
-			<div className={`fixed inset-x-0 top-${top} text-center z-50 container mx-auto w-full md:max-w-md rounded-md p-5`}>
-      <div
-        className={`${
-          show ? " " : "hidden "
-        } absolute flex left-0 w-full  alert  shadow-lg rounded-none md:rounded-md transition-all animate-fade-down ${
-          disapearEffect ? "bg-blue-700 " : " "
-        }  animate-duration-300  ${type_class}`}
-      >
-        <div className="">
-          {(() => {
-            if (type === "success") {
-              return <div className="stroke-current grow-0"><BsFillCheckCircleFill/></div>
-            } else if (type === "info") {
-              return (
-								<div className='stroke-current grow-0'>
-									<AiFillInfoCircle />
-								</div>
-							);
-            } else {
-              return (
-								<div className='stroke-current grow-0'>
-									<MdOutlineError />
-								</div>
-							);
-            }
-          })()}
-
-          <p className="flex-grow w-full text-sm">{message}</p>
-        </div>
-      </div>
-      </div>
-    </>
-  );
+						<p className='flex-grow w-full text-sm'>{message}</p>
+					</div>
+				</div>
+			</div>
+		</>
+	);
 }
