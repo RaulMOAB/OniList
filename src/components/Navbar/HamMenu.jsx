@@ -59,17 +59,17 @@ const HamMenu = () => {
 								<div className='flex flex-col items-center mb-2'>
 									<Link href={"/settings/"}>
 										<div className='flex items-center justify-center'>
-											<IoSettingsSharp className='text-accent  w-6 h-6' />
+											<FaUser className='text-accent  w-6 h-6' />
 										</div>
-										<p className='text-accent  text-xs'>settings</p>
+										<p className='text-accent  text-xs'>profile</p>
 									</Link>
 								</div>
 								<div className='flex flex-col items-center mb-2'>
-									<Link href={"/settings"}>
+									<Link href={"/settings/account"}>
 										<div className='flex items-center justify-center'>
-											<IoNotifications className='text-accent  w-6 h-6' />
+											<IoSettingsSharp className='text-accent  w-6 h-6' />
 										</div>
-										<p className='text-accent text-xs'>notifications</p>
+										<p className='text-accent  text-xs'>settings</p>
 									</Link>
 								</div>
 								<div className='flex flex-col items-center mb-2'>

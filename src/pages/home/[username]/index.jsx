@@ -11,7 +11,7 @@ export default function Home() {
 
 	useEffect(() => {
 		if(user.username){
-			const endpoint = "library/" + user.username;//TODO Sale Unauthenticated cuando no estas en esta pagina
+			const endpoint = "library/" + user.username;
 			const method = "GET";
 			fetchData(endpoint, method).then((res) => {
 				setLibrary(res ?? []);
@@ -90,7 +90,7 @@ export default function Home() {
 									{favoriteAnimes.reverse()}
 								</div>
 							) : (
-								<div className='bg-neutral rounded-md h-40 col-span-full'>
+								<div className='bg-neutral rounded-md col-span-full'>
 									<NoContent message="You don't have favorites animes" />
 								</div>
 							)}
@@ -102,7 +102,7 @@ export default function Home() {
 										{favoriteMangas.reverse()}
 									</div>
 								) : (
-									<div className='bg-neutral rounded-md h-40 col-span-full'>
+									<div className='bg-neutral rounded-md  col-span-full'>
 										<NoContent message="You don't have favorites mangas" />
 									</div>
 								)}

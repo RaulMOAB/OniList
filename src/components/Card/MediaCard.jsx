@@ -3,7 +3,7 @@ import Media_Tooltip from "./Media_Tooltip";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function MediaCard({ media, index, type = 'anime' }) {
+export default function MediaCard({ media, index }) {
   const route = useRouter();
   //get parameters
   let genres = JSON.parse(media.genres).splice(0, 3).join(" ");
@@ -11,9 +11,12 @@ export default function MediaCard({ media, index, type = 'anime' }) {
 
   let score = 7.9;
 
+  let type;
+  media.type == 'ANIME' ? type = 'anime' : type = 'manga';
+
   //   console.log(media.id);
   const mediaPage = () => {
-    console.log(media.id);
+    console.log(media.type);
     // console.log(media.type);
     // let encoded_title = media.title.toLowerCase().replace(/ /g, "-");
     // console.log(encoded_title);
@@ -21,6 +24,7 @@ export default function MediaCard({ media, index, type = 'anime' }) {
     // type === "anime" ? type : "manga";
     // console.log(type);
     // getMediaInfo(media.id, type, encoded_title);
+	//
     // console.log();
     route.push(`/${type}/${media.id}`);//TODO add media type 
   };

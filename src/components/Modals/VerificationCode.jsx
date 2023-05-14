@@ -57,7 +57,6 @@ export default function VerificationCode(){
 	const code = watch("code");
 
     const handleClick = () => {
-        console.log(email);
         sendEmail(email);
     }
 

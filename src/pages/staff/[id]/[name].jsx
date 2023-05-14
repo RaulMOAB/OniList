@@ -1,8 +1,9 @@
 import React from "react";
+import StaffHeader from "./../../../components/StaffPage/StaffHeader";
 
-function MediaHeader() {
+function StaffPage() {
   return(
-    <p>hola</p>
+    <StaffHeader/>
   )
 }
-export default MediaHeader;
+export default StaffPage;

@@ -75,12 +75,6 @@ export default function LoginForm() {
       <div className=" md:min-h-screen sm:h-full">
         <div className="relative container mx-auto md:w-96 rounded-md p-5 sm:w-full">
           {loginResponse && (
-            // <ErrorAlert
-            //   show={showError}
-            //   message={message}
-            //   resetAlert={resetAlert}
-            //   type={"alert-error"}
-            // />
             <Alert 
             show={showError}
             message={message}

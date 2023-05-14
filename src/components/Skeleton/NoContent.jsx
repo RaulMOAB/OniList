@@ -15,7 +15,7 @@ export default function NoContent({message}) {
     setEmoji(ascii_emojis[randomIndex]);
   },[message])
   return (
-		<div className='h-96 text-accent text-center text-2xl pt-20'>
+		<div className='h-fit text-accent text-center text-2xl p-2'>
 			<p>{emoji}</p>
 			<i className='text-sm'>{message}</i>
 		</div>

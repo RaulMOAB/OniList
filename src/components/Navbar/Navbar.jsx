@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import styles from "../../styles/Navbar.module.css";
 import { IoNotifications, IoSettingsSharp } from "react-icons/io5";
@@ -327,122 +328,132 @@ export default function Navbar() {
               </div>
             </button>
 
-            <div className="dropdown">
-              <div
-                className="flex bg-base-300 rounded-full px-2 py-1"
-                tabIndex={0}
-              >
-                <label className="flex btn btn-circle avatar">
-                  <Image
-                    src={"/" + user.profile_image}
-                    alt="profile image"
-                    className="flex rounded-full"
-                    width={35}
-                    height={35}
-                  />
-                </label>
-                <span className=" inline-block align-middle text-accent hover:text-accent-focus my-auto w-2/3 pl-1 truncate">
-                  {user.username}
-                </span>
-                <button className="" tabIndex={0}>
-                  <svg
-                    className="fill-current text-accent hover:text-accent-focus"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="40"
-                    height="40"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                  </svg>
-                </button>
-              </div>
-              <ul
-                tabIndex={0}
-                className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100  rounded-box w-fit  "
-              >
-                <li>
-                  <span className="  hover:bg-base-100  active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus">
-                    <FaUser className="text-lg" />
-                    <Link
-                      href={"/home/" + user.username}
-                      className="justify-between"
-                    >
-                      Profile
-                    </Link>
-                  </span>
-                </li>
-                <li>
-                  <span className="  hover:bg-base-100  active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus">
-                    <IoNotifications className="text-lg" />
-                    <a>Notifications</a>
-                  </span>
-                </li>
-                <li>
-                  <span className="  hover:bg-base-100  active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus">
-                    <IoSettingsSharp className="text-lg" />
-                    <Link href={"/settings/"}>Settings</Link>
-                  </span>
-                </li>
-                <li>
-                  <span className="  hover:bg-base-100  active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus">
-                    <FiLogOut className="text-lg" />
-                    <label htmlFor="confirm-logout">Log out</label>
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        ) : (
-          <div className="navbar-end pr-6"></div>
-        )}
-      </div>
-      <HamMenu />
-      <ConfirmModal
-        id={"confirm-logout"}
-        header={"Confirm logout"}
-        message={"Are you sure you want to logout?"}
-        confirm_button_text="Yes, logout"
-        action={logout}
-      />
-      {/* MODAL*/}
-      <input type="checkbox" id="my-modal-5" className="modal-toggle" />
-      <label htmlFor="my-modal-5" className="modal hidden lg:flex -mt-80">
-        <label
-          className="modal-box border-0 bg-transparent max-w-2xl shadow-none"
-          htmlFor=""
-        >
-          <div className="max-w-2xl mx-auto">
-            <form className="flex items-center">
-              <label htmlFor="search" className="sr-only">
-                Search
-              </label>
-              <div className="relative w-full">
-                <input
-                  type="text"
-                  id="voice-search"
-                  className="text-accent text-sm rounded-lg block w-full pl-10 p-2.5 bg-base-100"
-                  placeholder="Search a media..."
-                  required=""
-                />
-                <div className="flex absolute inset-y-0 left-0 items-center px-3 pointer-events-none">
-                  <svg
-                    className="w-5 h-5 text-accent"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </form>
-          </div>
-        </label>
-      </label>
-    </>
-  );
+						<div className='dropdown dropdown-bottom dropdown-start group'>
+							<div
+								className='flex bg-base-300 rounded-full px-2 py-1'
+								tabIndex={0}>
+								<label className='flex btn btn-circle avatar'>
+									<img
+										src={
+											process.env.NEXT_PUBLIC_RESOURCES_PROFILE +
+											"" +
+											user.profile_image
+										}
+										alt='profile image'
+										className='flex rounded-full'
+										width={35}
+										height={35}
+									/>
+								</label>
+								<span className=' inline-block align-middle text-accent hover:text-accent-focus my-auto w-2/3 pl-1 truncate'>
+									{user.username}
+								</span>
+								<button
+									className=''
+									tabIndex={0}>
+									<svg
+										className='fill-current text-accent hover:text-accent-focus'
+										xmlns='http://www.w3.org/2000/svg'
+										width='40'
+										height='40'
+										viewBox='0 0 24 24'>
+										<path d='M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z' />
+									</svg>
+								</button>
+							</div>
+							<ul
+								tabIndex={0}
+								className='menu  menu-compact dropdown-content mt-3 group p-2 shadow bg-base-100  rounded-box w-fit  '>
+								<li>
+									<Link
+										href={"/settings"}
+										className='active:bg-transparent'>
+										<FaUser className='text-lg text-accent' />
+										<span className='  hover:bg-base-100  active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus'>
+											Profile
+										</span>
+									</Link>
+								</li>
+								<li>
+									<Link
+										href={"/settings/account"}
+										className='active:bg-transparent'>
+										<IoSettingsSharp className='text-lg text-accent' />
+										<span className='  hover:bg-base-100  active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus'>
+											Settings
+										</span>
+									</Link>
+								</li>
+								<li>
+									<label
+										htmlFor='confirm-logout'
+										className='active:bg-transparent'>
+										<FiLogOut className='text-lg text-accent' />
+										<span className='  hover:bg-base-100  active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus'>
+											Log out
+										</span>
+									</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				) : (
+					<div className='navbar-end pr-6'></div>
+				)}
+			</div>
+			<HamMenu />
+			<ConfirmModal
+				id={"confirm-logout"}
+				header={"Confirm logout"}
+				message={"Are you sure you want to logout?"}
+				confirm_button_text='Yes, logout'
+				action={logout}
+			/>
+			{/* MODAL*/}
+			<input
+				type='checkbox'
+				id='my-modal-5'
+				className='modal-toggle'
+			/>
+			<label
+				htmlFor='my-modal-5'
+				className='modal hidden lg:flex -mt-80'>
+				<label
+					className='modal-box border-0 bg-transparent max-w-2xl shadow-none'
+					htmlFor=''>
+					<div className='max-w-2xl mx-auto'>
+						<form className='flex items-center'>
+							<label
+								htmlFor='search'
+								className='sr-only'>
+								Search
+							</label>
+							<div className='relative w-full'>
+								<input
+									type='text'
+									id='voice-search'
+									className='text-accent text-sm rounded-lg block w-full pl-10 p-2.5 bg-base-100'
+									placeholder='Search a media...'
+									required=''
+								/>
+								<div className='flex absolute inset-y-0 left-0 items-center px-3 pointer-events-none'>
+									<svg
+										className='w-5 h-5 text-accent'
+										fill='currentColor'
+										viewBox='0 0 20 20'
+										xmlns='http://www.w3.org/2000/svg'>
+										<path
+											fillRule='evenodd'
+											d='M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z'
+											clipRule='evenodd'
+										/>
+									</svg>
+								</div>
+							</div>
+						</form>
+					</div>
+				</label>
+			</label>
+		</>
+	);
 }

@@ -14,7 +14,7 @@ export default function UserStatsPages({children}) {
 		<Container>
 			<div className='grid lg:grid-cols-6 gap-4 py-6'>
 				<div className=' bg-neutral w-full col-span-6 lg:col-span-1 h-fit lg:sticky lg:top-5 rounded-md'>
-					<SideBar links={links} />
+					<SideBar links={links} category="User stats" type="stats"/>
 				</div>
 				<div className='w-full h-fit col-span-6 lg:col-span-5 gap-2 bg-neutral p-5 rounded-md'>
 					{children}

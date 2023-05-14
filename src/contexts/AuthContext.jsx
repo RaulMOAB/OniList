@@ -1,6 +1,7 @@
 import React from "react";
 import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import {redirect} from 'next/navigation'
 
 export const AuthContext = createContext({});
 
@@ -36,16 +37,20 @@ export function AuthContextProvider({ children }) {
     router.push("/");
   };
 
-  const fetchData = async (endpoint, method = "GET", body = null) => {
-    const headers = {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    };
+  const fetchData = async (endpoint, method = "GET", body = null, type="normal") => {
+    let headers = {};
+    if(type !== "image"){
+       headers = {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      };
+    }
     const api_endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + endpoint;
     // Añadimos el token a los headers si existe
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     }
+    try{
     const response = body
       ? await fetch(api_endpoint, { method, headers, body })
       : await fetch(api_endpoint, { method, headers });
@@ -55,16 +60,29 @@ export function AuthContextProvider({ children }) {
     }
     isValidToken(false);
     logout();
-    router.push("/");
-    return null
+    redirect('/')
+    }catch(error){
+      if(type === "image"){
+        return { error: "This is not an image please select an image." };
+      }else{
+        return {"error": "An error ocurred when fetching"}
+      }
+    }
   };
+
+  const updateUser = ()=>{
+    let endpoint = "user/"+user.id;
+    fetchData(endpoint).then((res)=>{
+      setUser(res);
+      localStorage.setItem("user", JSON.stringify(res))
+    })
+  }
 
   const isUserAuthenticated = () => {
     let isAuth = token ? true : false;
     return isAuth;
   };
 
-  // Chequear si existe un token en localStorage al cargar la página
   useEffect(() => {
     const aux_token = localStorage.getItem("token");
     const aux_user = localStorage.getItem("user");
@@ -82,18 +100,18 @@ export function AuthContextProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        login,
-        logout,
-        getToken,
-        getUserID,
-        isUserAuthenticated,
-        fetchData,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+		<AuthContext.Provider
+			value={{
+				user,
+				login,
+				logout,
+				getToken,
+				getUserID,
+				isUserAuthenticated,
+				fetchData,
+				updateUser,
+			}}>
+			{children}
+		</AuthContext.Provider>
+	);
 }

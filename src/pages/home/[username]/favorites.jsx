@@ -71,45 +71,38 @@ export default function Favorites() {
 
 
   return (
-		<>
-			{!noData ? (
-				<div className='grid grid-cols-12 my-5 py-5 rounded-md bg-base-100'>
-					{favoritesAnimes.length !== 0 && favoritesMangas.length !== 0 ? (
-						<>
-							<div className='col-span-12 p-8 mb-4 '>
-								<span className='text-accent'>Anime</span>
-								<div className='grid grid-cols-3 lg:grid-cols-10 md:grid-cols-6 sm:grid-cols-4 gap-5 mt-3 p-5 rounded-md bg-base-300'>
-									{favoritesAnimes}
-								</div>
-							</div>
-							<div className='col-span-12 p-8 mb-4 '>
-								<span className='text-accent'>Manga</span>
-								<div className='grid grid-cols-3 lg:grid-cols-10 md:grid-cols-6 sm:grid-cols-4 gap-5 mt-3 p-5 rounded-md bg-base-300'>
-									{favoritesMangas}
-								</div>
-							</div>
-							<ConfirmModal
-								id={"confirm-delete-favorite"}
-								header={"Delete from favorites"}
-								message={
-									"Are you sure you want to delete this media from favorites?"
-								}
-								confirm_button_text='Yes, delete'
-								action={updateFavoriteStatus}
-							/>
-						</>
+		<div className='grid grid-cols-12 my-5 py-5 rounded-md bg-base-100'>
+			<div className='col-span-12 p-8 mb-4 '>
+				<span className='text-accent'>Anime</span>
+				<div className='grid grid-cols-3 lg:grid-cols-10 md:grid-cols-6 sm:grid-cols-4 gap-5 mt-3 p-5 rounded-md bg-base-300'>
+					{favoritesAnimes.length !== 0 ? (
+						favoritesAnimes
 					) : (
 						<div className='col-span-12'>
 							<NoContent message={"No favorites yet"} />
 						</div>
 					)}
 				</div>
-			) : (
-				<div className='h-screen text-accent text-center text-2xl pt-20'>
-					<p>(╯°□°）╯︵ ┻━┻ </p>
-					<i className='text-sm'>Nothing to see here</i>
+			</div>
+			<div className='col-span-12 p-8 mb-4 '>
+				<span className='text-accent'>Manga</span>
+				<div className='grid grid-cols-3 lg:grid-cols-10 md:grid-cols-6 sm:grid-cols-4 gap-5 mt-3 p-5 rounded-md bg-base-300'>
+					{favoritesMangas.length !== 0 ? (
+						favoritesMangas
+					) : (
+						<div className='col-span-12'>
+							<NoContent message={"No favorites yet"} />
+						</div>
+					)}
 				</div>
-			)}
-		</>
+			</div>
+			<ConfirmModal
+				id={"confirm-delete-favorite"}
+				header={"Delete from favorites"}
+				message={"Are you sure you want to delete this media from favorites?"}
+				confirm_button_text='Yes, delete'
+				action={updateFavoriteStatus}
+			/>
+		</div>
 	);
 }

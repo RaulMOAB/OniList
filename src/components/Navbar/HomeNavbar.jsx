@@ -8,7 +8,7 @@ function HomeNavbar() {
 
 	if(user){
 		return (
-			<div className='navbar bg-base-100 text-accent text-sm overflow-x-auto'>
+			<div className='navbar bg-base-100 text-accent z-20 text-sm overflow-x-auto'>
 				<div className='navbar-start'></div>
 				<div className='navbar-center '>
 					<ul className='menu menu-horizontal px-1'>

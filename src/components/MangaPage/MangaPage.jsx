@@ -177,7 +177,7 @@ export default function MangaPage({ url, title }) {
       </Head>
       <Container>
         <main className="pb-10 2xl:px-28 xl:px-16  lg:px-2 sm:px-4 px-4">
-            <h1 className="text-accent font-semibold ml-3 text-2xl mt-10">{title}</h1>
+            <h1 className="text-accent font-semibold ml-3 text-2xl md:mt-10 pt-10">{title}</h1>
           <section id="filters">
             <div className="flex flex-wrap p-3 rounded-md bg-neutral mt-5 bg-transparent">
               <Search value={search} handle={handleSearchChange}/>
@@ -244,7 +244,7 @@ export default function MangaPage({ url, title }) {
                     <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6">
                       {
                         mediaComponents.map((media, index) => {
-                          return <MediaCard key={index} media={media} index={index} type="manga"/>
+                          return <MediaCard key={index} media={media} index={index}/>
                         })
                       }
                     </div>

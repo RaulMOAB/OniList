@@ -5,27 +5,38 @@ import FilterMedia from "@/components/UserList/FilterMedia";
 import MediaList from "@/components/UserList/MediaList";
 import { AuthContext } from "@/contexts/AuthContext";
 import MediaEditor from "@/components/Modals/MediaEditor";
+import Alert from "@/components/Alerts/Alert_prueba";
 import NoContent from "@/components/Skeleton/NoContent";
 
 export default function AnimeList() {
 	const { user, fetchData } = useContext(AuthContext);
 	const [animelistStatus, setAnimelistStatus] = useState([]);
-	const [filteredAnime, setFilteredAnime] = useState(animelistStatus ?? [""]); //TODO
+	const [filteredAnime, setFilteredAnime] = useState([]); //TODO
 	const [status, setStatus] = useState("");
 	const [selectedMedia, setSelectedMedia] = useState({});
+	const [deletedMedia , setDeletedMedia] = useState(false);
 	const [noData, setNoData] = useState(false);
+	//*Alert state
+	const [showError, setShowError] = useState(false);
+	const [message, setMessage] = useState("");
 
-	const updateStatus = async (status) => {
-		setStatus(status); // cambia el texto del boton
+	const updateStatus = async (status, deleted) => {
+		setStatus(status); 
+
 		const body = JSON.stringify({
 			user_id: user.id,
 			media_id: selectedMedia.media_id,
 			status: status,
 		});
-
-		const response = await fetchData("status", "POST", body);
-		if (response.status === 200) {
-			//TODO poner alert
+		if (deleted){
+						setMessage(`${selectedMedia.title} was deleted from your list.`);
+						setShowError(true);
+		}else{
+			const response = await fetchData("status", "POST", body);
+			if (response) {
+				setMessage(`${selectedMedia.title} added to ${status} list.`);
+				setShowError(true);
+			}
 		}
 	};
 
@@ -34,11 +45,14 @@ export default function AnimeList() {
 			let endpoint = `library/${user.username}/animelist`;
 			let method = "GET";
 			fetchData(endpoint, method).then((res_animelist) => {
+				console.log(res_animelist);
 				if (res_animelist !== undefined) {
 					setNoData(false);
-					setFilteredAnime(res_animelist);
-					setAnimelistStatus(res_animelist);
+					setFilteredAnime(res_animelist ?? []);
+					setAnimelistStatus(res_animelist ?? []);
 				} else {
+					setFilteredAnime(res_animelist ?? []);
+					setAnimelistStatus(res_animelist ?? []);
 					setNoData(true);
 				}
 			});
@@ -47,32 +61,40 @@ export default function AnimeList() {
 	}, [user, fetchData, status, selectedMedia]);
 
 	const watching_list = filteredAnime.filter((media) => {
-		return media.status[0].status === "WATCHING";
+		return media.status.status === "WATCHING";
 	});
 	const rewatching_list = filteredAnime.filter((media) => {
-		return media.status[0].status === "REWATCHING";
+		return media.status.status === "REWATCHING";
 	});
 	const completed_list = filteredAnime.filter((media) => {
-		return media.status[0].status === "COMPLETED";
+		return media.status.status === "COMPLETED";
 	});
 	const paused_list = filteredAnime.filter((media) => {
-		return media.status[0].status === "PAUSED";
+		return media.status.status === "PAUSED";
 	});
 	const dropped_list = filteredAnime.filter((media) => {
-		return media.status[0].status === "DROPPED";
+		return media.status.status === "DROPPED";
 	});
 	const planning_list = filteredAnime.filter((media) => {
-		return media.status[0].status === "PLAN TO WATCH";
+		return media.status.status === "PLAN TO WATCH";
 	});
 
 	return (
 		<>
+			<Alert
+				show={showError}
+				message={message}
+				seconds={4}
+				setShowError={setShowError}
+				type={"success"}
+				top="-top-24"
+			/>
 			{!noData ? (
 				<Container>
 					<div className='grid lg:grid-cols-6 gap-4 py-6'>
 						<div className=' bg-neutral col-span-5 lg:col-span-1 h-fit lg:sticky lg:top-5 rounded-md'>
 							<FilterMedia
-							  key={12}
+								key={12}
 								type='ANIME'
 								medias={animelistStatus}
 								setFilteredMedia={setFilteredAnime}
@@ -125,7 +147,7 @@ export default function AnimeList() {
 									/>
 								</>
 							) : (
-								<NoContent message={"Anime not found"}/>
+								<NoContent message={"Anime not found"} />
 							)}
 						</div>
 					</div>
