@@ -7,7 +7,6 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import Link from "next/link";
 import LoginButton from "@/components/Buttons/AuthForms/SubmitButton";
 
-import ErrorAlert from "@/components/Alerts/Login/ErrorAlert";
 import Alert from "@/components/Alerts/Alert_prueba"
 
 const getLoginResponse = async (email, password) => {
@@ -148,9 +147,9 @@ export default function LoginForm() {
             </div>
             <div className="text-center mt-5">
               <small className="text-accent text-center">
-                <a href="" className="hover:text-blue-500 active:text-blue-700">
+                <Link href="/forgot-password" className="hover:text-blue-500 active:text-blue-700">
                   Forgot password?
-                </a>
+                </Link>
               </small>
             </div>
             <div className="text-center mt-5">
