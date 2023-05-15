@@ -9,10 +9,15 @@ import Container from "@/components/Common/PageContainer/Container";
 import MediaPageCard from "@/components/Card/MediaPageCard";
 import MediaEditor from "@/components/Modals/MediaEditor";
 import ReadMore from "../utils/ReadMore";
-import SubmitButton from "../Buttons/AuthForms/SubmitButton";
 import Alert from "@/components/Alerts/Alert_prueba";
 import { BsFillHeartFill } from "react-icons/bs";
+import filterByMediaType from "../utils/filterByMediaType";
 
+/**
+ * Function that gets a media by id
+ * @param {*} id media id
+ * @returns json with all media information
+ */
 const getMedia = async (id) => {
   const response = await fetch(
     process.env.NEXT_PUBLIC_API_ENDPOINT + `media/${id}`,
@@ -27,6 +32,12 @@ const getMedia = async (id) => {
   return response.json();
 };
 
+/**
+ * Function to get if an user is subscribed to a media
+ * @param {*} user_id 
+ * @param {*} media_id 
+ * @returns json with th actua lstatus of a media
+ */
 const getMediaSubscribed = async (user_id, media_id) => {
   const response = await fetch(
     process.env.NEXT_PUBLIC_API_ENDPOINT + `status/${user_id}/${media_id}`,
@@ -49,7 +60,7 @@ function MediaHeader() {
   const user_id = getUserID();
   const [subscribe, isSubsribed] = useState({});
   const [status, setStatus] = useState("Add to Library");
-  const [favorite, setFavorite] = useState();
+  const [favorite, setFavorite] = useState(0);
   const [type, setType] = useState("");
 
   //*Alert state
@@ -63,16 +74,21 @@ function MediaHeader() {
 
   useEffect(() => {
     // setFavorite(favorite)
+    let aux_type, aux_favorite, aux_status;
     if (id) {
       getMedia(id)
         .then((res) => {
           setMedia(res);
           setType(res.type);
+          aux_type = res.type;
           getMediaSubscribed(user_id, id).then((res) => {
             isSubsribed(res);
+            console.log(res);
             if (res) {
-              setStatus(res.status);
-              setFavorite(res.favorite);
+              aux_status = filterByMediaType(res.type);
+              aux_favorite = res.favorite;
+              setStatus(aux_status);
+              setFavorite(aux_favorite ?? 0);
             }
           });
         })
@@ -82,18 +98,12 @@ function MediaHeader() {
     }
   }, [id]);
 
-  useEffect(() => {
-    //console.log(favorite); //*valor actual
-    setFavoriteToMedia(favorite);
-  }, [favorite]);
-
-  //TODO hashMap con los status de las medias
-  const updateStatus = async (status, deleted) => {
-    setStatus(status); // cambia el texto del boton
+  const updateStatus = async (status, deleted, favorite = 0) => {
     const body = JSON.stringify({
       user_id,
       media_id: id,
       status: status,
+      favorite,
     });
 
     const response = await fetch(
@@ -107,9 +117,27 @@ function MediaHeader() {
         body,
       }
     );
+
+    if (type === "MANGA") {
+      switch (status) {
+        case "WATCHING":
+          status = "READING";
+          break;
+        case "REWATCHING":
+          status = "REREADING";
+          break;
+        case "PLAN TO WATCH":
+          status = "PLAN TO READ";
+          break;
+        default:
+          break;
+      }
+    }
+    setStatus(status); // cambia el texto del boton
     if (deleted) {
       setMessage(`${media.title} was deleted from your list.`);
       setShowError(true);
+      setFavorite(0);
     } else {
       if (response.status === 200) {
         setMessage(`${media.title} added to ${status} list.`);
@@ -122,38 +150,40 @@ function MediaHeader() {
   const handleFavorite = (event) => {
     event.preventDefault();
     let aux_fav;
-    //console.log(favorite)
     // favorite === 0 ? setFavorite(1) : setFavorite(0);
     if (favorite === 0) {
       aux_fav = 1;
       setFavorite(aux_fav);
+      setFavoriteToMedia(aux_fav);
     } else {
       aux_fav = 0;
       setFavorite(aux_fav);
+      setFavoriteToMedia(aux_fav);
     }
+    console.log(aux_fav);
 
     //*Llamada Api
     //setFavoriteToMedia(favorite);
     //return favorite;
   };
 
-  const setFavoriteToMedia = async (favorite) => {
+  const setFavoriteToMedia = async (favorite, status = "WATCHING") => {
+    console.log(favorite);
     const body = JSON.stringify({
       user_id: user_id,
       media_id: id,
       status: status,
       favorite: favorite,
     });
-    //console.log(body);
-    // console.log(isUserAuthenticated())
+
     const endpoint = "media/favorite";
     const method = "POST";
     if (isUserAuthenticated()) {
       fetchData(endpoint, method, body).then((res) => {
+        console.log("************************");
         console.log(res);
-        setFavorite(res.favorite);
-        //console.log(res);
       });
+      updateStatus(status, false, favorite ?? 1);
     }
   };
 

@@ -15,8 +15,8 @@ function RelationCard({ related_media, media_relationship, index }) {
   const status = related_media.airing_status;
 
   const formatSanitize = (format) => {
-    return format.toLowerCase().replace('_', ' ');
-  }
+    if (format) return format.toLowerCase().replace("_", " ");
+  };
   //console.log(image)
   return (
     <div className="w-full">
