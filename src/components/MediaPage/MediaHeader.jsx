@@ -85,7 +85,8 @@ function MediaHeader() {
             isSubsribed(res);
             console.log(res);
             if (res) {
-              aux_status = filterByMediaType(res.type);
+              aux_status = filterByMediaType(res.type,res.status);
+              console.log(aux_status)
               aux_favorite = res.favorite;
               setStatus(aux_status);
               setFavorite(aux_favorite ?? 0);
