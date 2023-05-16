@@ -4,6 +4,7 @@ import { AuthContext } from "@/contexts/AuthContext";
 import FavoriteMediaCard from '@/components/UserList/FavoriteMediaCard';
 import ConfirmModal from "@/components/Modals/ConfirmModal";
 import NoContent from "@/components/Skeleton/NoContent";
+import Head from "next/head";
 
 export default function Favorites() {
   const {user, fetchData} = useContext(AuthContext)
@@ -71,38 +72,43 @@ export default function Favorites() {
 
 
   return (
-		<div className='grid grid-cols-12 my-5 py-5 rounded-md bg-base-100'>
-			<div className='col-span-12 p-8 mb-4 '>
-				<span className='text-accent'>Anime</span>
-				<div className='grid grid-cols-3 lg:grid-cols-10 md:grid-cols-6 sm:grid-cols-4 gap-5 mt-3 p-5 rounded-md bg-base-300'>
-					{favoritesAnimes.length !== 0 ? (
-						favoritesAnimes
-					) : (
-						<div className='col-span-12'>
-							<NoContent message={"No favorites yet"} />
-						</div>
-					)}
+		<>
+			<Head>
+				<title>Favorites · Onilist</title>
+			</Head>
+			<div className='grid grid-cols-12 my-5 py-5 rounded-md bg-base-100'>
+				<div className='col-span-12 p-8 mb-4 '>
+					<span className='text-accent'>Anime</span>
+					<div className='grid grid-cols-3 lg:grid-cols-10 md:grid-cols-6 sm:grid-cols-4 gap-5 mt-3 p-5 rounded-md bg-base-300'>
+						{favoritesAnimes.length !== 0 ? (
+							favoritesAnimes
+						) : (
+							<div className='col-span-12'>
+								<NoContent message={"No favorites yet"} />
+							</div>
+						)}
+					</div>
 				</div>
-			</div>
-			<div className='col-span-12 p-8 mb-4 '>
-				<span className='text-accent'>Manga</span>
-				<div className='grid grid-cols-3 lg:grid-cols-10 md:grid-cols-6 sm:grid-cols-4 gap-5 mt-3 p-5 rounded-md bg-base-300'>
-					{favoritesMangas.length !== 0 ? (
-						favoritesMangas
-					) : (
-						<div className='col-span-12'>
-							<NoContent message={"No favorites yet"} />
-						</div>
-					)}
+				<div className='col-span-12 p-8 mb-4 '>
+					<span className='text-accent'>Manga</span>
+					<div className='grid grid-cols-3 lg:grid-cols-10 md:grid-cols-6 sm:grid-cols-4 gap-5 mt-3 p-5 rounded-md bg-base-300'>
+						{favoritesMangas.length !== 0 ? (
+							favoritesMangas
+						) : (
+							<div className='col-span-12'>
+								<NoContent message={"No favorites yet"} />
+							</div>
+						)}
+					</div>
 				</div>
+				<ConfirmModal
+					id={"confirm-delete-favorite"}
+					header={"Delete from favorites"}
+					message={"Are you sure you want to delete this media from favorites?"}
+					confirm_button_text='Yes, delete'
+					action={updateFavoriteStatus}
+				/>
 			</div>
-			<ConfirmModal
-				id={"confirm-delete-favorite"}
-				header={"Delete from favorites"}
-				message={"Are you sure you want to delete this media from favorites?"}
-				confirm_button_text='Yes, delete'
-				action={updateFavoriteStatus}
-			/>
-		</div>
+		</>
 	);
 }

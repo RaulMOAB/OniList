@@ -1,30 +1,42 @@
-import React, { useContext,useState } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
-import Alert from "@/components/Alerts/Login/ErrorAlert";
-import { IoAt, IoLockClosed } from "react-icons/io5";
+import Alert from "@/components/Alerts/Alert_prueba";
+import Head from "next/head";
+import { IoAt } from "react-icons/io5";
 import Link from "next/link";
 import LoginButton from "@/components/Buttons/AuthForms/SubmitButton";
 
 export default function ForgotForm() {
-  const { fetchData}= useContext(AuthContext);
+	const { fetchData } = useContext(AuthContext);
 	const [email, setEmail] = useState("");
 	const [showError, setShowError] = useState(false);
 	const [message, setMessage] = useState("");
-	const [shownPassword, setShownPassword] = useState(false);
+	const [typeAlert, setTypeAlert] = useState("");
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		console.log("enviando email");
+		let endpoint = "forgot-password";
+		let method = "POST";
+		let body = JSON.stringify({ email });
+		fetchData(endpoint, method, body).then((response) => {
+			let response_key = Object.keys(response)[0];
+			setTypeAlert(response_key);
+			setMessage(response[response_key]);
+			setShowError(true);
+		});
 	};
 	return (
 		<>
+		<Head>
+			<title>Forgot password · Onilist</title>
+		</Head>
 			<div className=' h-96  sm:h-screen text-accent'>
 				<Alert
 					show={showError}
 					message={message}
 					seconds={3}
 					setShowError={setShowError}
-					type={"error"}
+					type={typeAlert}
 				/>
 				<div className='container mx-auto bg-neutral w-full h-screen sm:h-fit my-20 rounded-md p-5 sm:w-96'>
 					<div className='m-5'>
@@ -45,7 +57,7 @@ export default function ForgotForm() {
 									<input
 										type='email'
 										value={email}
-										onChange={(event) => handleEmailChange(event.target.value)}
+										onChange={(event) => setEmail(event.target.value)}
 										placeholder='Email'
 										className={
 											"w-full h-9 focus:outline-none bg-base-content opacity-60  text-accent font-semibold p-3"

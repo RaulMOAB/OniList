@@ -5,6 +5,8 @@ import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import NoContent from "@/components/Skeleton/NoContent";
 import AuthRequired from "../../../components/Common/AuthRequired";
+import Head from "next/head";
+
 export default function Home() {
 	const { user, fetchData } = useContext(AuthContext);
 	const [library, setLibrary] = useState([]);
@@ -78,7 +80,9 @@ export default function Home() {
 		userActivity.length === 0 && library.length !== 0;
 	return (
 		<>
-
+			<Head>
+				<title>Home · Onilist</title>
+			</Head>
 			{!nothingToSee ? (
 				<div className='w-full grid lg:grid-cols-2 gap-4 p-6 text-accent'>
 					<div>
@@ -99,15 +103,15 @@ export default function Home() {
 						</div>
 						<div className='mb-3'>
 							<p className='font-semibold mb-2'>Favorites Mangas</p>
-								{favoriteMangas.length !== 0 ? (
-									<div className='bg-neutral rounded-md p-5 grid grid-cols-4 md:grid-cols-5 gap-2'>
-										{favoriteMangas.reverse()}
-									</div>
-								) : (
-									<div className='bg-neutral rounded-md  col-span-full'>
-										<NoContent message="You don't have favorites mangas" />
-									</div>
-								)}
+							{favoriteMangas.length !== 0 ? (
+								<div className='bg-neutral rounded-md p-5 grid grid-cols-4 md:grid-cols-5 gap-2'>
+									{favoriteMangas.reverse()}
+								</div>
+							) : (
+								<div className='bg-neutral rounded-md  col-span-full'>
+									<NoContent message="You don't have favorites mangas" />
+								</div>
+							)}
 						</div>
 					</div>
 					{userActivity.length !== 0 ? (
@@ -131,7 +135,7 @@ export default function Home() {
 					)}
 				</div>
 			) : (
-				<NoContent message="Error" />
+				<NoContent message='Error' />
 			)}
 		</>
 	);
