@@ -6,9 +6,9 @@ function RelationCard({ related_media, media_relationship, index }) {
   const link = "/" + related_media.type.toLowerCase() + "/" + related_media.id; //* it's like /anime/11345
   const image = related_media.medium_cover_image;
   const type = related_media.type;
-  console.log(related_media);
-  console.log("******************");
-  console.log(media_relationship);
+  // console.log(related_media);
+  // console.log("******************");
+  // console.log(media_relationship);
   const source = related_media.source;
   const title = related_media.title;
   const format = related_media.format;
