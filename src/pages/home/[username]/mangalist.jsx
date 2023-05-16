@@ -7,6 +7,7 @@ import { AuthContext } from "@/contexts/AuthContext";
 import MediaEditor from "@/components/Modals/MediaEditor";
 import Alert from "@/components/Alerts/Alert_prueba";
 import NoContent from "@/components/Skeleton/NoContent";
+import Head from "next/head";
 
 export default function MangaList() {
 	const { user, fetchData } = useContext(AuthContext);
@@ -77,6 +78,9 @@ export default function MangaList() {
 
 	return (
 		<>
+			<Head>
+				<title>Mangalist · Onilist</title>
+			</Head>
 			<Alert
 				show={showError}
 				message={message}

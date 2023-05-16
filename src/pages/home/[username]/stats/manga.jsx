@@ -6,6 +6,7 @@ import ChartRadar from "@/components/Graphics/Radar";
 import ChartLine from "@/components/Graphics/Line";
 import UserStatsPages from "@/layouts/statsPage/UserStatsPages";
 import NoContent from "@/components/Skeleton/NoContent";
+import Head from "next/head";
 
 export default function Manga() {
   	const { user, fetchData } = useContext(AuthContext);
@@ -23,6 +24,9 @@ export default function Manga() {
 
 	return (
 		<>
+			<Head>
+				<title>Stats manga · Onilist</title>
+			</Head>
 			<UserStatsPages>
 				<div className='grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5'>
 					{graphicData.data_status ? (

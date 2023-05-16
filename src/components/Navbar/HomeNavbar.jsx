@@ -33,9 +33,6 @@ function HomeNavbar() {
 						<li className='ml-10'>
 							<Link className='active:bg-transparent hover:bg-transparent' href={"/home/" + user.username + "/stats/overview"}>Stats</Link>
 						</li>
-						<li className='ml-10'>
-							<Link className='active:bg-transparent hover:bg-transparent' href={"/home/" + user.username + "/social"}>Social</Link>
-						</li>
 					</ul>
 				</div>
 				<div className='navbar-end'></div>
