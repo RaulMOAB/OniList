@@ -36,7 +36,7 @@ function StaffHeader() {
           console.log(res.person)
           console.log(res.job.job)
           setStaff(res.person);
-          setJob(res.job.job);
+          setJob(res.job.job ?? '');
         })
         .catch((e) => {
           console.log(e);
@@ -52,7 +52,7 @@ function StaffHeader() {
         <div className={style.banner_shadow}></div>
       </div>
       <Container>
-      <div className="grid grid-rows-1 gap-8 md:grid-flow-col xl:px-52">
+        <div className="grid grid-rows-1 gap-8 md:grid-flow-col xl:px-52">
           <div className="mx-auto -mt-28 z-30 w-fit md:pl-12 xl:pl-0">
             <MediaPageCard img={staff.image_large} />
           </div>
@@ -70,12 +70,12 @@ function StaffHeader() {
                 </p> : ""
             }
             {
-              staff.birthday != null ? <p className="text-sm">
+              staff.date_of_birth != null ? <p className="text-sm">
                   <span className="font-semibold text-accent">Birthday:</span> {staff.date_of_birth} 
                 </p> : ""
             }
             {
-              staff.birthday != null ? <p className="text-sm">
+              staff.date_of_death != null ? <p className="text-sm">
                   <span className="font-semibold text-accent">Death:</span> {staff.date_of_death} 
                 </p> : ""
             }
@@ -85,17 +85,17 @@ function StaffHeader() {
                 </p> : ""
             }
             {
-              staff.blood_type != null ? <p className="text-sm">
+              staff.years_active != null ? <p className="text-sm">
                   <span className="font-semibold text-accent">Years active:</span> {staff.years_active} 
                 </p> : ""
             }
             {
-              staff.blood_type != null ? <p className="text-sm">
+              staff.home_town != null ? <p className="text-sm">
                   <span className="font-semibold text-accent">Hometown:</span> {staff.home_town} 
                 </p> : ""
             }
             {
-                job != null ? <p className="text-sm">
+                job != '' ? <p className="text-sm">
                   <span className="font-semibold text-accent">Job:</span> {job} 
                 </p> : ""
             }
