@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useContext, useState, useEffect } from "react";
@@ -12,9 +13,11 @@ import Head from "next/head";
 
 function Account() {
 	const router = useRouter();
-	const { user, logout, fetchData, updateUser } = useContext(AuthContext);
-	const [username, setUsername] = useState(user.username);
-	const [email, setEmail] = useState(user.email);
+	const { user, logout, fetchData, updateUser, hasChanged } =
+	useContext(AuthContext);
+	const [userInfo, setUserInfo] = useState({});
+	const [username, setUsername] = useState(userInfo.username);
+	const [email, setEmail] = useState(userInfo.email);
 	const [code, setCode] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
@@ -34,6 +37,19 @@ function Account() {
 	const [showAlert, setShowAlert] = useState(false);
 	const [message, setMessage] = useState("");
 	const [typeAlert, setTypeAlert] = useState("");
+
+	useEffect(() => {
+		if (Object.keys(user).length !== 0) {
+			let endpoint = "user/" + user.id;
+			fetchData(endpoint).then((res_user) => {
+				setUserInfo(res_user);
+				setEmail(res_user.email);
+				setUsername(res_user.username);
+			});
+		} else {
+			setUserInfo({});
+		}
+	}, [hasChanged, user]);
 
 	useEffect(() => {}, [username, email, newPassword, confirmPassword]);
 

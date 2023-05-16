@@ -27,10 +27,12 @@ export default function ForgotForm() {
 	};
 	return (
 		<>
-		<Head>
-			<title>Forgot password · Onilist</title>
-		</Head>
-			<div className=' h-96  sm:h-screen text-accent'>
+			<Head>
+				<title>Forgot password · Onilist</title>
+			</Head>
+			<div className=' h-screen'>
+				<div className='relative container mx-auto md:w-96 rounded-md p-0 md:p-5 sm:p-10 sm:w-full'></div>
+
 				<Alert
 					show={showError}
 					message={message}
@@ -38,8 +40,8 @@ export default function ForgotForm() {
 					setShowError={setShowError}
 					type={typeAlert}
 				/>
-				<div className='container mx-auto bg-neutral w-full h-screen sm:h-fit my-20 rounded-md p-5 sm:w-96'>
-					<div className='m-5'>
+				<div className='container mx-auto bg-neutral h-full sm:h-fit sm:my-20 sm:rounded-md p-5 sm:w-96'>
+					<div className='m-5 sm:mt-0 mt-40'>
 						<h1 className='text-xl text-accent font-bold text-center'>
 							Forgot password
 						</h1>
@@ -48,7 +50,7 @@ export default function ForgotForm() {
 					<form
 						onSubmit={(event) => handleSubmit(event)}
 						className='form-control mt-8'>
-						<div className='mb-4 w-4/5 mx-auto'>
+						<div className='mb-4 w-full sm:w-11/12 mx-auto'>
 							<div className='input-group'>
 								<label className='flex justify-center input-group input-group-md '>
 									<span className='bg-base-content '>

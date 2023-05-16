@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import FavoritesCards from "@/components/Card/FavoritesCards";
 import UserActivity from "@/components/ActivityCard/UserActivity";
@@ -8,9 +9,19 @@ import AuthRequired from "../../../components/Common/AuthRequired";
 import Head from "next/head";
 
 export default function Home() {
-	const { user, fetchData } = useContext(AuthContext);
+	const { user, fetchData, hasChanged } = useContext(AuthContext);
 	const [library, setLibrary] = useState([]);
-
+	const [userInfo, setUserInfo] = useState({});
+		useEffect(() => {
+			if (Object.keys(user).length !== 0) {
+				let endpoint = "user/" + user.id;
+				fetchData(endpoint).then((res_user) => {
+					setUserInfo(res_user);
+				});
+			} else {
+				setUserInfo({});
+			}
+		}, [hasChanged,user]);
 	useEffect(() => {
 		if(user.username){
 			const endpoint = "library/" + user.username;
@@ -22,7 +33,7 @@ export default function Home() {
 		}
 	}, [user,fetchData]);
 
-	const description = user.description;
+	const description = userInfo.description ?? "You dont have description yet.";
 	const favoriteAnimes = [];
 	const favoriteMangas = [];
 	const userActivity = [];
