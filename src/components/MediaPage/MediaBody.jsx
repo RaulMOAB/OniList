@@ -172,8 +172,8 @@ function MediaBody() {
   return (
     <Container>
       {/* grid padre */}
-      <div className="grid grid-cols-1 md:grid-cols-6 md:gap-10 lg:grid-cols-10 lg:gap-10 py-6 lg:px-20 ">
-        <div className="grid grid-cols-1 h-fit lg:col-span-2 md:col-span-2   text-xs justify-between ">
+      <div className="grid grid-cols-1 md:grid-cols-6 md:gap-10 xl:grid-cols-10 lg:gap-10 py-6 xl:px-20 ">
+        <div className="grid grid-cols-1 h-fit xl:col-span-2 md:col-span-2   text-xs justify-between ">
           <div className="bg-neutral p-4">
             {/* media details */}
             {mediaStatus === "finished" ? (
@@ -294,7 +294,7 @@ function MediaBody() {
         </div>
 
         {/* padre de los cards */}
-        <div className="lg:col-span-8 lg:grid-cols-6 md:grid-cols-2 md:col-span-4  h-fit md:px-2 md:-mx-3 lg:px-2 ">
+        <div className="xl:col-span-8 xl:grid-cols-6 md:grid-cols-2 md:col-span-4  h-fit md:px-2 md:-mx-3 xl:px-2 ">
           <div className="pb-8">
             <MediaRelations relation={relation} />
           </div>
