@@ -7,8 +7,8 @@ import { IoAt, IoLockClosed, IoPerson } from "react-icons/io5";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import ValidationAlert from "../Alerts/Register/ValidationAlert";
 import { useRouter } from 'next/router';
-import ErrorAlert from "@/components/Alerts/Login/ErrorAlert";
-
+import Alert from "@/components/Alerts/Alert_prueba";
+import Link from "next/link";
 
 // API Petitions
 const sendEmail = async (email) => {
@@ -32,13 +32,14 @@ export default function RegisterForm() {
 		watch,
 	} = useForm();
 
-    const router = useRouter();
+  const router = useRouter();
 	const username = watch("username");
 	const email = watch("email");
 	const password = watch("password");
 	const [shownPassword, setShownPassword] = useState(false);
 	const [shownConfirmPassword, setShownConfirmPassword] = useState(false);
-	const [showError, setShowError] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+	const [typeAlert, setTypeAlert] = useState("error");
 	const [message, setMessage] = useState("");
 
 	// register submit
@@ -49,21 +50,15 @@ export default function RegisterForm() {
 			.then((res) => {
 				console.log(res);
 
-				if (res.status === "success") {
+				if (res.success) {
                     console.log("Email enviado");
                     router.push({
                         pathname: '/verification-email',
                         query: { username: username, email: email, password: password }
                     }, '/verification-email');
 				} else {
-					//set message if indexOf find a "(" that means laravel give 2 errors or more but i just want show first
-					let index_of_parenthesis = res.message.indexOf("(");
-					let message =
-						index_of_parenthesis != -1
-							? res.message.slice(0, index_of_parenthesis)
-							: res.message;
-					setMessage(message);
-					setShowError(true);
+					setMessage(res.error);
+					setShowAlert(true);
 				}
 			})
 			.catch((error) => {
@@ -71,9 +66,6 @@ export default function RegisterForm() {
 			});
 	};
 
-	const resetAlert = () => {
-		setShowError(false);
-	};
 
 	// hide or show password
 	const switchShownPassword = () => setShownPassword(!shownPassword);
@@ -89,23 +81,26 @@ export default function RegisterForm() {
 
 	return (
 		<>
-			<div className='md:min-h-screen sm:h-full pb-24'>
-				<div className="relative container mx-auto md:w-96 rounded-md p-5 sm:w-full">
-					<ErrorAlert
-					show={showError}
+			<div className='h-screen'>
+				<div className='relative container mx-auto md:w-96 rounded-md p-0 md:p-5 sm:p-10 sm:w-full'></div>
+				<Alert
+					show={showAlert}
 					message={message}
-					resetAlert={resetAlert}
-					/>
-				</div>
-				<div className='container mx-auto bg-neutral md:w-96 my-20 rounded-md p-5 sm:w-full'>
-					<div className='m-5'>
-						<h1 className='text-xl font-bold text-center text-accent'>Sign up</h1>
+					seconds={4}
+					setShowError={setShowAlert}
+					type={typeAlert}
+				/>
+				<div className='container mx-auto bg-neutral h-full sm:h-fit sm:my-20 sm:rounded-md p-5 sm:w-96'>
+					<div className='m-5 sm:mt-0 mt-40'>
+						<h1 className='text-xl font-bold text-center text-accent'>
+							Sign up
+						</h1>
 						<div className='divider'></div>
 					</div>
 					<form
 						onSubmit={handleSubmit(onSubmit)}
-						className='form-control mt-10'>
-						<div className='mb-4 w-4/5 mx-auto'>
+						className='form-control'>
+						<div className='mb-4 w-full sm:w-11/12 mx-auto'>
 							<div className='input-group'>
 								<label className='flex justify-center input-group input-group-md '>
 									<span className='bg-base-content '>
@@ -129,7 +124,7 @@ export default function RegisterForm() {
 							</small>
 						</div>
 
-						<div className='mb-4 w-4/5 mx-auto'>
+						<div className='mb-4 w-full sm:w-11/12 mx-auto'>
 							<div className='input-group'>
 								<label className='flex justify-center input-group input-group-md '>
 									<span className='bg-base-content '>
@@ -138,7 +133,7 @@ export default function RegisterForm() {
 									<input
 										placeholder='Name'
 										className='w-full h-9 focus:outline-none  bg-base-content  opacity-60 p-3 text-accent font-semibold rounded-md'
-										{...register("username", { 
+										{...register("username", {
 											required: true,
 											pattern: /^\S*$/,
 										})}
@@ -152,7 +147,7 @@ export default function RegisterForm() {
 							</small>
 						</div>
 
-						<div className='mb-4 w-4/5 mx-auto'>
+						<div className='mb-4 w-full sm:w-11/12 mx-auto'>
 							<div className='input-group'>
 								<label className='relative flex justify-center input-group input-group-md '>
 									<span className=' bg-base-content '>
@@ -197,7 +192,7 @@ export default function RegisterForm() {
 							</small>
 						</div>
 
-						<div className='mb-5 w-4/5 mx-auto'>
+						<div className='mb-4 w-full sm:w-11/12 mx-auto'>
 							<div className='input-group'>
 								<label className='relative flex justify-center input-group input-group-md '>
 									<span className=' bg-base-content '>
@@ -249,6 +244,15 @@ export default function RegisterForm() {
 
 						<div className='mb-8 mx-auto'>
 							<RegisterButton text='Register' />
+						</div>
+						<div className='text-center mt-5'>
+							<small className='text-accent text-center'>
+								<Link
+									href='/login'
+									className='hover:text-blue-500 active:text-blue-700'>
+									Login
+								</Link>
+							</small>
 						</div>
 					</form>
 				</div>

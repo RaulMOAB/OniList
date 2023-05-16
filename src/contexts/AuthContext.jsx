@@ -9,6 +9,7 @@ export function AuthContextProvider({ children }) {
   const [user, setUser] = useState({});
   const [token, setToken] = useState(null);
   const [validToken, isValidToken] = useState(false);
+  const [hasChanged, setHasChanged] = useState(false);
   const router = useRouter();
 
   const login = (userData, userToken) => {
@@ -35,7 +36,12 @@ export function AuthContextProvider({ children }) {
     // Actualizar el estado del usuario y el token en el contexto
     setUser({});
     setToken(null);
-    router.push("/login", undefined, { shallow: true });
+    setHasChanged(!hasChanged)
+    if(isValidToken){
+      router.push("/", undefined, { shallow: true });
+    }else{
+      router.push("/login", undefined, { shallow: true });
+    }
   };
 
   const fetchData = async (endpoint, method = "GET", body = null, type="normal") => {
@@ -89,9 +95,17 @@ export function AuthContextProvider({ children }) {
     let endpoint = "user/"+user.id;
     fetchData(endpoint).then((res)=>{
       setUser(res);
+      setHasChanged(!hasChanged);
       localStorage.setItem("user", JSON.stringify(res))
     })
   }
+
+    const getUser = () => {
+			let endpoint = "user/" + user.id;
+			fetchData(endpoint).then((user) => {
+				return user
+			});
+		};
 
   const isUserAuthenticated = () => {
     let isAuth = token ? true : false;
@@ -125,6 +139,8 @@ export function AuthContextProvider({ children }) {
 				isUserAuthenticated,
 				fetchData,
 				updateUser,
+        hasChanged,
+        getUser
 			}}>
 			{children}
 		</AuthContext.Provider>
