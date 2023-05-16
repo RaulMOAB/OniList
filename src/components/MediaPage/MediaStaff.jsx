@@ -3,7 +3,7 @@ import StaffCard from "../Card/StaffCard";
 import Link from "next/link";
 
 function MediaStaff({ staff }) {
-  console.log(staff);
+  //console.log(staff);
   if (staff.length !== 0) {
     let staffCards = [];
     staff.forEach((element, index) => {

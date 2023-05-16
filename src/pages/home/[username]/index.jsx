@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import FavoritesCards from "@/components/Card/FavoritesCards";
 import UserActivity from "@/components/ActivityCard/UserActivity";
@@ -5,10 +6,22 @@ import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import NoContent from "@/components/Skeleton/NoContent";
 import AuthRequired from "../../../components/Common/AuthRequired";
-export default function Home() {
-	const { user, fetchData } = useContext(AuthContext);
-	const [library, setLibrary] = useState([]);
+import Head from "next/head";
 
+export default function Home() {
+	const { user, fetchData, hasChanged } = useContext(AuthContext);
+	const [library, setLibrary] = useState([]);
+	const [userInfo, setUserInfo] = useState({});
+		useEffect(() => {
+			if (Object.keys(user).length !== 0) {
+				let endpoint = "user/" + user.id;
+				fetchData(endpoint).then((res_user) => {
+					setUserInfo(res_user);
+				});
+			} else {
+				setUserInfo({});
+			}
+		}, [hasChanged,user]);
 	useEffect(() => {
 		if(user.username){
 			const endpoint = "library/" + user.username;
@@ -20,7 +33,7 @@ export default function Home() {
 		}
 	}, [user,fetchData]);
 
-	const description = user.description;
+	const description = userInfo.description ?? "You dont have description yet.";
 	const favoriteAnimes = [];
 	const favoriteMangas = [];
 	const userActivity = [];
@@ -78,7 +91,9 @@ export default function Home() {
 		userActivity.length === 0 && library.length !== 0;
 	return (
 		<>
-
+			<Head>
+				<title>Home · Onilist</title>
+			</Head>
 			{!nothingToSee ? (
 				<div className='w-full grid lg:grid-cols-2 gap-4 p-6 text-accent'>
 					<div>
@@ -99,15 +114,15 @@ export default function Home() {
 						</div>
 						<div className='mb-3'>
 							<p className='font-semibold mb-2'>Favorites Mangas</p>
-								{favoriteMangas.length !== 0 ? (
-									<div className='bg-neutral rounded-md p-5 grid grid-cols-4 md:grid-cols-5 gap-2'>
-										{favoriteMangas.reverse()}
-									</div>
-								) : (
-									<div className='bg-neutral rounded-md  col-span-full'>
-										<NoContent message="You don't have favorites mangas" />
-									</div>
-								)}
+							{favoriteMangas.length !== 0 ? (
+								<div className='bg-neutral rounded-md p-5 grid grid-cols-4 md:grid-cols-5 gap-2'>
+									{favoriteMangas.reverse()}
+								</div>
+							) : (
+								<div className='bg-neutral rounded-md  col-span-full'>
+									<NoContent message="You don't have favorites mangas" />
+								</div>
+							)}
 						</div>
 					</div>
 					{userActivity.length !== 0 ? (
@@ -131,7 +146,7 @@ export default function Home() {
 					)}
 				</div>
 			) : (
-				<NoContent message="Error" />
+				<NoContent message='Error' />
 			)}
 		</>
 	);

@@ -29,6 +29,11 @@ export default function AuthConfirmModal({
 				<div className='w-72 sm:w-96 text-accent bg-base-100 rounded-md p-3'>
 					<h3 className='text-lg'>{header}</h3>
 					<p className='py-4 text-sm'>{message}</p>
+					<form onSubmit={(event)=>{
+						event.preventDefault();
+						action(password);
+						setPassword("");
+					}}>
 					<input
 						type='password'
 						value={password}
@@ -44,6 +49,7 @@ export default function AuthConfirmModal({
 							onClick={() => {
 								action(password);setPassword("");
 							}}
+							typeof="submit"
 							className='btn-secondary p-1 px-2 rounded-sm text-white text-sm'>
 							{confirm_button_text}
 						</label>
@@ -53,6 +59,7 @@ export default function AuthConfirmModal({
 							{cancel_button_text}
 						</label>
 					</div>
+					</form>
 				</div>
 			</div>
 		</>

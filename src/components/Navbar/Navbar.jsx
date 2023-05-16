@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import {React, useState} from "react";
+import {React, useState,useEffect} from "react";
 import styles from "../../styles/Navbar.module.css";
 import { IoNotifications, IoSettingsSharp } from "react-icons/io5";
 import { useContext } from "react";
@@ -12,12 +13,27 @@ import HamMenu from "@/components/Navbar/HamMenu";
 import ConfirmModal from "@/components/Modals/ConfirmModal";
 
 export default function Navbar() {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, fetchData, hasChanged } = useContext(AuthContext);
+	const [userInfo, setUserInfo] = useState({})
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isOpenUserDropdown, setIsOpenUserDropdown] = useState(false)
+
+	useEffect(()=>{
+		if(Object.keys(user).length !== 0){
+					let endpoint = "user/" + user.id;
+					fetchData(endpoint).then((res_user) => {
+							setUserInfo(res_user);
+					});
+		}else{
+			setUserInfo({});
+		}
+	},[hasChanged,user])
+
   const handleMouseEnter = () => {
     setIsDropdownOpen(true);
   };
+
+
 
   const handleMouseLeave = () => {
     setIsDropdownOpen(false);
@@ -40,26 +56,26 @@ export default function Navbar() {
 					</Link>
 				</div>
 				<div className='navbar-center hidden lg:flex '>
-					{Object.keys(user).length !== 0 ? (
+					{Object.keys(userInfo).length !== 0 ? (
 						<div>
 							<ul className='menu menu-horizontal px-1'>
 								<li>
 									<Link
-										href={"/home/" + user.username}
+										href={"/home/" + userInfo.username}
 										className=' active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus'>
 										Home
 									</Link>
 								</li>
 								<li>
 									<Link
-										href={"/home/" + user.username + "/animelist"}
+										href={"/home/" + userInfo.username + "/animelist"}
 										className=' active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus'>
 										Anime List
 									</Link>
 								</li>
 								<li>
 									<Link
-										href={"/home/" + user.username + "/mangalist"}
+										href={"/home/" + userInfo.username + "/mangalist"}
 										className=' active:bg-transparent hover:bg-transparent text-accent hover:text-accent-focus'>
 										Manga List
 									</Link>
@@ -273,7 +289,7 @@ export default function Navbar() {
 						</div>
 					)}
 				</div>
-				{Object.keys(user).length !== 0 ? (
+				{Object.keys(userInfo).length !== 0 ? (
 					<div className='navbar-end pr-6'>
 						<button className='mr-1'>
 							<label
@@ -304,7 +320,7 @@ export default function Navbar() {
 										src={
 											process.env.NEXT_PUBLIC_RESOURCES_PROFILE +
 											"" +
-											user.profile_image
+											userInfo.profile_image
 										}
 										alt='profile image'
 										className='flex rounded-full'
@@ -313,7 +329,7 @@ export default function Navbar() {
 									/>
 								</label>
 								<span className=' inline-block align-middle text-accent hover:text-accent-focus my-auto w-2/3 pl-1 truncate'>
-									{user.username}
+									{userInfo.username}
 								</span>
 								<button
 									tabIndex={0}
@@ -330,7 +346,9 @@ export default function Navbar() {
 							</div>
 							<ul
 								tabIndex={0}
-								className={'menu  menu-compact dropdown-content mt-3 group p-2 shadow bg-base-100  rounded-box w-fit  '}>
+								className={
+									"menu  menu-compact dropdown-content mt-3 group p-2 shadow bg-base-100  rounded-box w-fit  "
+								}>
 								<li>
 									<Link
 										href={"/settings"}

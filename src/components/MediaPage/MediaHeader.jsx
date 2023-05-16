@@ -34,9 +34,9 @@ const getMedia = async (id) => {
 
 /**
  * Function to get if an user is subscribed to a media
- * @param {*} user_id 
- * @param {*} media_id 
- * @returns json with th actua lstatus of a media
+ * @param {*} user_id
+ * @param {*} media_id
+ * @returns json with the actual status of a media
  */
 const getMediaSubscribed = async (user_id, media_id) => {
   const response = await fetch(
@@ -72,23 +72,24 @@ function MediaHeader() {
   //Dropdown state
   const [isOpen, setIsOpen] = useState(false);
 
+
   useEffect(() => {
     // setFavorite(favorite)
     let aux_type, aux_favorite, aux_status;
     if (id) {
       getMedia(id)
-        .then((res) => {
+        .then((res) => {          
           setMedia(res);
-          setType(res.type);
-          aux_type = res.type;
+          aux_type = res.type;          
+          setType(aux_type);
           getMediaSubscribed(user_id, id).then((res) => {
             isSubsribed(res);
             console.log(res);
             if (res) {
-              aux_status = filterByMediaType(res.type,res.status);
-              console.log(aux_status)
+              aux_type = filterByMediaType(res.type);
               aux_favorite = res.favorite;
-              setStatus(aux_status);
+              setType(aux_type ?? '');
+              setStatus(res.status);
               setFavorite(aux_favorite ?? 0);
             }
           });
@@ -98,6 +99,7 @@ function MediaHeader() {
         });
     }
   }, [id]);
+  
 
   const updateStatus = async (status, deleted, favorite = 0) => {
     const body = JSON.stringify({
@@ -106,6 +108,7 @@ function MediaHeader() {
       status: status,
       favorite,
     });
+    console.log(body);
 
     const response = await fetch(
       process.env.NEXT_PUBLIC_API_ENDPOINT + `status`,
@@ -118,6 +121,7 @@ function MediaHeader() {
         body,
       }
     );
+    setStatus(status); // cambia el texto del boton
 
     if (type === "MANGA") {
       switch (status) {
@@ -134,7 +138,6 @@ function MediaHeader() {
           break;
       }
     }
-    setStatus(status); // cambia el texto del boton
     if (deleted) {
       setMessage(`${media.title} was deleted from your list.`);
       setShowError(true);
@@ -298,9 +301,10 @@ function MediaHeader() {
                             }
                           }}
                         >
-                          {type === "ANIME"
+                          {type  === "ANIME"
                             ? " Set as Watching"
                             : "Set as Reading"}
+                            {/* Le llega el type vacio */}
                         </a>
                       </li>
                       <li className="w-full border-t border-accent">

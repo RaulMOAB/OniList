@@ -37,7 +37,9 @@ export default function Alert({
   return (
 		<>
 			<div
-				className={`fixed inset-x-0 ${custom_class} text-center z-50 container mx-auto w-full md:max-w-md rounded-md p-5`}>
+				className={`fixed inset-x-0 ${custom_class} text-center z-50 container mx-auto w-full md:max-w-md rounded-md p-5 ${
+					show ? " " : "hidden "
+				}`}>
 				<div
 					className={`${
 						show ? " " : "hidden "

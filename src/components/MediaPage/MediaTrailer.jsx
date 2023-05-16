@@ -3,8 +3,7 @@ import StaffCard from "../Card/StaffCard";
 import Link from "next/link";
 
 function MediaTrailer({ trailer }) {
-  //   console.log(trailer);
-  //console.log(Object.keys(trailer).length)
+
   if (trailer !== null) {
     const trailer_link = trailer.id;  
     return (

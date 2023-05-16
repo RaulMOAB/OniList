@@ -6,6 +6,7 @@ import ChartRadar from "@/components/Graphics/Radar";
 import ChartLine from "@/components/Graphics/Line";
 import UserStatsPages from "@/layouts/statsPage/UserStatsPages";
 import NoContent from "@/components/Skeleton/NoContent";
+import Head from "next/head";
 
 
 export default function Anime() {
@@ -24,6 +25,9 @@ export default function Anime() {
 
 	return (
 		<>
+			<Head>
+				<title>Stats anime · Onilist</title>
+			</Head>
 			<UserStatsPages>
 				<div className='grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5'>
 					{graphicData.data_status ? (
@@ -52,21 +56,21 @@ export default function Anime() {
 									label={"Genre"}
 								/>
 							</div>
-						<div className='bg-base-300 p-3 rounded-md col-span-full'>
-							<p className=' text-xl mb-3'>Years Distribution</p>
-							<ChartLine
-								data={graphicData.data_years}
-								labels={graphicData.labels_years}
-								label={"Anime"}
+							<div className='bg-base-300 p-3 rounded-md col-span-full'>
+								<p className=' text-xl mb-3'>Years Distribution</p>
+								<ChartLine
+									data={graphicData.data_years}
+									labels={graphicData.labels_years}
+									label={"Anime"}
 								/>
-						</div>
+							</div>
 						</>
-					):(
+					) : (
 						<div className='bg-base-300 rounded-md p-5 col-span-full '>
-							<NoContent message="Insufficient data" />
+							<NoContent message='Insufficient data' />
 						</div>
 					)}
-					</div>
+				</div>
 			</UserStatsPages>
 		</>
 	);

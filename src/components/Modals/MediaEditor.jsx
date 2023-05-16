@@ -85,7 +85,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
       rewatches,
       notes,
     });
-
+    console.log(aux_status);
     // console.log(body);
     // console.log(startDate);
     // console.log(endDate);
@@ -219,7 +219,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
   };
   // Set stars rating when page is reloaded or changed
   if (rate >= 0) {
-    console.log(rate);
+    //console.log(rate);
     let enable =
       status === "REWATCHING" || status === "COMPLETED" || rewatches > 0;
     for (let index = 0; index < 6; index++) {

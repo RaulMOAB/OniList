@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import Link from "next/link";
@@ -13,8 +14,21 @@ import Head from "next/head";
 
 function Settings() {
 	const { changeTheme } = useContext(ThemeContext);
-	const { user, fetchData, updateUser } = useContext(AuthContext);
-	const [about, setAbout] = useState(user.description);
+	const { user, fetchData, updateUser, hasChanged } = useContext(AuthContext);
+	const [userInfo, setUserInfo] = useState({});
+	const [about, setAbout] = useState(userInfo.description);
+	useEffect(() => {
+		if (Object.keys(user).length !== 0) {
+			let endpoint = "user/" + user.id;
+			fetchData(endpoint).then((res_user) => {
+				setUserInfo(res_user);
+				setAbout(res_user.description)
+			});
+		} else {
+			setUserInfo({});
+		}
+	}, [hasChanged,user]);
+
 
 	//Alert states
 	const [showError, setShowError] = useState(false);
@@ -166,7 +180,7 @@ function Settings() {
 									src={
 										process.env.NEXT_PUBLIC_RESOURCES_PROFILE +
 										"" +
-										user.profile_image
+										userInfo.profile_image
 									}
 									className='rounded-md'
 									width={200}
@@ -209,7 +223,7 @@ function Settings() {
 									src={
 										process.env.NEXT_PUBLIC_RESOURCES_BANNER +
 										"" +
-										user.banner_image
+										userInfo.banner_image
 									}
 									className='rounded-md h-52 object-cover'></img>
 							</div>
