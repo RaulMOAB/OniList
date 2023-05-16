@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React from 'react'
 import { useContext, useState, useEffect } from "react";
@@ -16,7 +17,18 @@ const getUserDetails = async (id) => {
 };
 
 export function ProfileBanner() {
-	const { user } = useContext(AuthContext);
+		const { user, fetchData, hasChanged } = useContext(AuthContext);
+		const [userInfo, setUserInfo] = useState({});
+		useEffect(() => {
+			if (Object.keys(user).length !== 0) {
+				let endpoint = "user/" + user.id;
+				fetchData(endpoint).then((res_user) => {
+					setUserInfo(res_user);
+				});
+			} else {
+				setUserInfo({});
+			}
+		}, [hasChanged, user]);
 
 	return (
 		<div className='max-w-screen bg-neutral h-80 z-10 relative'>
@@ -28,26 +40,30 @@ export function ProfileBanner() {
 						width={100000}
 						height={100000}
 						src={
-							process.env.NEXT_PUBLIC_RESOURCES_BANNER + "" + user.banner_image
+							process.env.NEXT_PUBLIC_RESOURCES_BANNER +
+							"" +
+							userInfo.banner_image
 						}
 						alt='banner'
 					/>
 					<div className='absolute w-full h-full bg-gradient-to-t from-black  opacity-60 top-0'></div>
-			<div className='absolute left-1/2 transform -translate-x-1/2 container '>
-				<img
-					draggable={false}
-					className='absolute w-28 sm:w-40 h-fit bottom-0 left-0 rounded-t-md'
-					width={10000}
-					height={10000}
-					src={
-						process.env.NEXT_PUBLIC_RESOURCES_PROFILE + "" + user.profile_image
-					}
-					alt='banner'
-				/>
-				<p className='text-white absolute left-32 sm:left-44 bottom-2 font-bold text-lg'>
-					{user.username}
-				</p>
-			</div>
+					<div className='absolute left-1/2 transform -translate-x-1/2 container '>
+						<img
+							draggable={false}
+							className='absolute w-28 sm:w-40 h-fit bottom-0 left-0 rounded-t-md'
+							width={10000}
+							height={10000}
+							src={
+								process.env.NEXT_PUBLIC_RESOURCES_PROFILE +
+								"" +
+								userInfo.profile_image
+							}
+							alt='banner'
+						/>
+						<p className='text-white absolute left-32 sm:left-44 bottom-2 font-bold text-lg'>
+							{userInfo.username}
+						</p>
+					</div>
 				</>
 			) : (
 				<div className='w-full h-full bg-base-300'></div>
