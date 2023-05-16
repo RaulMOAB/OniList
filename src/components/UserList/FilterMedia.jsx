@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useState } from "react";
