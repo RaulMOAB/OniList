@@ -24,7 +24,26 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
     if (media_id) {
       const endpoint = `status/${user.id}/${media_id}`;
       fetchData(endpoint).then((res) => {
-        setStatus(res.status ?? "");
+            let aux_status;
+						if (media.type === "MANGA") {
+							switch (res.status) {
+								case "WATCHING":
+									aux_status = "READING";
+									break;
+								case "REWATCHING":
+									aux_status = "REREADING";
+									break;
+								case "PLAN TO WATCH":
+									aux_status = "PLAN TO READ";
+									break;
+								default:
+                aux_status=res.status;
+									break;
+							}
+						}else{
+              aux_status = res.status;
+            }
+        setStatus(aux_status ?? "");
         setRating(res.rate ?? 0);
         setStartDate(res.start_date ?? "");
         setEndDate(res.end_date ?? "");

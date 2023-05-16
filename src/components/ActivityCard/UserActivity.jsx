@@ -7,7 +7,7 @@ import { timeLeftSince , formatDate } from "@/components/utils/DateUtils";
 export default function UserActivity({media, status}) {
 	const [leftTime, setTimeLetf] = useState('');
 	const [startedAt, setStartedAt] = useState("");
-
+	console.log(status)
   let url ='/'+media.type.toLowerCase()+'/'+media.media_id
 	let type_status = status.status;
 	if(media.type==="MANGA"){
@@ -29,6 +29,25 @@ export default function UserActivity({media, status}) {
 		setTimeLetf(timeLeftSince(status.updated_at));
 	}, [status, status, media]);
 
+	let message = "";
+	let episodes = status.progress;
+	if(type_status === 'WATCHING' || type_status === "READING"){
+		if(episodes!== 0){
+			message = `${type_status} ${media.type === "ANIME"? "episode":"chapter"} ${episodes} of `
+		}else{
+			message = `Started to ${media.type === "ANIME" ? "watch" : "read"} `;
+		}
+	}else if(type_status === 'PAUSED'){
+				if (episodes !== 0) {
+					message = `${type_status} ${
+						media.type === "ANIME" ? "in episode" : "in chapter"
+					} ${episodes} `;
+				} else {
+					message = `${type_status}  `;
+				}
+	}else{
+		message = `${type_status} `;
+	}
 
 
 
@@ -44,7 +63,7 @@ export default function UserActivity({media, status}) {
 			</div>
 			<div className='flex w-1/2 items-center'>
 				<p className='pl-5 inline-block'>
-					{type_status + " "}
+					{message}
 					<Link href={url}>
 						<span className='text-primary'>{media.title}</span>
 					</Link>

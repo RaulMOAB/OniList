@@ -17,6 +17,8 @@ const HamMenu = () => {
 	const { user, logout, isUserAuthenticated } = useContext(AuthContext);
 
 	const toggleMenu = () => setShowMenu(!showMenu);
+
+
 	return (
 		<>
 			{isUserAuthenticated() ? (
@@ -32,7 +34,11 @@ const HamMenu = () => {
 						}`}>
 						<div className='p-6'>
 							<div className='grid grid-cols-3 gap-2'>
-								<div className='flex flex-col items-center mb-2'>
+								<div
+									onClick={() => {
+										setShowMenu(false);
+									}}
+									className='flex flex-col items-center mb-2'>
 									<Link href={"/home/" + user.username}>
 										<div className='flex items-center justify-center'>
 											<AiFillHome className='text-accent  w-6 h-6' />
@@ -40,7 +46,11 @@ const HamMenu = () => {
 										<p className='text-accent text-xs'>home</p>
 									</Link>
 								</div>
-								<div className='flex flex-col items-center mb-2'>
+								<div
+									onClick={() => {
+										setShowMenu(false);
+									}}
+									className='flex flex-col items-center mb-2'>
 									<Link href={"/home/" + user.username + "/animelist"}>
 										<div className='flex items-center justify-center'>
 											<FaPlay className='text-accent w-6 h-6' />
@@ -48,7 +58,11 @@ const HamMenu = () => {
 										<p className='text-accent text-xs'>anime</p>
 									</Link>
 								</div>
-								<div className='flex flex-col items-center mb-2'>
+								<div
+									onClick={() => {
+										setShowMenu(false);
+									}}
+									className='flex flex-col items-center mb-2'>
 									<Link href={"/home/" + user.username + "/mangalist"}>
 										<div className='flex items-center justify-center'>
 											<FaBookOpen className='text-accent  w-6 h-6' />
@@ -56,7 +70,11 @@ const HamMenu = () => {
 										<p className='text-accent text-xs'>manga</p>
 									</Link>
 								</div>
-								<div className='flex flex-col items-center mb-2'>
+								<div
+									onClick={() => {
+										setShowMenu(false);
+									}}
+									className='flex flex-col items-center mb-2'>
 									<Link href={"/settings/"}>
 										<div className='flex items-center justify-center'>
 											<FaUser className='text-accent  w-6 h-6' />
@@ -64,7 +82,11 @@ const HamMenu = () => {
 										<p className='text-accent  text-xs'>profile</p>
 									</Link>
 								</div>
-								<div className='flex flex-col items-center mb-2'>
+								<div
+									onClick={() => {
+										setShowMenu(false);
+									}}
+									className='flex flex-col items-center mb-2'>
 									<Link href={"/settings/account"}>
 										<div className='flex items-center justify-center'>
 											<IoSettingsSharp className='text-accent  w-6 h-6' />
@@ -72,15 +94,23 @@ const HamMenu = () => {
 										<p className='text-accent  text-xs'>settings</p>
 									</Link>
 								</div>
-								<div className='flex flex-col items-center mb-2'>
-									<Link href={"/browser"}>
+								<div
+									onClick={() => {
+										setShowMenu(false);
+									}}
+									className='flex flex-col items-center mb-2'>
+									<Link href={"/search/anime"}>
 										<div className='flex items-center justify-center'>
 											<IoSearch className='text-accent  w-6 h-6' />
 										</div>
 										<p className='text-accent text-xs'>browser</p>
 									</Link>
 								</div>
-								<div className='flex flex-col items-center mb-2 '>
+								<div
+									onClick={() => {
+										setShowMenu(false);
+									}}
+									className='flex flex-col items-center mb-2 '>
 									<div className='flex items-center justify-center'>
 										<label htmlFor='confirm-logout'>
 											<FiLogOut className='text-accent text-center cursor-pointer w-6 h-6' />
@@ -90,7 +120,11 @@ const HamMenu = () => {
 										</label>
 									</div>
 								</div>
-								<div className='flex flex-col items-center mt-4'>
+								<div
+									onClick={() => {
+										setShowMenu(false);
+									}}
+									className='flex flex-col items-center mt-4'>
 									<div className='absolute bottom-0  right-0 rounded-md bg-transparent w-12 h-12 flex items-center justify-center'>
 										<button
 											className='text-primary text-4xl'
@@ -116,7 +150,11 @@ const HamMenu = () => {
 						}`}>
 						<div className='p-6'>
 							<div className='grid grid-cols-3 gap-2'>
-								<div className='flex flex-col items-center mb-2'>
+								<div
+									onClick={() => {
+										setShowMenu(false);
+									}}
+									className='flex flex-col items-center mb-2'>
 									<Link href={"/"}>
 										<div className='flex items-center justify-center'>
 											<IoSearch className='text-accent  w-6 h-6' />
@@ -124,7 +162,11 @@ const HamMenu = () => {
 										<p className='text-accent text-xs'>browser</p>
 									</Link>
 								</div>
-								<div className='flex flex-col items-center mb-2'>
+								<div
+									onClick={() => {
+										setShowMenu(false);
+									}}
+									className='flex flex-col items-center mb-2'>
 									<Link href={"/login"}>
 										<div className='flex items-center justify-center'>
 											<FiLogIn className='text-accent  w-6 h-6' />
@@ -132,7 +174,11 @@ const HamMenu = () => {
 										<p className='text-accent text-xs'>login</p>
 									</Link>
 								</div>
-								<div className='flex flex-col items-center mb-2'>
+								<div
+									onClick={() => {
+										setShowMenu(false);
+									}}
+									className='flex flex-col items-center mb-2'>
 									<Link href={"/register"}>
 										<div className='flex items-center justify-center'>
 											<FaUserPlus className='text-accent  w-6 h-6' />
@@ -140,7 +186,11 @@ const HamMenu = () => {
 										<p className='text-accent text-xs'>register</p>
 									</Link>
 								</div>
-								<div className='flex flex-col items-center mt-4'>
+								<div
+									onClick={() => {
+										setShowMenu(false);
+									}}
+									className='flex flex-col items-center mt-4'>
 									<div className='absolute bottom-0  right-0 rounded-md bg-transparent w-12 h-12 flex items-center justify-center'>
 										<button
 											className='text-primary text-4xl'

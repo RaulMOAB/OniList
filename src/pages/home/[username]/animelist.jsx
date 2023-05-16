@@ -7,7 +7,7 @@ import { AuthContext } from "@/contexts/AuthContext";
 import MediaEditor from "@/components/Modals/MediaEditor";
 import Alert from "@/components/Alerts/Alert_prueba";
 import NoContent from "@/components/Skeleton/NoContent";
-
+import Head from "next/head";
 export default function AnimeList() {
 	const { user, fetchData } = useContext(AuthContext);
 	const [animelistStatus, setAnimelistStatus] = useState([]);
@@ -79,13 +79,16 @@ export default function AnimeList() {
 
 	return (
 		<>
+			<Head>
+				<title>Animelist · Onilist</title>
+			</Head>
 			<Alert
 				show={showError}
 				message={message}
 				seconds={4}
 				setShowError={setShowError}
 				type={"success"}
-				top="-top-24"
+				top='-top-24'
 			/>
 			{!noData ? (
 				<Container>

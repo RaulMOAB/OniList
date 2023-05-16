@@ -51,10 +51,13 @@ export default function MediaCard({ media, index }) {
 						className='rounded-md object-cover w-full h-full  ' //aspect-2/3
 						alt='media image'
 					/>
-					<div className='absolute inset-x-0 bottom-0 h-16 rounded-b-md text-white backdrop-blur-md'>
+					<div className='absolute inset-x-0 bottom-0 h-16 rounded-b-md text-accent opacity-80  bg-neutral'></div>
+					<div className='absolute inset-x-0 bottom-0 h-16 rounded-b-md text-accent'>
 						<div className='px-2'>
 							<div className='flex '>
-								<p className='text-xl-base mt-2 sm-2 w-4/6 truncate font-semibold'>
+								<p
+
+									className='text-xl-base mt-2 sm-2 w-5/6 truncate font-semibold'>
 									{media.title}
 								</p>
 								<div className='w-2/6 mt-2 text-right'>
@@ -64,7 +67,11 @@ export default function MediaCard({ media, index }) {
 									<p className='inline-block'>{score}</p>
 								</div>
 							</div>
-							<p className='text-xs mt-1 ms-2 truncate'>{genres}</p>
+							<p
+
+								className='text-xs mt-1 ms-2 truncate'>
+								{genres}
+							</p>
 						</div>
 					</div>
 				</div>
