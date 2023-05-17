@@ -91,7 +91,7 @@ function Footer() {
 						Alvin Miller
 					</a>
 					<a
-						href=''
+						href='https://github.com/JonatanFeliz'
 						target='_blank'
 						className='link link-hover'>
 						Jonatan Feliz

@@ -89,45 +89,60 @@ export default function StaffBody() {
         if (id) {
           getPersonDubCharacter(id)
             .then((res) => {
-              console.log(res)
-              character = res.characters.data ?? '';
+              //console.log(res)
+              character = res.characters ?? '';
+              console.log(character.length);
 
-              if(character != '')
+              if(character.length != 0)
               {
                 console.log(character)
 
                 setDubber(true);
 
-                for (let i = 0; i < character.length; i++) {
+                character.forEach((character, index) => {
+                  setCharacters(characters => [...characters, character])
+                });
+
+              //   for (let i = 0; i < character.length; i++) {
                   
-                  getCharacter(character[i].character_id)
-                  .then((response) => {
-                      //console.log(response[0]);
-                      setCharacters(characters => [...characters, response[0]])
-                  })
-                }
+              //     getCharacter(character[i].character_id)
+              //     .then((response) => {
+              //         //console.log(response[0]);
+              //         setCharacters(characters => [...characters, response[0]])
+              //     })
+              //   }
               }
               else
               {
                 getPersonWorksIn(id)
                 .then((res) => {
 
-                  medias = res.data ?? '';
+                  console.log(res)
+                  medias = res ?? '';
 
                   setDubber(false);
 
-                  for (let i = 0; i < medias.length; i++) {
-                    getMedia(medias[i].media_id)
-                    .then((response) => {
-                      if(response.type == 'ANIME'){
-                        setMediaAnime(mediaAnime => [...mediaAnime, response])
-                      }
-                      else if(response.type == 'MANGA'){
-                        setMediaManga(mediaManga => [...mediaManga, response])
-                      }
+                  medias.forEach((media, index) => {
+                    if(media.type == 'ANIME'){
+                      setMediaAnime(mediaAnime => [...mediaAnime, media])
+                    }
+                    else if(media.type == 'MANGA'){
+                      setMediaManga(mediaManga => [...mediaManga, media])
+                    }
+                  });
+
+                  // for (let i = 0; i < medias.length; i++) {
+                  //   getMedia(medias[i].media_id)
+                  //   .then((response) => {
+                  //     if(response.type == 'ANIME'){
+                  //       setMediaAnime(mediaAnime => [...mediaAnime, response])
+                  //     }
+                  //     else if(response.type == 'MANGA'){
+                  //       setMediaManga(mediaManga => [...mediaManga, response])
+                  //     }
                       
-                    })
-                  }
+                  //   })
+                  // }
 
                   
                 })
