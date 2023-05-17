@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { useRouter } from "next/router";
 import UserHomeLayout from "@/layouts/InfoPage/UserHomeLayout";
 import VerifyIfUserIsLogged from "@/components/Common/VerifyIfUserIsLogged";
+import ScrollButton from "@/components/Buttons/ScrollButton";
 
 
 export default function Layout({ children }) {
@@ -19,6 +20,7 @@ export default function Layout({ children }) {
 				className={
 					theme === "oni-ligth" ? "body-ligth" : "body-dark" + "  font-sans"
 				}>
+				<ScrollButton />
 				<Navbar />
 				{isHomePage ? (
 					<>
