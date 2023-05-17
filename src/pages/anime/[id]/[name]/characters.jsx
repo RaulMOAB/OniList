@@ -3,7 +3,7 @@ import MediaHeader from "../../../../components/MediaPage/MediaHeader";
 import MediaBodyCharacters from "../../../../components/MediaPage/MediaBodyCharacters";
 import Head from "next/head";
 
-function AnimePage() {
+function CharactersPage() {
   return (
     <>
     <Head><title>Characters · OniList</title></Head>
@@ -13,4 +13,4 @@ function AnimePage() {
   );
 }
 
-export default AnimePage;
+export default CharactersPage;
