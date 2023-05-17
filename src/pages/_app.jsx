@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout";
 import { MediaContextProvider } from "../contexts/MediaContext";
 import {AuthContextProvider} from '@/contexts/AuthContext'
 import { ThemeContextProvider } from "@/contexts/ThemeContext";
+import { Roboto } from "next/font/google";
 import Head from "next/head";
 
 export default function App({ Component, pageProps }) {

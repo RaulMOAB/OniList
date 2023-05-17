@@ -13,6 +13,7 @@ export default function Layout({ children }) {
 	const { theme } = useContext(ThemeContext);
 	const router = useRouter();
 	const isHomePage = router.pathname.startsWith("/home");
+	const isSettingsPage = router.pathname.startsWith("/settings");
 	return (
 		<>
 			<div
@@ -22,18 +23,17 @@ export default function Layout({ children }) {
 				}>
 				<ScrollButton />
 				<Navbar />
-				{isHomePage ? (
-					<>
-						<VerifyIfUserIsLogged />
+				<>
+					{isSettingsPage ? <VerifyIfUserIsLogged /> : null}
+					{isHomePage ? <VerifyIfUserIsLogged /> : null}
+					{isHomePage ? (
 						<UserHomeLayout>
 							<main>{children}</main>
 						</UserHomeLayout>
-					</>
-				) : (
-					<>
+					) : (
 						<main>{children}</main>
-					</>
-				)}
+					)}
+				</>
 				<Footer />
 			</div>
 		</>
