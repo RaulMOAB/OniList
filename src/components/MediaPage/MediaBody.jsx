@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Container from "@/components/Common/PageContainer/Container";
@@ -9,6 +9,7 @@ import MediaTrailer from "./MediaTrailer";
 import { formatDate } from "@/components/utils/DateUtils";
 import MediaTags from "./MediaTags";
 import MediaExternalLinks from "./MediaExternalLinks";
+
 
 /**
  * Get media relationship and related media info
@@ -172,8 +173,8 @@ function MediaBody() {
   return (
     <Container>
       {/* grid padre */}
-      <div className="grid grid-cols-1 md:grid-cols-6 md:gap-10 xl:grid-cols-10 lg:gap-10 py-6 xl:px-20 ">
-        <div className="grid grid-cols-1 h-fit xl:col-span-2 md:col-span-2   text-xs justify-between ">
+      <div className="grid grid-cols-1 md:grid-cols-6 md:gap-10  xl:grid-cols-10  lg:gap-2 py-6 xl:px-24 ">
+        <div className="grid grid-cols-1 h-fit xl:col-span-2 lg:col-span-1 md:col-span-2 lg:w-[230px] text-xs justify-between ">
           <div className="bg-neutral p-4">
             {/* media details */}
             {mediaStatus === "finished" ? (
@@ -219,10 +220,15 @@ function MediaBody() {
               <div className="font-semibold">Start Date</div>
               <div>{startDate}</div>
             </div>
-            <div className="pb-2">
-              <div className="font-semibold">End Date</div>
-              <div className="pt-1">{endDate}</div>
-            </div>
+            {endDate ? (
+              <div className="pb-2">
+                <div className="font-semibold">End Date</div>
+                <div className="pt-1">{endDate}</div>
+              </div>
+            ) : (
+              ""
+            )}
+
             {mediaDetails.type === "ANIME" ? (
               <div className="pb-2">
                 <div className="font-semibold">Season</div>
@@ -294,8 +300,8 @@ function MediaBody() {
         </div>
 
         {/* padre de los cards */}
-        <div className="xl:col-span-8 xl:grid-cols-6 md:grid-cols-2 md:col-span-4  h-fit md:px-2 md:-mx-3 xl:px-2 ">
-          <div className="pb-8">
+        <div className="w-full lg:col-span-4 xl:col-span-8 xl:grid-cols-6 md:grid-cols-2 md:col-span-4  h-fit md:px-2 md:-mx-3 xl:px-2 lg:pl-24">
+          <div className="pb-8 md:w-full">
             <MediaRelations relation={relation} />
           </div>
           <div className="pb-10 md:w-full ">

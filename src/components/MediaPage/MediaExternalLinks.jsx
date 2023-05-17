@@ -6,7 +6,7 @@ import { FiExternalLink } from "react-icons/fi";
 import Link from "next/link";
 
 function MediaExternalLinks({ link, key }) {
-  console.log(link);
+  //console.log(link);
   let external_sites = [
     "twitter",
     "netflix",
@@ -20,34 +20,34 @@ function MediaExternalLinks({ link, key }) {
   const socialSites = [
     {
       word: "twitter",
-      color: "#1da1f2",
+      color: "hover:bg-[#1da0f2a6]",
       icon: <BsTwitter className="text-[#1da1f2]" />,
     },
     {
       word: "netflix",
-      color: "#e50914",
+      color: "hover:bg-[#e50914a9]",
       icon: (
         <RiNetflixFill className="text-[#e50914] stroke-[#000000] stroke-width-2" />
       ),
     },
     {
       word: "crunchyroll",
-      color: "#f88b24",
+      color: "hover:bg-[#f88b24b4]",
       icon: <SiCrunchyroll className="text-[#f88b24]" />,
     },
     {
       word: "bilibili",
-      color: "#00a1d6",
+      color: "hover:bg-[#00a0d6ce]",
       icon: <SiBilibili className="text-[#00a1d6]" />,
     },
     {
       word: "hbomax",
-      color: "#991eeb",
+      color: "hover:bg-[#991eebc7]",
       icon: <SiHbo className="text-[#991eeb]" />,
     },
     {
       word: "funimation",
-      color: "#5b0bb5",
+      color: "hover:bg-[#5a0bb5c4]",
       icon: <SiFunimation className="text-[#5b0bb5]" />,
     },
   ];
@@ -59,7 +59,7 @@ function MediaExternalLinks({ link, key }) {
       if (site) {
         result = (
           <div
-            className={`bg-neutral text-sm p-3 hover:text-white hover:shadow-lg hover:rounded-md hover:bg-${site.color}`}
+            className={`bg-neutral text-sm p-3 hover:text-white hover:shadow-lg hover:rounded-md ${site.color}`}
           >
             <Link href={link}>
               <div className="flex">

@@ -11,6 +11,7 @@ export default function ScrollButton() {
                     color="red"
                     viewBox="0 0 32 32" 
                     svgPath="m15.29 10.29-8 8L8.7 19.7l7.3-7.29 7.29 7.29 1.41-1.41-8-8a1 1 0 0 0-1.41 0z"
+                    className="bg-black"
                 />
             
         </div>

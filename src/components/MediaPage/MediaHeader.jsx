@@ -12,6 +12,7 @@ import ReadMore from "../utils/ReadMore";
 import Alert from "@/components/Alerts/Alert_prueba";
 import { BsFillHeartFill } from "react-icons/bs";
 import filterByMediaType from "../utils/filterByMediaType";
+import Head from "next/head";
 
 /**
  * Function that gets a media by id
@@ -207,6 +208,9 @@ function MediaHeader() {
     };
     return (
       <>
+      <Head>
+        <title>{media.title} · Onilist</title>
+      </Head>
         <div
           className={"hero opacity-80 " + style.banner}
           style={{
@@ -301,7 +305,7 @@ function MediaHeader() {
                             }
                           }}
                         >
-                          {type  === "ANIME"
+                          {media.type  === "ANIME"
                             ? " Set as Watching"
                             : "Set as Reading"}
                             {/* Le llega el type vacio */}
