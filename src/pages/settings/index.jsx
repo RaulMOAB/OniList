@@ -17,35 +17,44 @@ function Settings() {
 	const { user, fetchData, updateUser, hasChanged } = useContext(AuthContext);
 	const [userInfo, setUserInfo] = useState({});
 	const [about, setAbout] = useState(userInfo.description);
+	const [authenticated, setAuthenticated] = useState(true);
+
+
 	useEffect(() => {
 		if (Object.keys(user).length !== 0) {
 			let endpoint = "user/" + user.id;
 			fetchData(endpoint).then((res_user) => {
-				setUserInfo(res_user);
-				setAbout(res_user.description)
+				if(!res_user.error){
+					setUserInfo(res_user);
+					setAbout(res_user.description)
+				}else{
+					setAuthenticated(false)
+				}
 			});
 		} else {
 			setUserInfo({});
 		}
 	}, [hasChanged,user]);
-
-
+	
 	//Alert states
 	const [showError, setShowError] = useState(false);
 	const [message, setMessage] = useState("");
 	const [typeAlert, setTypeAlert] = useState("");
-
+	
 	const TYPE_ERROR = "error";
 	const TYPE_SUCCESS = "success";
 	const BANNER = "banner";
 	const PROFILE = "profile";
-
+	
 	const handleAboutChange = (value) => {
 		setAbout(value);
 	};
 
 	useEffect(() => {}, [about, user]);
-
+	
+	if(!authenticated){
+		return null
+	}
 	const updateDescription = () => {
 		let endpoint = "update/description";
 		let method = "POST";

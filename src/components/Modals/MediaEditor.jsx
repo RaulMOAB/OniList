@@ -59,21 +59,26 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
   const saveMediaData = async () => {
     let media_id = media.id ?? media.media_id;
     let aux_status = status;
+    console.log(status);
+    
     if (media.type === "MANGA") {
-      switch (status) {
-        case "READING":
-          aux_status = "WATCHING";
-          break;
-        case "REREADING":
-          aux_status = "REWATCHING";
-          break;
-        case "PLAN TO READ":
-          aux_status = "PLAN TO WATCH";
-          break;
-        default:
-          break;
-      }
+      switch (aux_status) {
+				case "READING":
+					aux_status = "WATCHING";
+					break;
+				case "REREADING":
+					aux_status = "REWATCHING";
+					break;
+				case "PLAN TO READ":
+					aux_status = "PLAN TO WATCH";
+					break;
+				default:
+					aux_status = status;
+					break;
+			}
     }
+    console.log(aux_status);
+
     const body = JSON.stringify({
       user: user.id,
       media_id,
@@ -85,14 +90,11 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
       rewatches,
       notes,
     });
-    console.log(aux_status);
-    // console.log(body);
-    // console.log(startDate);
-    // console.log(endDate);
     const endpoint = "media/data";
     const method = "POST";
     fetchData(endpoint, method, body).then((res) => {
-      console.log(res);
+      updateStatus(res.status, false);
+      console.log(res)
     });
     //return response.json();
   };

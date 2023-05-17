@@ -5,6 +5,7 @@ import { useContext, useState, useEffect } from "react";
 import { AuthContext } from '@/contexts/AuthContext'
 import Image from 'next/image'
 import Container from '../Common/PageContainer/Container';
+
 const getUserDetails = async (id) => {
 	const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+"user/"+id, {
 		method: "GET",

@@ -17,6 +17,8 @@ export default function MangaList() {
 	const [deletedMedia, setDeletedMedia] = useState(false);
 	const [selectedMedia, setSelectedMedia] = useState({});
 	const [noData, setNoData] = useState(false);
+	const [authenticated, setAuthenticated] = useState(true);
+
 	//*Alert state
 	const [showError, setShowError] = useState(false);
 	const [message, setMessage] = useState("");
@@ -46,35 +48,45 @@ export default function MangaList() {
 			let endpoint = `library/${user.username}/mangalist`;
 			let method = "GET";
 			fetchData(endpoint, method).then((res_mangalist) => {
-				if (res_mangalist !== undefined) {
+				if (!res_mangalist.error) {
 					setNoData(false);
 					setFilteredManga(res_mangalist ?? []);
 					setMangaListStatus(res_mangalist);
 				} else {
 					setNoData(true);
+					setAuthenticated(false);
 				}
 			});
 		}
 	}, [user, status, fetchData, selectedMedia, deletedMedia]);
+	if(!authenticated){return null}
+	
+		let watching_list = [];
+		let rewatching_list = [];
+		let completed_list = [];
+		let paused_list = [];
+		let dropped_list = [];
+		let planning_list = [];
 
-	const watching_list = filteredManga.filter((media) => {
-		return media.status.status === "WATCHING";
-	});
-	const rewatching_list = filteredManga.filter((media) => {
-		return media.status.status === "REWATCHING";
-	});
-	const completed_list = filteredManga.filter((media) => {
-		return media.status.status === "COMPLETED";
-	});
-	const paused_list = filteredManga.filter((media) => {
-		return media.status.status === "PAUSED";
-	});
-	const dropped_list = filteredManga.filter((media) => {
-		return media.status.status === "DROPPED";
-	});
-	const planning_list = filteredManga.filter((media) => {
-		return media.status.status === "PLAN TO WATCH";
-	});
+	watching_list = filteredManga.filter((media) => {
+	 return media.status.status === "WATCHING";
+ });
+	rewatching_list = filteredManga.filter((media) => {
+	 return media.status.status === "REWATCHING";
+ });
+	completed_list = filteredManga.filter((media) => {
+	 return media.status.status === "COMPLETED";
+ });
+	paused_list = filteredManga.filter((media) => {
+	 return media.status.status === "PAUSED";
+ });
+	dropped_list = filteredManga.filter((media) => {
+	 return media.status.status === "DROPPED";
+ });
+	planning_list = filteredManga.filter((media) => {
+	 return media.status.status === "PLAN TO WATCH";
+ });
+
 
 	return (
 		<>

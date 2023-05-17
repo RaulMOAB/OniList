@@ -12,7 +12,6 @@ import Alert from "@/components/Alerts/Alert_prueba";
 import Head from "next/head";
 
 function Account() {
-	const router = useRouter();
 	const { user, logout, fetchData, updateUser, hasChanged } =
 	useContext(AuthContext);
 	const [userInfo, setUserInfo] = useState({});
@@ -33,6 +32,10 @@ function Account() {
 	const [showCodeInput, setShowCodeInput] = useState(false);
 	const [showSendCodeButtons, setShowSendCodeButtons] = useState(false);
 	const [showSavePasswordButton, setShowSavePasswordButton] = useState(false);
+
+	const [authenticated, setAuthenticated] = useState(true);
+	
+
 	//Alert states
 	const [showAlert, setShowAlert] = useState(false);
 	const [message, setMessage] = useState("");
@@ -42,9 +45,13 @@ function Account() {
 		if (Object.keys(user).length !== 0) {
 			let endpoint = "user/" + user.id;
 			fetchData(endpoint).then((res_user) => {
-				setUserInfo(res_user);
-				setEmail(res_user.email);
-				setUsername(res_user.username);
+				if(!res_user.error){
+					setUserInfo(res_user);
+					setEmail(res_user.email);
+					setUsername(res_user.username);
+				}else{
+					setAuthenticated(false)
+				}
 			});
 		} else {
 			setUserInfo({});
@@ -52,7 +59,9 @@ function Account() {
 	}, [hasChanged, user]);
 
 	useEffect(() => {}, [username, email, newPassword, confirmPassword]);
-
+	if(!authenticated){
+		return null
+	}
 	const handleDeleteAccount = (password) => {
 		let endpoint = `account/delete/${user.id}`;
 		let method = "POST";

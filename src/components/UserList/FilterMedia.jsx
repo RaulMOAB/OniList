@@ -35,7 +35,6 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 	};
 
 	const user_lists = medias.map((media) => {
-		console.log(media.status.status);
 		return media.status.status;
 	});
 
@@ -48,7 +47,6 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 
 	let index = 0;
 	for (let key in item_list_counter) {
-		console.log(item_list_counter)
 		let manga_key = "READING";
 				if (type === "MANGA") {
 					switch (key) {
@@ -65,7 +63,6 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 							break;
 					}
 				}
-		console.log(manga_key)
 		list_buttons.push(
 			<button
 				value={key}

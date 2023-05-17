@@ -12,17 +12,21 @@ import Head from "next/head";
 export default function Anime() {
 	const { user, fetchData } = useContext(AuthContext);
 	const [graphicData, setGraphicData] = useState({});
+	const [authenticated, setAuthenticated] = useState(true);
 
 	useEffect(() => {
 		if (user.username) {
 			const endpoint = "library/" + user.username + "/stats/animelist";
 			fetchData(endpoint).then((res) => {
-				setGraphicData(res ?? []);
-				console.log(res);
+				if(!res.error){
+					setGraphicData(res ?? []);
+				}else{
+					setAuthenticated(false)
+				}
 			});
 		}
 	}, [user, fetchData]);
-
+if(!authenticated){return null}
 	return (
 		<>
 			<Head>

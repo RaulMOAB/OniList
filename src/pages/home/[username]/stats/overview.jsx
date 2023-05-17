@@ -16,17 +16,23 @@ import Head from "next/head";
 export default function OverviewStats() {
   	const { user, fetchData } = useContext(AuthContext);
 		const [graphicData, setGraphicData] = useState({});
+		const [authenticated, setAuthenticated] = useState(true);
+
 
 
 		useEffect(() => {
 			if (user.username) {
 				const endpoint = "library/" + user.username+"/stats";
 				fetchData(endpoint).then((res) => {
-					setGraphicData(res ?? {});
-          console.log(res);
+					if(!res.error){
+						setGraphicData(res ?? {});
+					}else {
+						setAuthenticated(false);
+					}
 				});
 			}
 		}, [user, fetchData]);
+		if(!authenticated){return null}
   return (
 		<>
 			<Head>

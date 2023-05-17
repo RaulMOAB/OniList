@@ -30,18 +30,16 @@ export function AuthContextProvider({ children }) {
     // Eliminar el token y la información del usuario del localStorage
     if (validToken) {
       fetchData(process.env.NEXT_PUBLIC_API_ENDPOINT + "logout", "POST");
-    }
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    // Actualizar el estado del usuario y el token en el contexto
-    setUser({});
-    setToken(null);
-    setHasChanged(!hasChanged)
-    if(isValidToken){
       router.push("/", undefined, { shallow: true });
+      isValidToken(false)
     }else{
       router.push("/login", undefined, { shallow: true });
     }
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser({});
+    setToken(null);
+    setHasChanged(!hasChanged)
   };
 
   const fetchData = async (endpoint, method = "GET", body = null, type="normal") => {
@@ -65,10 +63,8 @@ export function AuthContextProvider({ children }) {
       if (!(data.message === "Unauthenticated.")) {
         return data;
       }
-      if(type !== "auth-required"){
-        isValidToken(false);
-        logout();
-      }
+      isValidToken(false);
+      logout();
       return { error: "Unauthenticated." };
     }catch(error){
       if(type === "image"){
@@ -140,7 +136,8 @@ export function AuthContextProvider({ children }) {
 				fetchData,
 				updateUser,
         hasChanged,
-        getUser
+        getUser,
+        validToken
 			}}>
 			{children}
 		</AuthContext.Provider>

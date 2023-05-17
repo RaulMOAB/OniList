@@ -12,6 +12,22 @@ export default function Home() {
 	const { user, fetchData, hasChanged } = useContext(AuthContext);
 	const [library, setLibrary] = useState([]);
 	const [userInfo, setUserInfo] = useState({});
+	const [authenticated, setAuthenticated] = useState(true);
+	useEffect(() => {
+		if(user.username){
+			const endpoint = "library/" + user.username;
+			const method = "GET";
+			fetchData(endpoint, method).then((res) => {
+				if(!res.error){
+					setLibrary(res ?? []);
+				}else{
+					setAuthenticated(false)
+				}
+			});
+		}
+	}, [user,fetchData]);
+
+
 		useEffect(() => {
 			if (Object.keys(user).length !== 0) {
 				let endpoint = "user/" + user.id;
@@ -22,16 +38,7 @@ export default function Home() {
 				setUserInfo({});
 			}
 		}, [hasChanged,user]);
-	useEffect(() => {
-		if(user.username){
-			const endpoint = "library/" + user.username;
-			const method = "GET";
-			fetchData(endpoint, method).then((res) => {
-				setLibrary(res ?? []);
-				
-			});
-		}
-	}, [user,fetchData]);
+		
 
 	const description = userInfo.description ?? "You dont have description yet.";
 	const favoriteAnimes = [];
@@ -43,9 +50,9 @@ export default function Home() {
 	const handleLoadMore = () => {
 		setVisibleCount(visibleCount + 5);
 	};
-
-	if(library){
-		
+	if (!authenticated) {
+		return null;
+	}
 		let recent_changes_library = library.sort(function (a, b) {
 			return new Date(b.status.updated_at) - new Date(a.status.updated_at);
 		});
@@ -83,7 +90,6 @@ export default function Home() {
 				);
 			}
 		});
-	}
 
 	nothingToSee =
 		favoriteAnimes.length === 0 &&

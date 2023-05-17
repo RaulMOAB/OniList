@@ -11,22 +11,25 @@ export default function Favorites() {
   const [favoritesMedias, setFavoritesMedias] = useState([]);
 	const [selectedMedia, setSelectedMedia] = useState({})
   const [noData, setNoData] = useState(false);
+	const [authenticated, setAuthenticated] = useState(true);
+
 
   	useEffect(() => {
 			if (user.username) {
 				let endpoint = `library/${user.username}/favorites`;
 				let method = "GET";
 				fetchData(endpoint, method).then((res_favorites) => {
-					if(res_favorites !== undefined){
+					if(!res_favorites.error){
 						setNoData(false)
 						setFavoritesMedias(res_favorites ?? []);
 					}else{
 						setNoData(true);
+						setAuthenticated(false);
 					}
 				});
 			}
 		}, [user, fetchData, selectedMedia]);
-		
+		if(!authenticated){return null}
 		const updateFavoriteStatus = ()=>{
 			let endpoint = "media/favorite"
 			let method = "POST"
