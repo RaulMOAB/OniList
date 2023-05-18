@@ -23,13 +23,13 @@ export default function MangaList() {
 	const [showError, setShowError] = useState(false);
 	const [message, setMessage] = useState("");
 
-	const updateStatus = async (selected_status, deleted) => {
+	const updateStatus = async (selected_status, deleted,favorite) => {
 		setStatus(selected_status); // cambia el texto del boton
-
 		const body = JSON.stringify({
 			user_id: user.id,
 			media_id: selectedMedia.media_id,
 			status: selected_status,
+			favorite
 		});
 		if (deleted) {
 			setMessage(`${selectedMedia.title} was deleted from your list.`);

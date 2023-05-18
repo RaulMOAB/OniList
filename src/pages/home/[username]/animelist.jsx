@@ -22,13 +22,13 @@ export default function AnimeList() {
 	const [showError, setShowError] = useState(false);
 	const [message, setMessage] = useState("");
 
-	const updateStatus = async (status, deleted) => {
-		console.log(status)
+	const updateStatus = async (status, deleted,favorite) => {
 		setActualStatus(status); 
 		const body = JSON.stringify({
 			user_id: user.id,
 			media_id: selectedMedia.media_id,
 			status: status,
+			favorite
 		});
 		if (deleted){
 						setMessage(`${selectedMedia.title} was deleted from your list.`);

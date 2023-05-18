@@ -26,7 +26,7 @@ function MediaCharacters({ characters, dubbers, role }) {
     return (
       <>
         {/* //TODO link to a character page  */}
-        <Link href={`/anime/${id}/characters`}>
+        <Link href={`/media/${id}/characters`}>
           <p className="text-accent mb-3 text-md font-medium ">Characters</p>
         </Link>
 
