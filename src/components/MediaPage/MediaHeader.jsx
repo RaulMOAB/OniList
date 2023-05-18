@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { useRouter } from "next/router";
 import { AuthContext } from "@/contexts/AuthContext";
@@ -12,6 +13,7 @@ import ReadMore from "../utils/ReadMore";
 import Alert from "@/components/Alerts/Alert_prueba";
 import { BsFillHeartFill } from "react-icons/bs";
 import filterByMediaType from "../utils/filterByMediaType";
+import Head from "next/head";
 
 /**
  * Function that gets a media by id
@@ -61,6 +63,7 @@ function MediaHeader() {
   const [subscribe, isSubsribed] = useState({});
   const [status, setStatus] = useState("Add to Library");
   const [favorite, setFavorite] = useState(0);
+  const [favoriteChanged, setHasFavoriteChanged] = useState(false);
   const [type, setType] = useState("");
 
   //*Alert state
@@ -72,24 +75,22 @@ function MediaHeader() {
   //Dropdown state
   const [isOpen, setIsOpen] = useState(false);
 
-
   useEffect(() => {
     // setFavorite(favorite)
     let aux_type, aux_favorite, aux_status;
     if (id) {
       getMedia(id)
-        .then((res) => {          
+        .then((res) => {
           setMedia(res);
-          aux_type = res.type;          
+          aux_type = res.type;
           setType(aux_type);
           getMediaSubscribed(user_id, id).then((res) => {
             isSubsribed(res);
-            console.log(res);
             if (res) {
-              aux_type = filterByMediaType(res.type);
+              aux_type = filterByMediaType(aux_type, res.status);
               aux_favorite = res.favorite;
               setType(aux_type ?? '');
-              setStatus(res.status);
+              setStatus(aux_type);
               setFavorite(aux_favorite ?? 0);
             }
           });
@@ -101,14 +102,29 @@ function MediaHeader() {
   }, [id]);
   
 
-  const updateStatus = async (status, deleted, favorite = 0) => {
+  const updateStatus = async (changed_status, deleted, favorite = 0) => {
+        if (media.type === "MANGA") {
+					switch (changed_status) {
+						case "READING":
+							changed_status = "WATCHING";
+							break;
+						case "REREADING":
+							changed_status = "REWATCHING";
+							break;
+						case "PLAN TO READ":
+							changed_status = "PLAN TO WATCH";
+							break;
+						default:
+							changed_status = changed_status;
+							break;
+					}
+				}
     const body = JSON.stringify({
-      user_id,
-      media_id: id,
-      status: status,
-      favorite,
-    });
-    console.log(body);
+			user_id,
+			media_id: id,
+			status: changed_status,
+			favorite,
+		});
 
     const response = await fetch(
       process.env.NEXT_PUBLIC_API_ENDPOINT + `status`,
@@ -121,33 +137,35 @@ function MediaHeader() {
         body,
       }
     );
-    setStatus(status); // cambia el texto del boton
 
-    if (type === "MANGA") {
-      switch (status) {
-        case "WATCHING":
-          status = "READING";
-          break;
-        case "REWATCHING":
-          status = "REREADING";
-          break;
-        case "PLAN TO WATCH":
-          status = "PLAN TO READ";
-          break;
-        default:
-          break;
+    
+    setFavorite(favorite)
+    if (media.type === "MANGA") {
+      switch (changed_status) {
+				case "WATCHING":
+					changed_status = "READING";
+					break;
+          case "REWATCHING":
+            changed_status = "REREADING";
+            break;
+            case "PLAN TO WATCH":
+              changed_status = "PLAN TO READ";
+              break;
+				default:
+          changed_status = changed_status;
+					break;
+        }
       }
-    }
+      setStatus(changed_status); // cambia el texto del boton
     if (deleted) {
-      setMessage(`${media.title} was deleted from your list.`);
+      setMessage(`${media.title} was deleted from your library.`);
       setShowError(true);
       setFavorite(0);
     } else {
       if (response.status === 200) {
-        setMessage(`${media.title} added to ${status} list.`);
+        setMessage(`${media.title} added to ${changed_status} list.`);
         setShowError(true);
       }
-      return response.json();
     }
   };
 
@@ -155,16 +173,17 @@ function MediaHeader() {
     event.preventDefault();
     let aux_fav;
     // favorite === 0 ? setFavorite(1) : setFavorite(0);
+    let aux_status = status == "Add to Library"?"WATCHING":status;
+    console.log(status)
     if (favorite === 0) {
       aux_fav = 1;
       setFavorite(aux_fav);
-      setFavoriteToMedia(aux_fav);
+      setFavoriteToMedia(aux_fav, aux_status);
     } else {
       aux_fav = 0;
       setFavorite(aux_fav);
-      setFavoriteToMedia(aux_fav);
+      setFavoriteToMedia(aux_fav, aux_status);
     }
-    console.log(aux_fav);
 
     //*Llamada Api
     //setFavoriteToMedia(favorite);
@@ -183,11 +202,9 @@ function MediaHeader() {
     const endpoint = "media/favorite";
     const method = "POST";
     if (isUserAuthenticated()) {
-      fetchData(endpoint, method, body).then((res) => {
-        console.log("************************");
-        console.log(res);
-      });
+      fetchData(endpoint, method, body);
       updateStatus(status, false, favorite ?? 1);
+      setHasFavoriteChanged(!favoriteChanged)
     }
   };
 
@@ -207,6 +224,9 @@ function MediaHeader() {
     };
     return (
       <>
+        <Head>
+          <title>{media.title} · Onilist</title>
+        </Head>
         <div
           className={"hero opacity-80 " + style.banner}
           style={{
@@ -227,7 +247,7 @@ function MediaHeader() {
         </div>
         <Container>
           <div className="grid grid-rows-1 gap-8 md:grid-flow-col 2xl:px-24">
-            <div className="m-auto sm:m-0 sm:-mt-28 z-30 w-fit">
+            <div className="m-auto -mt-44 sm:m-0 sm:-mt-28 z-30 w-fit">
               <MediaPageCard img={media.large_cover_image} />
               <div className=" flex flex-shrink gap-4 mt-3 ">
                 <div
@@ -301,16 +321,13 @@ function MediaHeader() {
                             }
                           }}
                         >
-                          {type  === "ANIME"
+                          {media.type === "ANIME"
                             ? " Set as Watching"
                             : "Set as Reading"}
-                            {/* Le llega el type vacio */}
                         </a>
                       </li>
                       <li className="w-full border-t border-accent">
-                        <label htmlFor="my-modal-4" className="">
-                          Open List Editor
-                        </label>
+                        <label htmlFor="my-modal-4">Open List Editor</label>
                       </li>
                     </ul>
                   </div>
@@ -326,22 +343,22 @@ function MediaHeader() {
                 </button>
               </div>
             </div>
-            <div className=" py-10 pr-8 text-left">
+            <div className=" py-10 sm:pr-8 text-left">
               <h2 className="2xl:text-3xl md:text-xl">{media.title}</h2>
               <p className={"mt-3 2xl:text-sm md:text-sm " + style.description}>
                 <ReadMore>{media.description}</ReadMore>
               </p>
             </div>
-            {/* <ReadMoreToggle media={media}/> */}
           </div>
           <input type="checkbox" id="my-modal-4" className="modal-toggle" />
-
-          <MediaEditor
-            user={user_id}
-            media={media}
-            actualStatus={status}
-            updateStatus={updateStatus}
+          {isUserAuthenticated() && (
+            <MediaEditor
+                media={media}
+              actualStatus={status}
+              updateStatus={updateStatus}
+              hasFavoriteChanged={favoriteChanged}
           />
+          )}
         </Container>
       </>
     );

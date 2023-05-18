@@ -17,9 +17,9 @@ function RelationCard({ related_media, media_relationship, index }) {
   const formatSanitize = (format) => {
     if (format) return format.toLowerCase().replace("_", " ");
   };
-  //console.log(image)
+  console.log(index);
   return (
-    <div className="w-full">
+    <div className="w-fit">
       <div className="relative aspect-2/3 h-32">
         <Link href={link} className="group">
           <Image
@@ -29,16 +29,29 @@ function RelationCard({ related_media, media_relationship, index }) {
             width={10000}
             height={1}
           />
-          <div className="lg:hidden lg:group-hover:block  transition duration-300 ease-in  lg:hover:invisible absolute top-0 left-full z-10 h-full lg:w-60 md:w-96 text-xs p-2 bg-base-content">
-            <div className="mb-3 flex flex-col justify-between h-full">
-              <Link href={link} className="group">
-                <p className="hover:text-primary">{title}</p>
-              </Link>
-              <p className="capitalize">
-                {formatSanitize(format) + " · " + status.toLowerCase()}
-              </p>
+          {index < 8 ? (
+            <div className="lg:hidden lg:group-hover:block  transition duration-300 ease-in  lg:hover:invisible absolute top-0 left-full z-10 h-full lg:w-60 md:w-96 text-xs p-2 bg-base-content">
+              <div className="mb-3 flex flex-col justify-between h-full">
+                <Link href={link} className="group">
+                  <p className="hover:text-primary">{title}</p>
+                </Link>
+                <p className="capitalize">
+                  {formatSanitize(format) + " · " + status.toLowerCase()}
+                </p>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="lg:hidden lg:group-hover:block  transition duration-300 ease-in  lg:hover:invisible absolute top-0 lg:left-0 md:left-full lg:-translate-x-full z-10 h-full lg:w-60 md:w-96 text-xs p-2 bg-base-content">
+              <div className="mb-3 flex flex-col justify-between h-full">
+                <Link href={link} className="group">
+                  <p className="hover:text-primary">{title}</p>
+                </Link>
+                <p className="capitalize">
+                  {formatSanitize(format) + " · " + status.toLowerCase()}
+                </p>
+              </div>
+            </div>
+          )}
         </Link>
 
         <div className="absolute bottom-0 h-fit w-full p-1 bg-base-100 rounded-b-sm text-accent">

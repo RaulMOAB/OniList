@@ -1,9 +1,12 @@
 import React from "react";
 import CharacterCard from "../Card/CharacterCard";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 function MediaCharacters({ characters, dubbers, role }) {
-  //console.log(dubbers)
+  const router = useRouter();
+  const { id } = router.query;
+  console.log(characters)
   if (characters.length !== 0) {
     //console.log(characters);
     let characterCards = [];
@@ -22,12 +25,12 @@ function MediaCharacters({ characters, dubbers, role }) {
     });
     return (
       <>
-        {/* //TODO link to a character page */}
-        <Link href={""}>
+        {/* //TODO link to a character page  */}
+        <Link href={`/media/${id}/characters`}>
           <p className="text-accent mb-3 text-md font-medium ">Characters</p>
         </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-10 md:grid-cols-1 md:grid-flow-row md:gap-4 md:w-full sm:grid-cols-4  mb-3 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-1 lg:gap-x-10 xl:grid-cols-2 md:grid-cols-1 md:grid-flow-row md:gap-4 md:w-full  md:pr-6 lg:pr-0 sm:grid-cols-4  mb-3 w-full">
           {characterCards}
         </div>
       </>

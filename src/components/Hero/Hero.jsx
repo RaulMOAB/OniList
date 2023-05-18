@@ -1,6 +1,7 @@
 import React from "react";
 import CarrouselCard from "../Card/CarrouselCard";
 import Carousel from "../Carousel/Carousel";
+import HoverTransition from "@/components/Common/HoverTransition";
 
 function Hero({ media }) {
   let cards = [
@@ -8,7 +9,11 @@ function Hero({ media }) {
       key: media[0].id,
       content: (
         <CarrouselCard
-          img={media[0].extra_large_cover_image || media[0].large_cover_image || media[0].medium_cover_image}
+          img={
+            media[0].extra_large_cover_image ||
+            media[0].large_cover_image ||
+            media[0].medium_cover_image
+          }
           title={media[0].title}
           genres={JSON.parse(media[0].genres).splice(0, 3).join(" ")}
         />
@@ -18,7 +23,11 @@ function Hero({ media }) {
       key: media[1].id,
       content: (
         <CarrouselCard
-          img={media[1].extra_large_cover_image || media[1].large_cover_image || media[1].medium_cover_image}
+          img={
+            media[1].extra_large_cover_image ||
+            media[1].large_cover_image ||
+            media[1].medium_cover_image
+          }
           title={media[1].title}
           genres={JSON.parse(media[1].genres).splice(0, 3).join(" ")}
         />
@@ -28,7 +37,11 @@ function Hero({ media }) {
       key: media[2].id,
       content: (
         <CarrouselCard
-          img={media[2].extra_large_cover_image || media[2].large_cover_image || media[2].medium_cover_image}
+          img={
+            media[2].extra_large_cover_image ||
+            media[2].large_cover_image ||
+            media[2].medium_cover_image
+          }
           title={media[2].title}
           genres={JSON.parse(media[2].genres).splice(0, 3).join(" ")}
         />
@@ -38,7 +51,11 @@ function Hero({ media }) {
       key: media[3].id,
       content: (
         <CarrouselCard
-          img={media[3].extra_large_cover_image || media[3].large_cover_image || media[3].medium_cover_image}
+          img={
+            media[3].extra_large_cover_image ||
+            media[3].large_cover_image ||
+            media[3].medium_cover_image
+          }
           title={media[3].title}
           genres={JSON.parse(media[3].genres).splice(0, 3).join(" ")}
         />
@@ -48,7 +65,11 @@ function Hero({ media }) {
       key: media[4].id,
       content: (
         <CarrouselCard
-          img={media[4].extra_large_cover_image || media[4].large_cover_image || media[4].medium_cover_image}
+          img={
+            media[4].extra_large_cover_image ||
+            media[4].large_cover_image ||
+            media[4].medium_cover_image
+          }
           title={media[4].title}
           genres={JSON.parse(media[4].genres).splice(0, 3).join(" ")}
         />
@@ -70,13 +91,24 @@ function Hero({ media }) {
                 showArrows={false}
               />
             }
-            <div className="md:w-5/6 xl:text-left md:text-center lg:w-2/4 lg:mx-auto">
-              <h1 className="text-7xl font-bold">Welcome to OniList!</h1>
+            <div className="relative md:w-5/6 xl:text-left md:text-center lg:w-2/4 lg:mx-auto">
+              <div>
+                <h1 className="text-5xl md:text-7xl font-bold">Welcome to OniList Club!</h1>
+              </div>
               <p className="py-6">
-                <strong>TODO texto provisional</strong> <br />
-                Provident cupiditate voluptatem et in. Quaerat fugiat ut
-                assumenda excepturi exercitationem quasi. In deleniti eaque aut
-                repudiandae et a id nisi.
+                Add what you like, track your animes and manga, build your own
+                library and discover new medias to enjoy! Add what you like,
+                track your animes and manga, build your own library and discover
+                new medias to enjoy!Add what you like, track your animes and
+                manga, build your own library and discover new medias to enjoy!
+                <br />
+                <br />
+              </p>
+              <p className="text-lg">
+                Welcome to the club,
+                <span className="px-2">
+                  <HoverTransition originalTxt={"Yōkai"} hoverTxt={"妖怪"} />
+                </span>
               </p>
             </div>
           </div>

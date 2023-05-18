@@ -5,18 +5,22 @@ import Container from "@/components/Common/PageContainer/Container";
 import Search from "./../Filters/Search";
 import Genres from "./../Filters/Genres";
 import AiringStatus from "./../Filters/AiringStatus";
+import Tags from "./../Filters/Tags";
+import FormatManga from "./../Filters/FormatManga";
 import MediaCard from "./../Card/MediaCard";
 import Loader from "./../Skeleton/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ResetButton from "./../Buttons/ResetButton";
 
 //API Petition
-const filteredMediaManga = async (search, genres, airing_status, type = 'MANGA') => {
+const filteredMediaManga = async (search, genres, airing_status, tags, format, type = 'MANGA') => {
     const body = JSON.stringify({
       type,
       search,
       genres,
       airing_status,
+      tags,
+      format,
     });
     const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'search/manga', {
       method: "POST",
@@ -36,6 +40,8 @@ export default function MangaPage({ url, title }) {
   const [search, setSearch] = useState('');
   const [genres, setGenres] = useState('');
   const [airing_status, setAiringStatus] = useState('');
+  const [tags, setTags] = useState('');
+  const [format, setFormat] = useState('');
   const [showFiltered, setShowFiltered] = useState(true);
   const [mediaComponents, setMediaComponents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -88,16 +94,16 @@ export default function MangaPage({ url, title }) {
 
     handleClick();
 
-  },[search, genres, airing_status]);
+  },[search, genres, airing_status, tags, format]);
 
   // skeleton loading time
-  useEffect(() => {
+  // useEffect(() => {
 
-    setTimeout(() => {
-      setLoading(false);
-    },650);
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   },650);
 
-  },[search, genres, airing_status]);
+  // },[search, genres, airing_status, tags, format]);
 
 
   // Variables Handles
@@ -113,8 +119,16 @@ export default function MangaPage({ url, title }) {
     setAiringStatus(data);
   };
 
+  const handleTagsChange = (data) => {
+    setTags(data);
+  };
+
+  const handleFormatChange = (data) => {
+    setFormat(data);
+  };
+
   function emptyFields() {
-    if(search == "" && genres == "" && airing_status == "") 
+    if(search == "" && genres == "" && airing_status == "" && tags == "" && format == "") 
     {
       return true;
     }
@@ -127,14 +141,16 @@ export default function MangaPage({ url, title }) {
     setSearch("");
     setGenres("");
     setAiringStatus("");
+    setTags("");
+    setFormat("");
     handleClick();
   }
 
   // call filtered medias every time variable change
   function handleClick() {
-    console.log(search + "  " + genres + "  " + airing_status);
+    console.log(search + "  " + genres + "  " + airing_status + "  " + tags + "  " + format);
 
-    filteredMediaManga(search, genres, airing_status)
+    filteredMediaManga(search, genres, airing_status, tags, format)
       .then((res) => {
         if (res.status === "success" && res.media_length > 0) {
           setMediaComponents([]);
@@ -147,6 +163,11 @@ export default function MangaPage({ url, title }) {
             setMediaComponents(mediaComponents => [...mediaComponents, media])
           })
           setLoading(true);
+
+          // skeleton loading time
+          setTimeout(() => {
+            setLoading(false);
+          },650);
         }
         else{
           setMediaComponents([]);
@@ -183,6 +204,8 @@ export default function MangaPage({ url, title }) {
               <Search value={search} handle={handleSearchChange}/>
               <Genres value={genres} handle={handleGenresChange}/>
               <AiringStatus value={airing_status} handle={handleAiringStatusChange}/>
+              <Tags value={tags} handle={handleTagsChange}/>
+              <FormatManga value={format} handle={handleFormatChange}/>
             </div>
             <div className="ml-3 mb-6">
               <ResetButton text="Reset" reset={resetFilter}/>

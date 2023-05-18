@@ -10,7 +10,9 @@ import Link from "next/link";
 import { AuthContext } from "@/contexts/AuthContext";
 import Image from "next/image";
 import HamMenu from "@/components/Navbar/HamMenu";
+import SearchBar from "@/components/Navbar/SearchBar";
 import ConfirmModal from "@/components/Modals/ConfirmModal";
+import HoverTransition from '@/components/Common/HoverTransition'
 
 export default function Navbar() {
   const { user, logout, fetchData, hasChanged } = useContext(AuthContext);
@@ -52,7 +54,9 @@ export default function Navbar() {
 							width={40}
 							height={40}
 						/>
-						<span className={"" + styles.title}>Oni</span>List
+						<span className={"" + styles.title}>
+							Oni
+						</span>List
 					</Link>
 				</div>
 				<div className='navbar-center hidden lg:flex '>
@@ -395,50 +399,7 @@ export default function Navbar() {
 				action={logout}
 			/>
 			{/* MODAL*/}
-			<input
-				type='checkbox'
-				id='my-modal-5'
-				className='modal-toggle'
-			/>
-			<label
-				htmlFor='my-modal-5'
-				className='modal hidden lg:flex -mt-80'>
-				<label
-					className='modal-box border-0 bg-transparent max-w-2xl shadow-none'
-					htmlFor=''>
-					<div className='max-w-2xl mx-auto'>
-						<form className='flex items-center'>
-							<label
-								htmlFor='search'
-								className='sr-only'>
-								Search
-							</label>
-							<div className='relative w-full'>
-								<input
-									type='text'
-									id='voice-search'
-									className='text-accent text-sm rounded-lg block w-full pl-10 p-2.5 bg-base-100'
-									placeholder='Search a media...'
-									required=''
-								/>
-								<div className='flex absolute inset-y-0 left-0 items-center px-3 pointer-events-none'>
-									<svg
-										className='w-5 h-5 text-accent'
-										fill='currentColor'
-										viewBox='0 0 20 20'
-										xmlns='http://www.w3.org/2000/svg'>
-										<path
-											fillRule='evenodd'
-											d='M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z'
-											clipRule='evenodd'
-										/>
-									</svg>
-								</div>
-							</div>
-						</form>
-					</div>
-				</label>
-			</label>
+			<SearchBar />
 		</>
 	);
 }

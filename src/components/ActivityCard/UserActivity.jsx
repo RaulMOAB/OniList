@@ -8,7 +8,6 @@ import { timeLeftSince , formatDate } from "@/components/utils/DateUtils";
 export default function UserActivity({media, status}) {
 	const [leftTime, setTimeLetf] = useState('');
 	const [startedAt, setStartedAt] = useState("");
-	console.log(status)
   let url ='/'+media.type.toLowerCase()+'/'+media.media_id
 	let type_status = status.status;
 	if(media.type==="MANGA"){

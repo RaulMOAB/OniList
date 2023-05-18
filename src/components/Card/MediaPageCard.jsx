@@ -12,7 +12,7 @@ function MediaPageCard({ img }) {
   return (
     <>
       <div>
-        <div className="w-fit">
+        <div className="w-fit aspect-2/3">
           <img src={img} alt="Media picture" className="rounded-sm"/>
         </div>
       </div>

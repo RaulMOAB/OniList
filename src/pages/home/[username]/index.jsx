@@ -12,6 +12,22 @@ export default function Home() {
 	const { user, fetchData, hasChanged } = useContext(AuthContext);
 	const [library, setLibrary] = useState([]);
 	const [userInfo, setUserInfo] = useState({});
+	const [authenticated, setAuthenticated] = useState(true);
+	useEffect(() => {
+		if(user.username){
+			const endpoint = "library/" + user.username;
+			const method = "GET";
+			fetchData(endpoint, method).then((res) => {
+				if(!res.error){
+					setLibrary(res ?? []);
+				}else{
+					setAuthenticated(false)
+				}
+			});
+		}
+	}, [user,fetchData]);
+
+
 		useEffect(() => {
 			if (Object.keys(user).length !== 0) {
 				let endpoint = "user/" + user.id;
@@ -22,16 +38,7 @@ export default function Home() {
 				setUserInfo({});
 			}
 		}, [hasChanged,user]);
-	useEffect(() => {
-		if(user.username){
-			const endpoint = "library/" + user.username;
-			const method = "GET";
-			fetchData(endpoint, method).then((res) => {
-				setLibrary(res ?? []);
-				
-			});
-		}
-	}, [user,fetchData]);
+		
 
 	const description = userInfo.description ?? "You dont have description yet.";
 	const favoriteAnimes = [];
@@ -43,9 +50,9 @@ export default function Home() {
 	const handleLoadMore = () => {
 		setVisibleCount(visibleCount + 5);
 	};
-
-	if(library){
-		
+	if (!authenticated) {
+		return null;
+	}
 		let recent_changes_library = library.sort(function (a, b) {
 			return new Date(b.status.updated_at) - new Date(a.status.updated_at);
 		});
@@ -83,7 +90,6 @@ export default function Home() {
 				);
 			}
 		});
-	}
 
 	nothingToSee =
 		favoriteAnimes.length === 0 &&
@@ -95,15 +101,15 @@ export default function Home() {
 				<title>Home · Onilist</title>
 			</Head>
 			{!nothingToSee ? (
-				<div className='w-full grid lg:grid-cols-2 gap-4 p-6 text-accent'>
+				<div className='w-full grid grid-cols-1 lg:grid-cols-2 gap-4 p-6 text-accent'>
 					<div>
-						<div className='bg-neutral p-5 w-full rounded-md mb-3'>
-							<p>{description}</p>
+						<div className='bg-neutral w-full p-5 h-fit rounded-md mb-3'>
+							<p className='whitespace-normal break-words'>{description}</p>
 						</div>
 						<div className='mb-3'>
 							<p className='font-semibold mb-2'>Favorites Animes</p>
 							{favoriteAnimes.length !== 0 ? (
-								<div className='bg-neutral rounded-md p-5 grid grid-cols-4 md:grid-cols-5 gap-2'>
+								<div className='bg-neutral rounded-md p-2 md:p-5  grid grid-cols-4 md:grid-cols-5 gap-2'>
 									{favoriteAnimes.reverse()}
 								</div>
 							) : (
@@ -115,7 +121,7 @@ export default function Home() {
 						<div className='mb-3'>
 							<p className='font-semibold mb-2'>Favorites Mangas</p>
 							{favoriteMangas.length !== 0 ? (
-								<div className='bg-neutral rounded-md p-5 grid grid-cols-4 md:grid-cols-5 gap-2'>
+								<div className='bg-neutral rounded-md p-2 md:p-5 grid grid-cols-4 md:grid-cols-5 gap-2'>
 									{favoriteMangas.reverse()}
 								</div>
 							) : (

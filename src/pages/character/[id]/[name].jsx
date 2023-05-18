@@ -5,9 +5,6 @@ import Head from "next/head";
 function CharacterPage() {
     return (
 			<>
-				<Head>
-					<title>Character · OniList</title>
-				</Head>
 				<CharacterHeader />
 				<CharacterBody />
 			</>

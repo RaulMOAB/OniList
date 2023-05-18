@@ -5,6 +5,7 @@ import style from "../../styles/Banner.module.css";
 import Container from "@/components/Common/PageContainer/Container";
 import MediaPageCard from "@/components/Card/MediaPageCard";
 import ReadMore from './../utils/ReadMore'
+import Head from "next/head";
 
 const getCharacter = async (id) => {
   const response = await fetch(
@@ -43,17 +44,20 @@ function CharacterHeader() {
 
   return(
     <>
+      <Head>
+				<title>{character.romaji} · OniList</title>
+			</Head>
       <div
           className={"hero opacity-80 bg-neutral " + style.banner_character}
       >
         <div className={style.banner_shadow}></div>
       </div>
       <Container>
-      <div className="grid grid-rows-1 gap-8 md:grid-flow-col xl:px-52">
-          <div className="mx-auto -mt-28 z-30 w-fit md:pl-12 xl:pl-0">
+      <div className="grid grid-cols-6 gap-8 md:grid-flow-col xl:px-52">
+          <div className="mx-auto lg:col-span-2 md:col-span-3 col-span-6 -mt-28 z-30 w-fit md:pl-12 xl:pl-0">
             <MediaPageCard img={character.image_large} />
           </div>
-          <div className="md:py-10 pl-5 pr-8 text-left z-30">
+          <div className="md:py-10 lg:col-span-4 md:col-span-3 col-span-6 2xl:-ml-10 md:-ml-6 lg:-ml-0 md:pl-0 pl-5 text-left z-30">
             <h2 className="2xl:text-3xl md:text-xl text-2xl font-bold md:-mt-32 text-accent">{character.romaji}</h2>
             <h3 className="text-md mt-1 md:mb-12 mb-6 text-accent">{character.name}</h3>
             {

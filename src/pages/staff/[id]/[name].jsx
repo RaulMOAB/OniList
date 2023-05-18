@@ -1,13 +1,14 @@
 import React from "react";
 import StaffHeader from "./../../../components/StaffPage/StaffHeader";
-import Head from "next/head";
+import StaffBody from "./../../../components/StaffPage/StaffBody";
+import ScrollButton from "./../../../components/Buttons/ScrollButton";
+
 function StaffPage() {
   return (
 		<>
-			<Head>
-				<title>Staff · OniList</title>
-			</Head>
 			<StaffHeader />
+			<StaffBody />
+			<ScrollButton />
 		</>
 	);
 }

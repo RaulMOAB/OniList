@@ -245,7 +245,7 @@ export default function RegisterForm() {
 						<div className='mb-8 mx-auto'>
 							<RegisterButton text='Register' />
 						</div>
-						<div className='text-center mt-5'>
+						{/* <div className='text-center mt-5'>
 							<small className='text-accent text-center'>
 								<Link
 									href='/login'
@@ -253,7 +253,7 @@ export default function RegisterForm() {
 									Login
 								</Link>
 							</small>
-						</div>
+						</div> */}
 					</form>
 				</div>
 			</div>

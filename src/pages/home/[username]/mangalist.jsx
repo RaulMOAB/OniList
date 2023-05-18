@@ -17,17 +17,19 @@ export default function MangaList() {
 	const [deletedMedia, setDeletedMedia] = useState(false);
 	const [selectedMedia, setSelectedMedia] = useState({});
 	const [noData, setNoData] = useState(false);
+	const [authenticated, setAuthenticated] = useState(true);
+
 	//*Alert state
 	const [showError, setShowError] = useState(false);
 	const [message, setMessage] = useState("");
 
-	const updateStatus = async (status, deleted) => {
-		setStatus(status); // cambia el texto del boton
-
+	const updateStatus = async (selected_status, deleted,favorite) => {
+		setStatus(selected_status); // cambia el texto del boton
 		const body = JSON.stringify({
 			user_id: user.id,
 			media_id: selectedMedia.media_id,
-			status: status,
+			status: selected_status,
+			favorite
 		});
 		if (deleted) {
 			setMessage(`${selectedMedia.title} was deleted from your list.`);
@@ -35,7 +37,22 @@ export default function MangaList() {
 		} else {
 			const response = await fetchData("status", "POST", body);
 			if (response) {
-				setMessage(`${selectedMedia.title} added to ${status} list.`);
+				switch (selected_status) {
+					case "WATCHING":
+						selected_status = "READING";
+						break;
+					case "REWATCHING":
+						selected_status = "REREADING";
+						break;
+					case "PLAN TO WATCH":
+						selected_status = "PLAN TO READ";
+						break;
+					default:
+						selected_status = selected_status;
+						break;
+				}
+
+				setMessage(`${selectedMedia.title} added to ${selected_status} list.`);
 				setShowError(true);
 			}
 		}
@@ -46,33 +63,44 @@ export default function MangaList() {
 			let endpoint = `library/${user.username}/mangalist`;
 			let method = "GET";
 			fetchData(endpoint, method).then((res_mangalist) => {
-				if (res_mangalist !== undefined) {
+				if (!res_mangalist.error) {
 					setNoData(false);
 					setFilteredManga(res_mangalist ?? []);
 					setMangaListStatus(res_mangalist);
 				} else {
 					setNoData(true);
+					setAuthenticated(false);
 				}
 			});
 		}
 	}, [user, status, fetchData, selectedMedia, deletedMedia]);
+	if (!authenticated) {
+		return null;
+	}
 
-	const watching_list = filteredManga.filter((media) => {
+	let watching_list = [];
+	let rewatching_list = [];
+	let completed_list = [];
+	let paused_list = [];
+	let dropped_list = [];
+	let planning_list = [];
+
+	watching_list = filteredManga.filter((media) => {
 		return media.status.status === "WATCHING";
 	});
-	const rewatching_list = filteredManga.filter((media) => {
+	rewatching_list = filteredManga.filter((media) => {
 		return media.status.status === "REWATCHING";
 	});
-	const completed_list = filteredManga.filter((media) => {
+	completed_list = filteredManga.filter((media) => {
 		return media.status.status === "COMPLETED";
 	});
-	const paused_list = filteredManga.filter((media) => {
+	paused_list = filteredManga.filter((media) => {
 		return media.status.status === "PAUSED";
 	});
-	const dropped_list = filteredManga.filter((media) => {
+	dropped_list = filteredManga.filter((media) => {
 		return media.status.status === "DROPPED";
 	});
-	const planning_list = filteredManga.filter((media) => {
+	planning_list = filteredManga.filter((media) => {
 		return media.status.status === "PLAN TO WATCH";
 	});
 
