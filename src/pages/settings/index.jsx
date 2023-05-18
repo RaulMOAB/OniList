@@ -56,19 +56,25 @@ function Settings() {
 		return null
 	}
 	const updateDescription = () => {
-		let endpoint = "update/description";
-		let method = "POST";
-		let body = JSON.stringify({
-			id: user.id,
-			description: about,
-		});
-		fetchData(endpoint, method, body).then((response) => {
-			let response_key = Object.keys(response)[0];
-			setTypeAlert(response_key);
-			setMessage(response[response_key]);
-			setShowError(true);
-		});
-		updateUser();
+		if(about.length > 255){
+							setTypeAlert("error");
+							setMessage("The description cannot exceed 255 characters.");
+							setShowError(true);
+		}else{
+			let endpoint = "update/description";
+			let method = "POST";
+			let body = JSON.stringify({
+				id: user.id,
+				description: about,
+			});
+			fetchData(endpoint, method, body).then((response) => {
+				let response_key = Object.keys(response)[0];
+				setTypeAlert(response_key);
+				setMessage(response[response_key]);
+				setShowError(true);
+			});
+			updateUser();
+		}
 	};
 	const changeImage = (image, type) => {
 		console.log(image);

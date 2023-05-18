@@ -101,15 +101,15 @@ export default function Home() {
 				<title>Home · Onilist</title>
 			</Head>
 			{!nothingToSee ? (
-				<div className='w-full grid lg:grid-cols-2 gap-4 p-6 text-accent'>
+				<div className='w-full grid grid-cols-1 lg:grid-cols-2 gap-4 p-6 text-accent'>
 					<div>
-						<div className='bg-neutral p-5 w-full rounded-md mb-3'>
-							<p>{description}</p>
+						<div className='bg-neutral w-full p-5 h-fit rounded-md mb-3'>
+							<p className='whitespace-normal break-words'>{description}</p>
 						</div>
 						<div className='mb-3'>
 							<p className='font-semibold mb-2'>Favorites Animes</p>
 							{favoriteAnimes.length !== 0 ? (
-								<div className='bg-neutral rounded-md p-5 grid grid-cols-4 md:grid-cols-5 gap-2'>
+								<div className='bg-neutral rounded-md p-2 md:p-5  grid grid-cols-4 md:grid-cols-5 gap-2'>
 									{favoriteAnimes.reverse()}
 								</div>
 							) : (
@@ -121,7 +121,7 @@ export default function Home() {
 						<div className='mb-3'>
 							<p className='font-semibold mb-2'>Favorites Mangas</p>
 							{favoriteMangas.length !== 0 ? (
-								<div className='bg-neutral rounded-md p-5 grid grid-cols-4 md:grid-cols-5 gap-2'>
+								<div className='bg-neutral rounded-md p-2 md:p-5 grid grid-cols-4 md:grid-cols-5 gap-2'>
 									{favoriteMangas.reverse()}
 								</div>
 							) : (

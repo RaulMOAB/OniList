@@ -23,13 +23,13 @@ export default function MangaList() {
 	const [showError, setShowError] = useState(false);
 	const [message, setMessage] = useState("");
 
-	const updateStatus = async (status, deleted) => {
-		setStatus(status); // cambia el texto del boton
-
+	const updateStatus = async (selected_status, deleted,favorite) => {
+		setStatus(selected_status); // cambia el texto del boton
 		const body = JSON.stringify({
 			user_id: user.id,
 			media_id: selectedMedia.media_id,
-			status: status,
+			status: selected_status,
+			favorite
 		});
 		if (deleted) {
 			setMessage(`${selectedMedia.title} was deleted from your list.`);
@@ -37,7 +37,22 @@ export default function MangaList() {
 		} else {
 			const response = await fetchData("status", "POST", body);
 			if (response) {
-				setMessage(`${selectedMedia.title} added to ${status} list.`);
+				switch (selected_status) {
+					case "WATCHING":
+						selected_status = "READING";
+						break;
+					case "REWATCHING":
+						selected_status = "REREADING";
+						break;
+					case "PLAN TO WATCH":
+						selected_status = "PLAN TO READ";
+						break;
+					default:
+						selected_status = selected_status;
+						break;
+				}
+
+				setMessage(`${selectedMedia.title} added to ${selected_status} list.`);
 				setShowError(true);
 			}
 		}
@@ -59,34 +74,35 @@ export default function MangaList() {
 			});
 		}
 	}, [user, status, fetchData, selectedMedia, deletedMedia]);
-	if(!authenticated){return null}
-	
-		let watching_list = [];
-		let rewatching_list = [];
-		let completed_list = [];
-		let paused_list = [];
-		let dropped_list = [];
-		let planning_list = [];
+	if (!authenticated) {
+		return null;
+	}
+
+	let watching_list = [];
+	let rewatching_list = [];
+	let completed_list = [];
+	let paused_list = [];
+	let dropped_list = [];
+	let planning_list = [];
 
 	watching_list = filteredManga.filter((media) => {
-	 return media.status.status === "WATCHING";
- });
+		return media.status.status === "WATCHING";
+	});
 	rewatching_list = filteredManga.filter((media) => {
-	 return media.status.status === "REWATCHING";
- });
+		return media.status.status === "REWATCHING";
+	});
 	completed_list = filteredManga.filter((media) => {
-	 return media.status.status === "COMPLETED";
- });
+		return media.status.status === "COMPLETED";
+	});
 	paused_list = filteredManga.filter((media) => {
-	 return media.status.status === "PAUSED";
- });
+		return media.status.status === "PAUSED";
+	});
 	dropped_list = filteredManga.filter((media) => {
-	 return media.status.status === "DROPPED";
- });
+		return media.status.status === "DROPPED";
+	});
 	planning_list = filteredManga.filter((media) => {
-	 return media.status.status === "PLAN TO WATCH";
- });
-
+		return media.status.status === "PLAN TO WATCH";
+	});
 
 	return (
 		<>

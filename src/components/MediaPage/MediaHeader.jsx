@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { useRouter } from "next/router";
 import { AuthContext } from "@/contexts/AuthContext";
@@ -62,6 +63,7 @@ function MediaHeader() {
   const [subscribe, isSubsribed] = useState({});
   const [status, setStatus] = useState("Add to Library");
   const [favorite, setFavorite] = useState(0);
+  const [favoriteChanged, setHasFavoriteChanged] = useState(false);
   const [type, setType] = useState("");
 
   //*Alert state
@@ -84,12 +86,11 @@ function MediaHeader() {
           setType(aux_type);
           getMediaSubscribed(user_id, id).then((res) => {
             isSubsribed(res);
-            console.log(res);
             if (res) {
-              aux_type = filterByMediaType(res.type);
+              aux_type = filterByMediaType(aux_type, res.status);
               aux_favorite = res.favorite;
-              setType(aux_type ?? "");
-              setStatus(res.status);
+              setType(aux_type ?? '');
+              setStatus(aux_type);
               setFavorite(aux_favorite ?? 0);
             }
           });
@@ -99,15 +100,31 @@ function MediaHeader() {
         });
     }
   }, [id]);
+  
 
-  const updateStatus = async (status, deleted, favorite = 0) => {
+  const updateStatus = async (changed_status, deleted, favorite = 0) => {
+        if (media.type === "MANGA") {
+					switch (changed_status) {
+						case "READING":
+							changed_status = "WATCHING";
+							break;
+						case "REREADING":
+							changed_status = "REWATCHING";
+							break;
+						case "PLAN TO READ":
+							changed_status = "PLAN TO WATCH";
+							break;
+						default:
+							changed_status = changed_status;
+							break;
+					}
+				}
     const body = JSON.stringify({
-      user_id,
-      media_id: id,
-      status: status,
-      favorite,
-    });
-    console.log(body);
+			user_id,
+			media_id: id,
+			status: changed_status,
+			favorite,
+		});
 
     const response = await fetch(
       process.env.NEXT_PUBLIC_API_ENDPOINT + `status`,
@@ -120,33 +137,35 @@ function MediaHeader() {
         body,
       }
     );
-    setStatus(status); // cambia el texto del boton
 
-    if (type === "MANGA") {
-      switch (status) {
-        case "WATCHING":
-          status = "READING";
-          break;
-        case "REWATCHING":
-          status = "REREADING";
-          break;
-        case "PLAN TO WATCH":
-          status = "PLAN TO READ";
-          break;
-        default:
-          break;
+    
+    setFavorite(favorite)
+    if (media.type === "MANGA") {
+      switch (changed_status) {
+				case "WATCHING":
+					changed_status = "READING";
+					break;
+          case "REWATCHING":
+            changed_status = "REREADING";
+            break;
+            case "PLAN TO WATCH":
+              changed_status = "PLAN TO READ";
+              break;
+				default:
+          changed_status = changed_status;
+					break;
+        }
       }
-    }
+      setStatus(changed_status); // cambia el texto del boton
     if (deleted) {
-      setMessage(`${media.title} was deleted from your list.`);
+      setMessage(`${media.title} was deleted from your library.`);
       setShowError(true);
       setFavorite(0);
     } else {
       if (response.status === 200) {
-        setMessage(`${media.title} added to ${status} list.`);
+        setMessage(`${media.title} added to ${changed_status} list.`);
         setShowError(true);
       }
-      return response.json();
     }
   };
 
@@ -154,16 +173,17 @@ function MediaHeader() {
     event.preventDefault();
     let aux_fav;
     // favorite === 0 ? setFavorite(1) : setFavorite(0);
+    let aux_status = status == "Add to Library"?"WATCHING":status;
+    console.log(status)
     if (favorite === 0) {
       aux_fav = 1;
       setFavorite(aux_fav);
-      setFavoriteToMedia(aux_fav);
+      setFavoriteToMedia(aux_fav, aux_status);
     } else {
       aux_fav = 0;
       setFavorite(aux_fav);
-      setFavoriteToMedia(aux_fav);
+      setFavoriteToMedia(aux_fav, aux_status);
     }
-    console.log(aux_fav);
 
     //*Llamada Api
     //setFavoriteToMedia(favorite);
@@ -182,11 +202,9 @@ function MediaHeader() {
     const endpoint = "media/favorite";
     const method = "POST";
     if (isUserAuthenticated()) {
-      fetchData(endpoint, method, body).then((res) => {
-        console.log("************************");
-        console.log(res);
-      });
+      fetchData(endpoint, method, body);
       updateStatus(status, false, favorite ?? 1);
+      setHasFavoriteChanged(!favoriteChanged)
     }
   };
 
@@ -335,11 +353,11 @@ function MediaHeader() {
           <input type="checkbox" id="my-modal-4" className="modal-toggle" />
           {isUserAuthenticated() && (
             <MediaEditor
-              user={user_id}
-              media={media}
+                media={media}
               actualStatus={status}
               updateStatus={updateStatus}
-            />
+              hasFavoriteChanged={favoriteChanged}
+          />
           )}
         </Container>
       </>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { React, use, useState } from "react";
 import style from "../../styles/Banner.module.css";
 import { BsFillHeartFill } from "react-icons/bs";
@@ -7,8 +8,9 @@ import moment from "moment";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useContext, useEffect } from "react";
 
-function MediaEditor({ media, actualStatus, updateStatus }) {
+function MediaEditor({ media, actualStatus, updateStatus ,hasFavoriteChanged }) {
   const { user, fetchData } = useContext(AuthContext);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [status, setStatus] = useState("");
   const [rate, setRating] = useState(0);
   const [startDate, setStartDate] = useState("");
@@ -50,19 +52,23 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
         setProgress(res.progress) ?? 0;
         setRewatches(res.rewatches ?? 0);
         setNotes(res.notes ?? "");
+        if (res.favorite==1) {
+          setIsFavorite(res.favorite);
+				}else{
+          setIsFavorite(false);
+        }
       });
     }
-  }, [media, actualStatus]);
+  }, [media, actualStatus, hasFavoriteChanged]);
 
   let stars_array = [];
 
   const saveMediaData = async () => {
     let media_id = media.id ?? media.media_id;
     let aux_status = status;
-    console.log(status);
     
     if (media.type === "MANGA") {
-      switch (aux_status) {
+      switch (status) {
 				case "READING":
 					aux_status = "WATCHING";
 					break;
@@ -78,7 +84,7 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
 			}
     }
     console.log(aux_status);
-
+		let favorite = isFavorite ? 1:0;
     const body = JSON.stringify({
       user: user.id,
       media_id,
@@ -87,17 +93,21 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
       progress,
       start_date: startDate,
       endDate,
+      favorite,
       rewatches,
       notes,
     });
     const endpoint = "media/data";
     const method = "POST";
     fetchData(endpoint, method, body).then((res) => {
-      updateStatus(res.status, false);
-      console.log(res)
+      updateStatus(aux_status, false, favorite);
     });
+
     //return response.json();
   };
+  const handleFavorite = ()=>{
+    setIsFavorite(!isFavorite)
+  }
 
   const deleteMedia = async () => {
     let media_id = media.id ?? media.media_id;
@@ -204,6 +214,18 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
   };
 
   const handleRewatchesChange = (rewatches) => {
+
+    if(media.type==="ANIME"){
+      setStatus('REWATCHING')
+    }else{
+      setStatus("REREADING");
+    }
+    if (
+			Number(rewatches.target.value) === 0 &&
+			(status === "REREADING") | (status === "REWATCHING")
+		) {
+      setStatus('');
+		}
     return setRewatches(Number(rewatches.target.value));
   };
 
@@ -242,218 +264,233 @@ function MediaEditor({ media, actualStatus, updateStatus }) {
     }
   }
   return (
-    <label htmlFor="my-modal-4" className="modal bg-opacity-80 cursor-pointer">
-      <label
-        className={
-          "modal-box relative w-11/12 max-w-5xl rounded-none " +
-          style.modal_editor
-        }
-        htmlFor=""
-      >
-        <div
-          className={"relative flex hero opacity-80  " + style.banner_modal}
-          style={{
-            backgroundImage: `url("${media.banner_image}")`,
-          }}
-        >
-          <div className={style.banner_shadow}></div>
-          <div className="absolute w-full h-full bg-gradient-to-t from-black  opacity-60 top-0"></div>
+		<label
+			htmlFor='my-modal-4'
+			className='modal bg-opacity-80 cursor-pointer'>
+			<label
+				className={
+					"modal-box relative w-11/12 max-w-5xl rounded-none " +
+					style.modal_editor
+				}
+				htmlFor=''>
+				<div
+					className={"relative flex hero opacity-80  " + style.banner_modal}
+					style={{
+						backgroundImage: `url("${media.banner_image}")`,
+					}}>
+					<div className={style.banner_shadow}></div>
+					<div className='absolute w-full h-full bg-gradient-to-t from-black  opacity-60 top-0'></div>
 
-          <div className="flex z-30 mt-28 mx-1 sm:mx-8 w-full">
-            <MediaPageCard img={media.medium_cover_image} />
+					<div className='flex z-30 mt-28 mx-1 sm:mx-8 w-full'>
+						<MediaPageCard img={media.medium_cover_image} />
 
-            <div className="flex justify-around h-fit">
-              <h2 className="text-white text-lg p-2 sm:py-14 sm:px-8  inline-block">
-                {media.title}
-              </h2>
-            </div>
-            <div className="flex flex-grow items-center justify-end">
-              <div className="px-5">
-                <BsFillHeartFill className="text-white " />
-                {/*TODO cambiar color al hacer click */}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div className="mt-20 m-10">
-            <div className="flex md:flex-nowrap flex-wrap mt-5 mb-6">
-              <div className="w-1/2 md:w-1/5 sm:px-3 mb-6 md:mb-0">
-                <label
-                  className="block tracking-wide text-accent text-xs font-normal mb-2"
-                  htmlFor="grid-first-name"
-                >
-                  Status
-                </label>
-                <select
-                  onChange={getOptionValue}
-                  value={status}
-                  className="select select-sm w-full max-w-xs font-normal text-xs rounded-md bg-base-300 text-accent"
-                >
-                  <option value="">Status</option>
-                  {mediaStatus.map((item, i) => (
-                    <option key={i} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="w-1/2 md:w-1/5 sm:px-3 mb-6 md:mb-0">
-                <label
-                  className="block tracking-wide text-accent text-xs font-normal mb-2"
-                  htmlFor="grid-first-name"
-                >
-                  Score
-                </label>
-                <div className="flex rating">{stars_array}</div>
-              </div>
-              <div className="w-full md:w-1/5 px-1 mb-0 md:mb-0">
-                <label
-                  className="block tracking-wide text-accent text-xs font-normal mb-2"
-                  htmlFor="grid-first-name"
-                >
-                  Episode Progress
-                </label>
-                <input
-                  className="appearance-none block w-full text-accent rounded-md bg-base-300 py-2 px-4 mb-3 leading-tight "
-                  type="number"
-                  min={0}
-                  max={media.episodes}
-                  disabled={
-                    status === "COMPLETED" ||
-                    status === "PAUSED" ||
-                    status === "DROPPED"
-                  }
-                  value={progress}
-                  onChange={handleEpisodeChange}
-                />
-              </div>
-            </div>
-            <div className="flex flex-wrap  mb-6">
-              <div className="lg:w-1/5 w-1/2 px-1 sm:px-3">
-                <label
-                  className="block  tracking-wide text-accent text-xs font-normal mb-2"
-                  htmlFor="grid-startDate"
-                >
-                  Start Date
-                </label>
-                <input
-                  className="appearance-none block w-full text-accent rounded-md bg-base-300 py-2 px-4 mb-3 leading-tight text-xs"
-                  value={startDate}
-                  disabled={status === "PAUSED" || status === "DROPPED"}
-                  onChange={handleStartDateSelected}
-                  type="date"
-                  max={endDate ?? ""}
-                />
-              </div>
-              <div className="lg:w-1/5 w-1/2 px-1 sm:px-3">
-                <label
-                  className="block  tracking-wide text-accent text-xs font-normal mb-2"
-                  htmlFor="grid-finishDate"
-                >
-                  Finish Date
-                </label>
-                <input
-                  className="appearance-none block w-full text-accent rounded-md bg-base-300 py-2 px-4 mb-3 leading-tight text-xs"
-                  disabled={
-                    status === "COMPLETED" ||
-                    status === "PAUSED" ||
-                    status === "DROPPED"
-                  }
-                  value={endDate}
-                  onChange={handleEndDateSelected}
-                  type="date"
-                  min={startDate ?? ""}
-                />
-              </div>
-              <div className="w-full md:w-1/5 sm:px-3 mb-0">
-                <label
-                  className="block tracking-wide text-accent text-xs font-normal mb-2"
-                  htmlFor="grid-first-name"
-                >
-                  Total Rewatches
-                </label>
-                <input
-                  className="appearance-none block w-full text-accent rounded-md bg-base-300 py-2 px-4 mb-3 leading-tight "
-                  type="number"
-                  min={0}
-                  disabled={status === "PAUSED" || status === "DROPPED"}
-                  value={rewatches === 0 ? 0 : rewatches}
-                  onChange={handleRewatchesChange}
-                />
-              </div>
-            </div>
+						<div className='flex justify-around h-fit'>
+							<h2 className='text-white text-lg p-2 sm:py-14 sm:px-8  inline-block'>
+								{media.title}
+							</h2>
+						</div>
+						<div className='flex flex-grow items-center justify-end'>
+							<div className='px-5'>
+								{isFavorite ? (
+									<BsFillHeartFill
+										onClick={handleFavorite}
+										className='text-red-500 '
+									/>
+								) : (
+									<BsFillHeartFill
+										onClick={handleFavorite}
+										className='text-white '
+									/>
+								)}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div className='mt-20 m-10'>
+						<div className='flex md:flex-nowrap flex-wrap mt-5 mb-6'>
+							<div className='w-1/2 md:w-1/5 sm:px-3 mb-6 md:mb-0'>
+								<label
+									className='block tracking-wide text-accent text-xs font-normal mb-2'
+									htmlFor='grid-first-name'>
+									Status
+								</label>
+								<select
+									onChange={getOptionValue}
+									value={status}
+									className='select select-sm w-full max-w-xs font-normal text-xs rounded-md bg-base-300 text-accent'>
+									<option value=''>Status</option>
+									{mediaStatus.map((item, i) => (
+										<option
+											key={i}
+											value={item}>
+											{item}
+										</option>
+									))}
+								</select>
+							</div>
+							<div className='w-1/2 md:w-1/5 sm:px-3 mb-6 md:mb-0'>
+								<label
+									className='block tracking-wide text-accent text-xs font-normal mb-2'
+									htmlFor='grid-first-name'>
+									Score
+								</label>
+								<div className='flex rating'>{stars_array}</div>
+							</div>
+							<div className='w-full md:w-1/5 sm:px-3 mb-0 md:mb-0'>
+								<label
+									className='block tracking-wide text-accent text-xs font-normal mb-2'
+									htmlFor='grid-first-name'>
+									{media.type === "ANIME"
+										? "Episode Progress"
+										: "Chapter progress"}
+								</label>
+								<input
+									className='appearance-none block w-full text-accent rounded-md bg-base-300 py-2 px-4 mb-3 leading-tight '
+									type='number'
+									min={0}
+									max={media.episodes}
+									disabled={
+										status === "COMPLETED" ||
+										status === "PAUSED" ||
+										status === "DROPPED"
+									}
+									value={progress}
+									onChange={handleEpisodeChange}
+								/>
+							</div>
+						</div>
+						<div className='flex flex-wrap  mb-6'>
+							<div className='lg:w-1/5 w-1/2 px-1 sm:px-3'>
+								<label
+									className='block  tracking-wide text-accent text-xs font-normal mb-2'
+									htmlFor='grid-startDate'>
+									Start Date
+								</label>
+								<input
+									className='appearance-none block w-full text-accent rounded-md bg-base-300 py-2 px-4 mb-3 leading-tight text-xs'
+									value={startDate}
+									disabled={status === "PAUSED" || status === "DROPPED"}
+									onChange={handleStartDateSelected}
+									type='date'
+									max={endDate ?? ""}
+								/>
+							</div>
+							<div className='lg:w-1/5 w-1/2 px-1 sm:px-3'>
+								<label
+									className='block  tracking-wide text-accent text-xs font-normal mb-2'
+									htmlFor='grid-finishDate'>
+									Finish Date
+								</label>
+								<input
+									className='appearance-none block w-full text-accent rounded-md bg-base-300 py-2 px-4 mb-3 leading-tight text-xs'
+									disabled={
+										status === "COMPLETED" ||
+										status === "PAUSED" ||
+										status === "DROPPED"
+									}
+									value={endDate}
+									onChange={handleEndDateSelected}
+									type='date'
+									min={startDate ?? ""}
+								/>
+							</div>
+							<div className='w-full md:w-1/5 sm:px-3 mb-0'>
+								<label
+									className='block tracking-wide text-accent text-xs font-normal mb-2'
+									htmlFor='grid-first-name'>
+									{media.type === "ANIME"
+										? "Total Rewatches"
+										: "Total Rereading"}
+								</label>
+								<input
+									className='appearance-none block w-full text-accent rounded-md bg-base-300 py-2 px-4 mb-3 leading-tight '
+									type='number'
+									min={0}
+									disabled={status === "PAUSED" || status === "DROPPED"}
+									value={rewatches === 0 ? 0 : rewatches}
+									onChange={handleRewatchesChange}
+								/>
+							</div>
+						</div>
 
-            <div className="flex flex-wrap mb-2">
-              <div className="w-full md:w-3/5 sm:px-3 mb-6 md:mb-0">
-                <label
-                  className="block tracking-wide text-accent text-xs font-normal mb-2"
-                  htmlFor="grid-city"
-                >
-                  Notes
-                </label>
-                <textarea
-                  className="textarea textarea-bordered bg-base-300  w-full "
-                  placeholder="Write a note"
-                  value={notes}
-                  onChange={handleNotesChange}
-                ></textarea>
-              </div>
-            </div>
-            <div className="flex justify-end">
-              <div className="px-4">
-                <label htmlFor="my-modal-4">
-                  <button
-                    onClick={() => {
-                      saveMediaData();
-                      let aux_status;
-                      if (media.type === "MANGA") {
-                        switch (aux_status) {
-                          case "READING":
-                            aux_status = "WATCHING";
-                            break;
-                          case "REREADING":
-                            aux_status = "REWATCHING";
-                            break;
-                          case "PLAN TO READ":
-                            aux_status = "PLAN TO WATCH";
-                            break;
-                          default:
-                            aux_status = status;
-                            break;
-                        }
-                      }
-                      updateStatus(aux_status, false);
-                    }}
-                    className=" py-2 px-4  bg-primary text-white font-normal  rounded-md shadow-md hover:shadow-blue-500/50 hover:text-white hover:border-transparent hover:bg-primary transition ease-in duration-200 transform hover:-translate-y-0.5 active:translate-y-0 text-base"
-                  >
-                    <label htmlFor="my-modal-4">Save</label>
-                  </button>
-                </label>
-                <label
-                  htmlFor="my-modal-4"
-                  className="cursor-pointer text-white hover:text-primary text-lg absolute right-6 top-4"
-                >
-                  ✕
-                </label>
-              </div>
-              <button className="py-2 px-4 bg-secondary text-white font-normal  rounded-md shadow-md hover:shadow-red-500/50 hover:text-white hover:border-transparent transition ease-in duration-200 transform hover:-translate-y-0.5 active:translate-y-0 text-base">
-                <label htmlFor="confirm-delete">Delete</label>
-              </button>
-            </div>
-            <ConfirmModal
-              id={"confirm-delete"}
-              header={"Warning"}
-              message={"Are you sure you want to delete this list entry?"}
-              confirm_button_text="Delete"
-              cancel_button_text="Cancel"
-              action={deleteMedia}
-            />
-          </div>
-        </div>
-      </label>
-    </label>
-  );
+						<div className='flex flex-wrap mb-2'>
+							<div className='w-full md:w-3/5 sm:px-3 mb-6 md:mb-0'>
+								<label
+									className='block tracking-wide text-accent text-xs font-normal mb-2'
+									htmlFor='grid-city'>
+									Notes
+								</label>
+								<textarea
+									className='textarea textarea-bordered bg-base-300  w-full '
+									placeholder='Write a note'
+									value={notes}
+									onChange={handleNotesChange}></textarea>
+							</div>
+						</div>
+						<div className='flex justify-end'>
+							<div className='px-4'>
+								<label htmlFor='my-modal-4'>
+									<button
+										onClick={() => {
+											saveMediaData();
+											let aux_status;
+											if (media.type === "MANGA") {
+												switch (aux_status) {
+													case "READING":
+														aux_status = "WATCHING";
+														break;
+													case "REREADING":
+														aux_status = "REWATCHING";
+														break;
+													case "PLAN TO READ":
+														aux_status = "PLAN TO WATCH";
+														break;
+													default:
+														aux_status = status;
+														break;
+												}
+											}
+											updateStatus(aux_status, false);
+										}}
+										className=' py-2  bg-primary text-white font-normal  rounded-md shadow-md hover:shadow-blue-500/50 hover:text-white hover:border-transparent hover:bg-primary transition ease-in duration-200 transform hover:-translate-y-0.5 active:translate-y-0 text-base'>
+										<label
+											className='py-3 px-4 cursor-pointer'
+											htmlFor='my-modal-4'>
+											Save
+										</label>
+									</button>
+								</label>
+								<label
+									htmlFor='my-modal-4'
+									className='cursor-pointer text-white hover:text-primary text-lg absolute right-6 top-4'>
+									✕
+								</label>
+							</div>
+							<button className='py-2 bg-secondary text-white font-normal  rounded-md shadow-md hover:shadow-red-500/50 hover:text-white hover:border-transparent transition ease-in duration-200 transform hover:-translate-y-0.5 active:translate-y-0 text-base'>
+								<label
+									className='py-3 px-4 cursor-pointer'
+									htmlFor='confirm-delete'
+									>
+										
+									Delete
+								</label>
+							</button>
+						</div>
+						<ConfirmModal
+						
+							id={"confirm-delete"}
+							header={"Warning"}
+							message={"Are you sure you want to delete this list entry?"}
+							confirm_button_text='Delete'
+							cancel_button_text='Cancel'
+							action={deleteMedia}
+						/>
+					</div>
+				</div>
+			</label>
+		</label>
+	);
 }
 
 export default MediaEditor;
