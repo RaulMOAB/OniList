@@ -134,7 +134,7 @@ function MediaBody() {
         console.log(res);
         setMediaDetails(res);
 
-        setMediaStatus(res.airing_status.toLowerCase());
+        setMediaStatus(res.airing_status.replace(/_/g, " ").toLowerCase());
 
         if (res.season) setSeason(res.season.toLowerCase() ?? "");
 
@@ -211,11 +211,15 @@ function MediaBody() {
             ) : (
               ""
             )}
-
-            <div className="pb-2">
-              <div className="font-semibold">Status</div>
-              <div className="capitalize pt-1">{mediaStatus}</div>
-            </div>
+            
+            {mediaStatus !== "finished" ? (
+              ""
+            ) : (
+              <div className="pb-2">
+                <div className="font-semibold">Status</div>
+                <div className="pt-1 capitalize">{mediaStatus}</div>
+              </div>
+            )}
             <div className="pb-2">
               <div className="font-semibold">Start Date</div>
               <div>{startDate}</div>

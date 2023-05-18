@@ -150,6 +150,7 @@ function MediaHeader() {
       }
       return response.json();
     }
+    
   };
 
   const handleFavorite = (event) => {
