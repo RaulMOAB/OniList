@@ -6,6 +6,8 @@ import React from "react";
  * @returns actual status depending of their media type
  */
 function filterByMediaType(mediaType, default_status) {
+	console.log(mediaType)
+	console.log(default_status);
   let status;
   if (mediaType === "MANGA") {
     switch (default_status) {
