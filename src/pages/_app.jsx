@@ -1,4 +1,4 @@
-import "@/styles/globals.css";
+import "../styles/globals.css";
 import Layout from "../layouts/Layout";
 import { MediaContextProvider } from "../contexts/MediaContext";
 import {AuthContextProvider} from '@/contexts/AuthContext'
