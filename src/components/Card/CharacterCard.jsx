@@ -37,7 +37,7 @@ function CharacterCard({ character, index, role, dubber = null }) {
         </div>
         <div className="grid grid-rows-1 p-2">
           <Link href={link}>
-            <div className="w-20 h-16 hover:text-primary">{character_name}</div>
+            <div className="w-20 xl:w-24 h-16 hover:text-primary">{character_name}</div>
           </Link>
           <div className="">
             <p className="capitalize text-xs">{role.toLowerCase()}</p>
@@ -47,7 +47,7 @@ function CharacterCard({ character, index, role, dubber = null }) {
       <div className="grid  grid-flow-col  text-right">
         <div className="align-text-bottom p-2">
           <Link href={dubber_link}>
-            <div className="col-span-2 w-22 h-16 hover:text-primary">
+            <div className="col-span-2 w-22 xl:w-20 h-16 hover:text-primary">
               {dubber_name}
             </div>
           </Link>

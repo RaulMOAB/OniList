@@ -12,6 +12,7 @@ import Image from "next/image";
 import HamMenu from "@/components/Navbar/HamMenu";
 import SearchBar from "@/components/Navbar/SearchBar";
 import ConfirmModal from "@/components/Modals/ConfirmModal";
+import HoverTransition from '@/components/Common/HoverTransition'
 
 export default function Navbar() {
   const { user, logout, fetchData, hasChanged } = useContext(AuthContext);
@@ -53,7 +54,9 @@ export default function Navbar() {
 							width={40}
 							height={40}
 						/>
-						<span className={"" + styles.title}>Oni</span>List
+						<span className={"" + styles.title}>
+							Oni
+						</span>List
 					</Link>
 				</div>
 				<div className='navbar-center hidden lg:flex '>
