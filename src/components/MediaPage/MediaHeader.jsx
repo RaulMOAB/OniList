@@ -75,15 +75,14 @@ function MediaHeader() {
   //Dropdown state
   const [isOpen, setIsOpen] = useState(false);
 
-
   useEffect(() => {
     // setFavorite(favorite)
     let aux_type, aux_favorite, aux_status;
     if (id) {
       getMedia(id)
-        .then((res) => {          
+        .then((res) => {
           setMedia(res);
-          aux_type = res.type;          
+          aux_type = res.type;
           setType(aux_type);
           getMediaSubscribed(user_id, id).then((res) => {
             isSubsribed(res);
@@ -225,9 +224,9 @@ function MediaHeader() {
     };
     return (
       <>
-      <Head>
-        <title>{media.title} · Onilist</title>
-      </Head>
+        <Head>
+          <title>{media.title} · Onilist</title>
+        </Head>
         <div
           className={"hero opacity-80 " + style.banner}
           style={{
@@ -248,7 +247,7 @@ function MediaHeader() {
         </div>
         <Container>
           <div className="grid grid-rows-1 gap-8 md:grid-flow-col 2xl:px-24">
-            <div className="m-auto sm:m-0 sm:-mt-28 z-30 w-fit">
+            <div className="m-auto -mt-44 sm:m-0 sm:-mt-28 z-30 w-fit">
               <MediaPageCard img={media.large_cover_image} />
               <div className=" flex flex-shrink gap-4 mt-3 ">
                 <div
@@ -322,16 +321,13 @@ function MediaHeader() {
                             }
                           }}
                         >
-                          {media.type  === "ANIME"
+                          {media.type === "ANIME"
                             ? " Set as Watching"
                             : "Set as Reading"}
-                            {/* Le llega el type vacio */}
                         </a>
                       </li>
                       <li className="w-full border-t border-accent">
-                        <label htmlFor="my-modal-4" className="">
-                          Open List Editor
-                        </label>
+                        <label htmlFor="my-modal-4">Open List Editor</label>
                       </li>
                     </ul>
                   </div>
@@ -347,22 +343,22 @@ function MediaHeader() {
                 </button>
               </div>
             </div>
-            <div className=" py-10 pr-8 text-left">
+            <div className=" py-10 sm:pr-8 text-left">
               <h2 className="2xl:text-3xl md:text-xl">{media.title}</h2>
               <p className={"mt-3 2xl:text-sm md:text-sm " + style.description}>
                 <ReadMore>{media.description}</ReadMore>
               </p>
             </div>
-            {/* <ReadMoreToggle media={media}/> */}
           </div>
           <input type="checkbox" id="my-modal-4" className="modal-toggle" />
-
-          <MediaEditor
-            media={media}
-            actualStatus={status}
-            updateStatus={updateStatus}
-            hasFavoriteChanged={favoriteChanged}
+          {isUserAuthenticated() && (
+            <MediaEditor
+                media={media}
+              actualStatus={status}
+              updateStatus={updateStatus}
+              hasFavoriteChanged={favoriteChanged}
           />
+          )}
         </Container>
       </>
     );

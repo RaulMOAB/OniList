@@ -48,7 +48,7 @@ export default function MediaCard({ media, index }) {
 							media.extra_large_cover_image ||
 							media.large_cover_image
 						}
-						className='rounded-md object-cover w-full h-full  ' //aspect-2/3
+						className='rounded-md object-cover w-full h-full' 
 						alt='media image'
 					/>
 					<div className='absolute inset-x-0 bottom-0 h-16 rounded-b-md text-accent opacity-80  bg-neutral'></div>
@@ -60,12 +60,12 @@ export default function MediaCard({ media, index }) {
 									className='text-xl-base mt-2 sm-2 w-5/6 truncate font-semibold'>
 									{media.title}
 								</p>
-								<div className='w-2/6 mt-2 text-right'>
+								{/* <div className='w-2/6 mt-2 text-right'>
 									<i
 										className=' fa-solid fa-star'
 										style={{ color: "#f5c211" }}></i>
 									<p className='inline-block'>{score}</p>
-								</div>
+								</div> */}
 							</div>
 							<p
 

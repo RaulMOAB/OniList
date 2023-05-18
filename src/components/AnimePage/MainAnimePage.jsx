@@ -135,13 +135,13 @@ export default function MainAnimePage() {
   },[search, genres, season_year, season, format, airing_status]);
 
   // skeleton loading time
-  useEffect(() => {
+  // useEffect(() => {
 
-    setTimeout(() => {
-      setLoading(false);
-    },650);
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   },650);
 
-  },[search, genres, season_year, season, format, airing_status]);
+  // },[search, genres, season_year, season, format, airing_status]);
 
   // Variables Handles
   const handleSearchChange = (data) => {
@@ -206,6 +206,11 @@ export default function MainAnimePage() {
             setMediaComponents(mediaComponents => [...mediaComponents, media])
           })
           setLoading(true);
+
+          // skeleton loading time
+          setTimeout(() => {
+            setLoading(false);
+          },650);
         }
         else{
           setMediaComponents([]);

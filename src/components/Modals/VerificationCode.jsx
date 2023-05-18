@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useState,useEffect, useContext } from "react";
 import Alert from "@/components/Alerts/Alert_prueba";
 import { AuthContext } from "@/contexts/AuthContext";
-import 'alpinejs';
 
 // API Petitions
 const getRegisterResponse = async (username, email, password, code) => {

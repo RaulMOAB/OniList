@@ -5,6 +5,7 @@ import style from "../../styles/Banner.module.css";
 import Container from "@/components/Common/PageContainer/Container";
 import MediaPageCard from "@/components/Card/MediaPageCard";
 import ReadMore from './../utils/ReadMore'
+import Head from "next/head";
 
 const getStaff = async (id) => {
   const response = await fetch(
@@ -46,6 +47,9 @@ function StaffHeader() {
 
   return(
     <>
+      <Head>
+				<title>{staff.romaji} · OniList</title>
+			</Head>
       <div
           className={"hero opacity-80 bg-neutral " + style.banner_character}
       >
