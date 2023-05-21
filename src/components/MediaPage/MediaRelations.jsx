@@ -29,8 +29,8 @@ function MediaRelations({ relation }) {
     });
     return (
       <>
-        <p className="text-accent mb-3 text-md font-medium ">Relations</p>
-        <div className="grid grid-cols-10 md:grid-cols-1 md:grid-flow-row md:gap-5 lg:grid-cols-6 xl:grid-cols-10 lg:gap-x-0  sm:grid-cols-4   mb-3 lg:w-full md:mx-auto ">
+       
+        <div className="flex  sm:grid md:grid-cols-1 md:grid-flow-row md:gap-5 lg:grid-cols-6 xl:grid-cols-10 lg:gap-x-0  sm:grid-cols-4   mb-3 lg:w-full md:mx-auto ">
           {relationCards}
         </div>
       </>

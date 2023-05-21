@@ -337,11 +337,14 @@ function MediaHeader() {
 								</button>
 							</div>
 						</div>
-						<div className='p-5 sm:p-0 sm:py-10 sm:pr-8 text-left'>
+						<div className='sm:p-0 sm:py-10 sm:pr-8 text-left '>
+							<div className="bg-neutral p-5 sm:p-0 sm:bg-transparent">
 							<h2 className='text-2xl 2xl:text-3xl md:text-xl'>{media.title}</h2>
 							<p className={"mt-3 2xl:text-sm md:text-sm " + style.description ?? ''}>
 								<ReadMore>{media.description ?? ''}</ReadMore>
 							</p>
+
+							</div>
 						</div>
 					</div>
 					<input

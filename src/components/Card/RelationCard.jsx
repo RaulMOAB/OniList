@@ -18,8 +18,8 @@ function RelationCard({ related_media, media_relationship, index }) {
 
   console.log(index);
   return (
-    <div className="w-fit">
-      <div className="relative aspect-2/3 h-32">
+    <div className="w-fit pr-44 sm:px-0">
+      <div className="relative aspect-2/3 h-32 md:block mr-5 md:mr-0 ">
         <Link href={link} className="group">
           <Image
             className="rounded-md object-cover  w-full h-full"
@@ -29,7 +29,7 @@ function RelationCard({ related_media, media_relationship, index }) {
             height={1}
           />
           {index < 8 ? (
-            <div className="hidden sm:block lg:hidden lg:group-hover:block  transition duration-300 ease-in  lg:hover:invisible absolute top-0 left-full z-10 h-full lg:w-60 md:w-96 text-xs p-2 bg-base-content">
+            <div className="block lg:hidden lg:group-hover:block  transition duration-300 ease-in  lg:hover:invisible absolute top-0 left-full z-10 h-full lg:w-60 sm:w-96 w-[165px] text-xs p-2 bg-base-content">
               <div className="mb-3 flex flex-col justify-between h-full">
                 <Link href={link} className="group">
                   <p className="hover:text-primary">{title}</p>
