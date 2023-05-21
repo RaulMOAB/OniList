@@ -22,7 +22,7 @@ function CharacterCard({ character, index, role, dubber = null }) {
   }
 
   return (
-    <div className="flex text-xs justify-between h-fit bg-neutral ">
+    <div className="flex text-xs justify-between h-fit bg-neutral">
       <div className="grid grid-flow-col grid-cols-1">
         <div className="row-span-3 relative aspect-2/3 h-24 ">
           <Link href={link}>

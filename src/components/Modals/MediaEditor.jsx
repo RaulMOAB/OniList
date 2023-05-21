@@ -195,11 +195,6 @@ function MediaEditor({ media, actualStatus, updateStatus ,hasFavoriteChanged }) 
     return currentDate;
   };
 
-  // const formatDate = (date) => {
-  //   const format = moment(date).format("YYYY-MM-DD");
-  //   console.log(format);
-  //   return format;
-  // };
 
   const handleStartDateSelected = (date) => {
     let selected_date = date.target.value;
@@ -302,12 +297,12 @@ function MediaEditor({ media, actualStatus, updateStatus ,hasFavoriteChanged }) 
 								{isFavorite ? (
 									<BsFillHeartFill
 										onClick={handleFavorite}
-										className='text-red-500 '
+										className='text-red-500 cursor-pointer'
 									/>
 								) : (
 									<BsFillHeartFill
 										onClick={handleFavorite}
-										className='text-white '
+										className='text-white cursor-pointer'
 									/>
 								)}
 							</div>

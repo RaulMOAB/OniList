@@ -2,6 +2,7 @@ import React from "react";
 import CarrouselCard from "../Card/CarrouselCard";
 import Carousel from "../Carousel/Carousel";
 import HoverTransition from "@/components/Common/HoverTransition";
+import Typewriter from 'typewriter-effect';
 
 function Hero({ media }) {
   let cards = [
@@ -97,18 +98,25 @@ function Hero({ media }) {
               </div>
               <p className="py-6">
                 Add what you like, track your animes and manga, build your own
-                library and discover new medias to enjoy! Add what you like,
-                track your animes and manga, build your own library and discover
-                new medias to enjoy!Add what you like, track your animes and
-                manga, build your own library and discover new medias to enjoy!
+                library and discover new medias to enjoy! 
                 <br />
-                <br />
+                
+                
               </p>
-              <p className="text-lg">
-                Welcome to the club,
+              {/* <p className="text-lg">
+                Welcome to the club,Yōkai 
                 <span className="px-2">
                   <HoverTransition originalTxt={"Yōkai"} hoverTxt={"妖怪"} />
                 </span>
+              </p> */}
+              <p className="text-2xl">
+              <Typewriter
+              options={{
+                strings: [" Welcome to the club,Yōkai ", "クラブへようこそ、妖怪さん"],
+                autoStart: true,
+                loop: true,
+              }}
+            />
               </p>
             </div>
           </div>
