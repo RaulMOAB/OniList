@@ -7,13 +7,24 @@ import { RiEdit2Fill } from "react-icons/ri";
 import {AiFillHeart} from 'react-icons/ai'
 import { AuthContext } from "@/contexts/AuthContext";
 
+/**
+ * media: a specific media.
+ * setStatus: state from animelist.jsx or mangalist.jsx for change the status
+ * setSelectedMedia: state from animelist.jsx or mangalist for change the selectedMedia in the MediaEditor
+ * 
+ * @param {object} media
+ * @param {function} setStatus
+ * @param {function} setSelectedMedia
+ * @returns 
+ */
 export default function ListCards({ media ,setStatus, setSelectedMedia}) {
-	const handleClick = ()=>{
-		setStatus(media.status.status)
-		console.log(media.media)
-		setSelectedMedia(media.media)
-	}
+	const handleClick = () => {
+		setStatus(media.status.status);
+		console.log(media.media);
+		setSelectedMedia(media.media);
+	};
 
+	//Initialize properties variables
 	const link =
 		"/" + media.media.type.toLowerCase() + "/" + media.media.media_id;
 	const image = media.media.extra_large_cover_image;
@@ -49,7 +60,11 @@ export default function ListCards({ media ,setStatus, setSelectedMedia}) {
 				<div className='absolute bottom-0 h-fit w-full p-1 bg-base-100 text-sm'>
 					<Link href={link}>
 						<p className='hover:text-blue-500 hover:opacity-100 p-1'>{title}</p>
-						<p className='hover:text-blue-500 hover:opacity-100 p-1'>{media.media.type === "ANIME" ? (`${media.status.progress}/${episodes ?? "Releasing"}`):(`${media.status.progress}/${chapters ?? "Releasing"}`)}</p>
+						<p className='hover:text-blue-500 hover:opacity-100 p-1'>
+							{media.media.type === "ANIME"
+								? `${media.status.progress}/${episodes ?? "Releasing"}`
+								: `${media.status.progress}/${chapters ?? "Releasing"}`}
+						</p>
 					</Link>
 				</div>
 			</div>

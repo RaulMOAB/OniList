@@ -19,23 +19,31 @@ export default function MangaList() {
 	const [noData, setNoData] = useState(false);
 	const [authenticated, setAuthenticated] = useState(true);
 
-	//*Alert state
-	const [showError, setShowError] = useState(false);
+	//Alert states
+	const [showAlert, setShowAlert] = useState(false);
 	const [message, setMessage] = useState("");
 
-	const updateStatus = async (selected_status, deleted,favorite) => {
-		setStatus(selected_status); // cambia el texto del boton
+	/**
+	 * Update the status of the selected media each time the status changes
+	 * if response is OK show alert
+	 * @param {string} selected_status
+	 * @param {boolean} deleted
+	 * @param {boolean} favorite
+	 */
+	const updateStatus = async (selected_status, deleted, favorite) => {
+		setStatus(selected_status);
 		const body = JSON.stringify({
 			user_id: user.id,
 			media_id: selectedMedia.media_id,
 			status: selected_status,
-			favorite
+			favorite,
 		});
 		if (deleted) {
 			setMessage(`${selectedMedia.title} was deleted from your list.`);
-			setShowError(true);
+			setShowAlert(true);
 		} else {
 			const response = await fetchData("status", "POST", body);
+			//Change status according to the manga
 			if (response) {
 				switch (selected_status) {
 					case "WATCHING":
@@ -53,11 +61,14 @@ export default function MangaList() {
 				}
 
 				setMessage(`${selectedMedia.title} added to ${selected_status} list.`);
-				setShowError(true);
+				setShowAlert(true);
 			}
 		}
 	};
 
+	/**
+	 * maintains consistency of data if any status of the media changes
+	 */
 	useEffect(() => {
 		if (user.username) {
 			let endpoint = `library/${user.username}/mangalist`;
@@ -78,6 +89,7 @@ export default function MangaList() {
 		return null;
 	}
 
+	//Initialize the lists
 	let watching_list = [];
 	let rewatching_list = [];
 	let completed_list = [];
@@ -85,6 +97,7 @@ export default function MangaList() {
 	let dropped_list = [];
 	let planning_list = [];
 
+	//Fill in the lists depending on their status
 	watching_list = filteredManga.filter((media) => {
 		return media.status.status === "WATCHING";
 	});
@@ -110,10 +123,10 @@ export default function MangaList() {
 				<title>Mangalist · Onilist</title>
 			</Head>
 			<Alert
-				show={showError}
+				show={showAlert}
 				message={message}
 				seconds={3}
-				setShowError={setShowError}
+				setShowError={setShowAlert}
 				type={"success"}
 				top='-top-24'
 			/>
