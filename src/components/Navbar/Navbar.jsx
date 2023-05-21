@@ -190,7 +190,7 @@ export default function Navbar() {
 									className=''>
 									<Link
 										href={"/search/anime"}
-										className='  active:bg-transparent hover:bg-transparent text-accent  hover:text-accent-focus  h-14'>
+										className='active:bg-transparent hover:bg-transparent text-accent  hover:text-accent-focus  h-14'>
 										Browse
 										<svg
 											className='fill-current'

@@ -245,15 +245,6 @@ export default function RegisterForm() {
 						<div className='mb-8 mx-auto'>
 							<RegisterButton text='Register' />
 						</div>
-						{/* <div className='text-center mt-5'>
-							<small className='text-accent text-center'>
-								<Link
-									href='/login'
-									className='hover:text-blue-500 active:text-blue-700'>
-									Login
-								</Link>
-							</small>
-						</div> */}
 					</form>
 				</div>
 			</div>

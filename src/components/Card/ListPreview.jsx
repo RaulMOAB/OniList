@@ -7,7 +7,6 @@ import Media_Tooltip from "./Media_Tooltip";
 import Link from "next/link";
 
 function ListPreview({ title, data , type = 'anime', route}) {
-  //let data = useContext(MediaContext);
   let media_data = [];
 
   data.map((item, i) => {
@@ -31,7 +30,7 @@ function ListPreview({ title, data , type = 'anime', route}) {
 					<h1 className='w-1/2 xl:text-lg uppercase font-bold mb-2 text-accent'>
 						{title}
 					</h1>
-					<span className='w-1/2 xl:text-xs font-semibold mb-2 text-accent text-right'>
+					<span className='w-1/2 text-xs font-semibold mb-2 text-accent text-right'>
 						<Link href={route}> View All </Link> 
 					</span>
 				</div>

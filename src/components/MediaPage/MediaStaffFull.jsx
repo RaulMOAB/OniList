@@ -3,7 +3,6 @@ import StaffCard from "../Card/StaffCard";
 import Link from "next/link";
 
 function MediaStaff({ staff }) {
-  //console.log(staff);
   if (staff.length !== 0) {
     let staffCards = [];
     staff.forEach((element, index) => {
@@ -11,7 +10,6 @@ function MediaStaff({ staff }) {
     });
     return (
       <>
-        {/* //TODO link to a character page */}
         <Link href={""}>
           <p className="text-accent mb-3 text-md font-medium ">Staff</p>
         </Link>

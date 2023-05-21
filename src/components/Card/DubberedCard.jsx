@@ -5,12 +5,10 @@ import { useRouter } from "next/router";
 
 export default function DubberedCard({ character, index }) {
   const route = useRouter();
-  
-    //console.log(character)
 
-  //   console.log(media.id);
+  // Go to character page
   const CharacterPage = () => {
-    route.push(`/character/${character.id}/${character.romaji}`);//TODO add media type 
+    route.push(`/character/${character.id}/${character.romaji}`);
   };
 
   return (
@@ -28,7 +26,7 @@ export default function DubberedCard({ character, index }) {
 				<div className='cursor-pointer aspect-2/3 '>
 					<img
 						src={character.image_large}
-						className='rounded-md object-cover w-full h-full  ' //aspect-2/3
+						className='rounded-md object-cover w-full h-full' //aspect-2/3
 						alt='Character image'
 					/>
 					<div className="pt-2 text-accent font-semibold">

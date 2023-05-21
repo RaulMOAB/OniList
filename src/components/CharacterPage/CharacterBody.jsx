@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import MediaCard from "./../Card/MediaCard";
 import Container from "./../Common/PageContainer/Container";
 
-
+// API petition
 const getCharacterAppearsIn = async (character_id) => {
     const response = await fetch(
       process.env.NEXT_PUBLIC_API_ENDPOINT + `characters/appears/${character_id}`,
@@ -53,15 +53,11 @@ export default function CharacterBody() {
                     setMedia(media => [...media, response])
                 })
               }
-              //setCharacterAppearIn(res);
             })
             .catch((e) => {
               console.log(e);
             });
         }
-
-        //console.log(characterAppearIn)
-
 
     }, [id]);
 

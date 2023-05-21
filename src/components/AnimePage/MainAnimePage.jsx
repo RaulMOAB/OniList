@@ -96,9 +96,7 @@ export default function MainAnimePage() {
 
     getPopularAnime()
     .then((res) => {
-      console.log("Popular Animes")
       let medias = res.data.data;
-      console.log(res.data)
       medias.forEach((media,index) => {
         setPopularAnime(popularAnime => [...popularAnime, media])
       })
@@ -137,15 +135,6 @@ export default function MainAnimePage() {
     handleClick();
 
   },[search, genres, season_year, season, format, airing_status]);
-
-  // skeleton loading time
-  // useEffect(() => {
-
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   },650);
-
-  // },[search, genres, season_year, season, format, airing_status]);
 
   // Variables Handles
   const handleSearchChange = (data) => {
@@ -195,14 +184,11 @@ export default function MainAnimePage() {
 
   // call filtered medias every time variable change
   function handleClick() {
-    console.log(search + "  " + genres + "  " + season_year + " " + season + " " + format + " " + airing_status);
 
     filteredMediaAnime(search, genres, season_year, season, format, airing_status)
       .then((res) => {
         if (res.status === "success" && res.media_length > 0) {
           setMediaComponents([]);
-          console.log(res.media_length);
-          console.log(res.data.data);
           setShowFiltered(emptyFields());
 
           const medias = res.data.data;
@@ -257,11 +243,11 @@ export default function MainAnimePage() {
 						<select
 							className='select sm:select-lg select-md sm:text-2xl text-xl bg-neutral rounded-md'
 							name='search-anime'
+              defaultValue={'Anime'}
 							id='search-anime'>
 							<option
-								className=' sm:text-xl text-lg'
-								value='Anime'
-								selected>
+								className='sm:text-xl text-lg'
+								value='Anime'>
 								Anime
 							</option>
 							<option

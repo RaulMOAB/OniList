@@ -52,6 +52,7 @@ export default function VerificationCode() {
 	const password = router.query.password;
 	const { login } = useContext(AuthContext);
 
+	// if don't have email redirect to home
     useEffect(()=>{
         if(!email){
             router.push('/')

@@ -60,7 +60,6 @@ export default function MangaPage({ url, title }) {
       .then((res) => {
         
         let medias = res.data.data;
-        console.log(res.data.data);
         medias.forEach((media,index) => {
             setManga(manga => [...manga, media])
         })
@@ -95,15 +94,6 @@ export default function MangaPage({ url, title }) {
     handleClick();
 
   },[search, genres, airing_status, tags, format]);
-
-  // skeleton loading time
-  // useEffect(() => {
-
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   },650);
-
-  // },[search, genres, airing_status, tags, format]);
 
 
   // Variables Handles
@@ -148,14 +138,11 @@ export default function MangaPage({ url, title }) {
 
   // call filtered medias every time variable change
   function handleClick() {
-    console.log(search + "  " + genres + "  " + airing_status + "  " + tags + "  " + format);
 
     filteredMediaManga(search, genres, airing_status, tags, format)
       .then((res) => {
         if (res.status === "success" && res.media_length > 0) {
           setMediaComponents([]);
-          console.log(res.media_length);
-          console.log(res.data.data);
           setShowFiltered(emptyFields());
 
           const medias = res.data.data;
