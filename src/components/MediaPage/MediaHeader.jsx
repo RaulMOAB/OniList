@@ -66,18 +66,15 @@ function MediaHeader() {
 	const [favoriteChanged, setHasFavoriteChanged] = useState(false);
 	const [type, setType] = useState("");
 
-	//*Alert state
+	//Alert state
 	const [showError, setShowError] = useState(false);
 	const [message, setMessage] = useState("");
-
-	const [isShowMore, setIsShowMore] = useState(true);
 
 	//Dropdown state
 	const [isOpen, setIsOpen] = useState(false);
 
 	useEffect(() => {
-		// setFavorite(favorite)
-		let aux_type, aux_favorite, aux_status;
+		let aux_type, aux_favorite;
 		if (id) {
 			getMedia(id)
 				.then((res) => {
@@ -172,9 +169,8 @@ function MediaHeader() {
 	const handleFavorite = (event) => {
 		event.preventDefault();
 		let aux_fav;
-		// favorite === 0 ? setFavorite(1) : setFavorite(0);
 		let aux_status = status == "Add to Library" ? "WATCHING" : status;
-		console.log(status);
+	
 		if (favorite === 0) {
 			aux_fav = 1;
 			setFavorite(aux_fav);
@@ -184,10 +180,6 @@ function MediaHeader() {
 			setFavorite(aux_fav);
 			setFavoriteToMedia(aux_fav, aux_status);
 		}
-
-		//*Llamada Api
-		//setFavoriteToMedia(favorite);
-		//return favorite;
 	};
 
 	const setFavoriteToMedia = async (favorite, status = "WATCHING") => {
@@ -209,6 +201,7 @@ function MediaHeader() {
 	};
 
 	const toggleDropdown = () => {
+    console.log(isOpen)
 		setIsOpen(!isOpen);
 	};
 
@@ -267,13 +260,13 @@ function MediaHeader() {
 										}}
 										htmlFor={showError ? "" : "my-modal-4"}
 										className='text-white capitalize text-xs  cursor-pointer'>
-										{status ? status : "Add to Library" /*TODO format string*/}
+										{status ? status : "Add to Library"}
 									</label>
 								</div>
 								<div className={" " + style.custom_btn}>
 									<div
 										className='dropdown hover:bg-opacity-95 '
-										onClick={toggleDropdown}>
+										onClick={()=>setIsOpen(!isOpen)}>
 										<label
 											tabIndex={0}
 											className={
@@ -293,9 +286,9 @@ function MediaHeader() {
 										<ul
 											tabIndex={0}
 											className={`dropdown-content -left-11 mt-2 menu p-2 shadow bg-base-100 rounded-box w-52 ${
-												isShowMore ? "d-block" : "hidden"
+												isOpen ? "d-block" : "hidden"
 											}`}
-											onClick={toggleDropdown}>
+											onClick={()=>setIsOpen(!isOpen)}>
 											<li>
 												<a
 													onClick={(event) => {
@@ -344,10 +337,10 @@ function MediaHeader() {
 								</button>
 							</div>
 						</div>
-						<div className=' py-10 sm:pr-8 text-left'>
-							<h2 className='2xl:text-3xl md:text-xl'>{media.title}</h2>
-							<p className={"mt-3 2xl:text-sm md:text-sm " + style.description}>
-								<ReadMore>{media.description}</ReadMore>
+						<div className='p-5 sm:p-0 sm:py-10 sm:pr-8 text-left'>
+							<h2 className='text-2xl 2xl:text-3xl md:text-xl'>{media.title}</h2>
+							<p className={"mt-3 2xl:text-sm md:text-sm " + style.description ?? ''}>
+								<ReadMore>{media.description ?? ''}</ReadMore>
 							</p>
 						</div>
 					</div>

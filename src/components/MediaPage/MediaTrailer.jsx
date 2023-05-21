@@ -10,7 +10,7 @@ function MediaTrailer({ trailer }) {
       <div className="">
         <p className="text-accent mb-3 text-md font-medium ">Trailer</p>
         <iframe
-        className="aspect-video md:w-full lg:w-fit"
+        className="aspect-video md:w-full lg:w-fit max-w-[320px]"
           width="560"
           height="315"
           src={`https://www.youtube.com/embed/${trailer_link}`}

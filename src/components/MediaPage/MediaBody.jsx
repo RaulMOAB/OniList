@@ -154,7 +154,7 @@ function MediaBody() {
 
         if (res.external_link.length) setLinks(JSON.parse(res.external_link));
 
-        setSource(res.source.toLowerCase() ?? "");
+        if(res.source) setSource(res.source.toLowerCase() ?? "");
 
         setGenres(JSON.parse(res.genres));
 
@@ -165,7 +165,7 @@ function MediaBody() {
 
         setType(res.type);
 
-        setFormat(res.format.toLowerCase());
+        if(res.format) setFormat(res.format.toLowerCase());
       });
     }
   }, [id]);
@@ -174,8 +174,8 @@ function MediaBody() {
     <Container>
       {/* grid padre */}
       <div className="grid grid-cols-1 md:grid-cols-6 md:gap-10  xl:grid-cols-10  lg:gap-2 py-6 xl:px-24 ">
-        <div className="grid grid-cols-1 h-fit xl:col-span-2 lg:col-span-1 md:col-span-2 lg:w-[230px] text-xs justify-between ">
-          <div className="bg-neutral p-4">
+        <div className="grid grid-cols-1 h-fit xl:col-span-2 lg:col-span-1 md:col-span-2 lg:w-[230px] text-xs justify-between  gap-4 p-5 sm:p-0">
+          <div className="bg-neutral p-4 ">
             {/* media details */}
             {mediaStatus === "finished" ? (
               ""
@@ -304,11 +304,11 @@ function MediaBody() {
         </div>
 
         {/* padre de los cards */}
-        <div className="w-full lg:col-span-4 xl:col-span-8 xl:grid-cols-6 md:grid-cols-2 md:col-span-4  h-fit md:px-2 md:-mx-3 xl:px-2 lg:pl-24">
+        <div className="w-full lg:col-span-4 xl:col-span-8 xl:grid-cols-6 sm:grid-cols-2 sm:col-span-4  h-fit md:px-2 md:-mx-3 xl:px-2 lg:pl-24 p-5 sm:p-0">
           <div className="pb-8 md:w-full">
             <MediaRelations relation={relation} />
           </div>
-          <div className="pb-10 md:w-full ">
+          <div className="pb-10 md:w-full">
             <MediaCharacters
               characters={characters}
               dubbers={type === "ANIME" ? dubbs : null}
