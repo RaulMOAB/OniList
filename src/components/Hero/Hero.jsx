@@ -97,11 +97,9 @@ function Hero({ media }) {
               </div>
               <p className="py-6">
                 Add what you like, track your animes and manga, build your own
-                library and discover new medias to enjoy! Add what you like,
-                track your animes and manga, build your own library and discover
-                new medias to enjoy!Add what you like, track your animes and
-                manga, build your own library and discover new medias to enjoy!
+                library and discover new medias to enjoy! 
                 <br />
+                
                 <br />
               </p>
               <p className="text-lg">
