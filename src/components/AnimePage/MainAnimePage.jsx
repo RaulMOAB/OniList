@@ -13,6 +13,7 @@ import AiringStatus from "./../Filters/AiringStatus";
 import MediaCard from "./../Card/MediaCard";
 import Loader from "./../Skeleton/Loader";
 import ResetButton from "./../Buttons/ResetButton";
+import { useRouter } from "next/router";
 
 //Get medias
 const getTrendingAnime = async () => {
@@ -74,6 +75,9 @@ export default function MainAnimePage() {
   const [trendingAnime, setTrendingAnime] = useState([]);
   const [upcomingAnime, setUpcomingAnime] = useState([]);
   const [thisSeasonAnime, setThisSeasonAnime] = useState([]);
+
+  //router
+  const router = useRouter();
 
   // initials animes
   useEffect(() => {
@@ -243,76 +247,126 @@ export default function MainAnimePage() {
   }
 
   return (
-    <>
-      <Head>
-        <title>OniList</title>
-      </Head>
-      <Container>
-        <main className="pb-10 2xl:px-28 xl:px-16  lg:px-2 sm:px-4 px-4">
-          <section id="filters">
-            <div className="flex flex-wrap p-3 rounded-md bg-neutral mt-5 bg-transparent">
-              <Search value={search} handle={handleSearchChange}/>
-              <Genres value={genres} handle={handleGenresChange}/>
-              <Year value={season_year} handle={handleYearChange}/>
-              <Season value={season} handle={handleSeasonChange}/>
-              <Format value={format} handle={handleFormatChange}/>
-              <AiringStatus value={airing_status} handle={handleAiringStatusChange}/>
-            </div>
-            <div className="ml-3 mb-6">
-              <ResetButton text="Reset" reset={resetFilter}/>
-            </div>
-          </section>
-          <div>
-            {showFiltered ? (
-              <div>
-                
-                <ListPreview title="Trending Now" data={trendingAnime} route={"/search/anime/trending"}/>
-            
-                <ListPreview title="Popular this season" data={thisSeasonAnime} route={"/search/anime/this-season"}/>
-            
-                <ListPreview title="Upcoming next season" data={upcomingAnime} route={"/search/anime/next-season"}/>
+		<>
+			<Container>
+				<main className='pb-10 2xl:px-28 xl:px-16  lg:px-2 sm:px-4 px-4'>
+					<div className='lg:hidden pt-20 flex'>
+						<p className='md:text-4xl sm:text-3xl text-2xl font-semibold px-3'>
+							Browse:
+						</p>
+						<select
+							className='select sm:select-lg select-md sm:text-2xl text-xl bg-neutral rounded-md'
+							name='search-anime'
+							id='search-anime'>
+							<option
+								className=' sm:text-xl text-lg'
+								value='Anime'
+								selected>
+								Anime
+							</option>
+							<option
+								className='sm:text-xl text-lg'
+								onClick={() => {
+									router.replace("/search/manga/");
+								}}
+								value='Manga'>
+								Manga
+							</option>
+						</select>
+					</div>
+					<section id='filters'>
+						<div className='flex flex-wrap p-3 rounded-md bg-neutral mt-5 bg-transparent'>
+							<Search
+								value={search}
+								handle={handleSearchChange}
+							/>
+							<Genres
+								value={genres}
+								handle={handleGenresChange}
+							/>
+							<Year
+								value={season_year}
+								handle={handleYearChange}
+							/>
+							<Season
+								value={season}
+								handle={handleSeasonChange}
+							/>
+							<Format
+								value={format}
+								handle={handleFormatChange}
+							/>
+							<AiringStatus
+								value={airing_status}
+								handle={handleAiringStatusChange}
+							/>
+						</div>
+						<div className='ml-3 mb-6'>
+							<ResetButton
+								text='Reset'
+								reset={resetFilter}
+							/>
+						</div>
+					</section>
+					<div>
+						{showFiltered ? (
+							<div>
+								<ListPreview
+									title='Trending Now'
+									data={trendingAnime}
+									route={"/search/anime/trending"}
+								/>
 
-                <ListPreview title="All time popular" data={popularAnime} route={"/search/anime/top-100"}/>
-                
-              </div>
+								<ListPreview
+									title='Popular this season'
+									data={thisSeasonAnime}
+									route={"/search/anime/this-season"}
+								/>
 
-            ) : ( 
-              
-              mediaComponents.length == 0 ? (
+								<ListPreview
+									title='Upcoming next season'
+									data={upcomingAnime}
+									route={"/search/anime/next-season"}
+								/>
 
-                <div className="mb-14">
-                  <h2 className="text-center text-accent text-2xl">No Results</h2>
-                </div>
-
-                ) : (
-
-                  loading == true ? (
-
-                    
-                    <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6">
-                      {
-                        mediaComponents.map((media, index) => {
-                          return <Loader key={index} media={media} index={index}/>
-                        })
-                      }
-                    </div>
-                    
-                  ) : (
-                    <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6">
-                      {
-                        mediaComponents.map((media, index) => {
-                          return <MediaCard key={index} media={media} index={index}/>
-                        })
-                      }
-                    </div>
-                  )
-                )            
-            )}
-            
-          </div>
-          
-        </main>
-      </Container>
-    </>
-  );
+								<ListPreview
+									title='All time popular'
+									data={popularAnime}
+									route={"/search/anime/top-100"}
+								/>
+							</div>
+						) : mediaComponents.length == 0 ? (
+							<div className='mb-14'>
+								<h2 className='text-center text-accent text-2xl'>No Results</h2>
+							</div>
+						) : loading == true ? (
+							<div className='grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6'>
+								{mediaComponents.map((media, index) => {
+									return (
+										<Loader
+											key={index}
+											media={media}
+											index={index}
+										/>
+									);
+								})}
+							</div>
+						) : (
+							<div className='grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6'>
+								{mediaComponents.map((media, index) => {
+									return (
+										<MediaCard
+											key={index}
+											media={media}
+											index={index}
+										/>
+									);
+								})}
+							</div>
+						)}
+					</div>
+				</main>
+			</Container>
+		</>
+	);
 }

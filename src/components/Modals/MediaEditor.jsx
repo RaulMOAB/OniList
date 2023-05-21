@@ -167,7 +167,15 @@ function MediaEditor({ media, actualStatus, updateStatus ,hasFavoriteChanged }) 
       if (progress === media.episodes) {
         setProgress(0);
       }
+			if(rewatches>0){
+				setRewatches(0);
+			}
     }
+		if(selected_status==="REWATCHING"){
+			if(rewatches===0){
+				setRewatches(1);
+			}
+		}
     if (selected_status === "COMPLETED") {
       setEndDate(getCurrentDate);
       setProgress(media.episodes);
@@ -240,7 +248,7 @@ function MediaEditor({ media, actualStatus, updateStatus ,hasFavoriteChanged }) 
   if (rate >= 0) {
     //console.log(rate);
     let enable =
-      status === "REWATCHING" || status === "COMPLETED" || rewatches > 0;
+      status === "REWATCHING" || status === "COMPLETED" || rewatches > 0 || status==="REREADING";
     for (let index = 0; index < 6; index++) {
       stars_array.push(
         <input

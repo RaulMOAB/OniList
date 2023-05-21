@@ -18,49 +18,70 @@ function Settings() {
 	const [userInfo, setUserInfo] = useState({});
 	const [about, setAbout] = useState(userInfo.description);
 	const [authenticated, setAuthenticated] = useState(true);
+	
+	const [dragActive, setDragActive] = React.useState(false);
 
+	// handle drag events
+	const handleDrag = function (e) {
+		e.preventDefault();
+		e.stopPropagation();
+		if (e.type === "dragenter" || e.type === "dragover") {
+			setDragActive(true);
+		} else if (e.type === "dragleave") {
+			setDragActive(false);
+		}
+	};
+	// triggers when file is dropped
+	const handleDrop = function (e) {
+		e.preventDefault();
+		e.stopPropagation();
+		setDragActive(false);
+		if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+			// handleFiles(e.dataTransfer.files);
+		}
+	};
 
 	useEffect(() => {
 		if (Object.keys(user).length !== 0) {
 			let endpoint = "user/" + user.id;
 			fetchData(endpoint).then((res_user) => {
-				if(!res_user.error){
+				if (!res_user.error) {
 					setUserInfo(res_user);
-					setAbout(res_user.description)
-				}else{
-					setAuthenticated(false)
+					setAbout(res_user.description);
+				} else {
+					setAuthenticated(false);
 				}
 			});
 		} else {
 			setUserInfo({});
 		}
-	}, [hasChanged,user]);
-	
+	}, [hasChanged, user]);
+
 	//Alert states
 	const [showError, setShowError] = useState(false);
 	const [message, setMessage] = useState("");
 	const [typeAlert, setTypeAlert] = useState("");
-	
+
 	const TYPE_ERROR = "error";
 	const TYPE_SUCCESS = "success";
 	const BANNER = "banner";
 	const PROFILE = "profile";
-	
+
 	const handleAboutChange = (value) => {
 		setAbout(value);
 	};
 
 	useEffect(() => {}, [about, user]);
-	
-	if(!authenticated){
-		return null
+
+	if (!authenticated) {
+		return null;
 	}
 	const updateDescription = () => {
-		if(about.length > 255){
-							setTypeAlert("error");
-							setMessage("The description cannot exceed 255 characters.");
-							setShowError(true);
-		}else{
+		if (about.length > 255) {
+			setTypeAlert("error");
+			setMessage("The description cannot exceed 255 characters.");
+			setShowError(true);
+		} else {
 			let endpoint = "update/description";
 			let method = "POST";
 			let body = JSON.stringify({
@@ -176,8 +197,8 @@ function Settings() {
 									<div className='flex items-center justify-center cursor-pointer h-48 w-48 border-2 rounded-md border-dashed border-gray-800 hover:bg-base-200 hover:border-base-300'>
 										<div className='flex flex-col items-center'>
 											<BsImageFill className='w-8 h-8' />
-											<p className='pt-1 text-sm tracking-wider text-accent'>
-												Select a photo
+											<p className='pt-1 text-xs tracking-wider text-accent'>
+												Select or drop a photo
 											</p>
 										</div>
 										<input
@@ -185,6 +206,14 @@ function Settings() {
 											type='file'
 											className='opacity-0 absolute w-48 h-48'
 										/>
+										{dragActive && (
+											<div
+												id='drag-file-element'
+												onDragEnter={handleDrag}
+												onDragLeave={handleDrag}
+												onDragOver={handleDrag}
+												onDrop={handleDrop}></div>
+										)}
 									</div>
 								</div>
 							</div>
@@ -219,8 +248,8 @@ function Settings() {
 									<div className='flex items-center justify-center cursor-pointer h-48 w-48 border-2 rounded-md border-dashed border-gray-800 hover:bg-base-200 hover:border-base-300'>
 										<div className='flex flex-col items-center'>
 											<BsImageFill className='w-8 h-8' />
-											<p className='pt-1 text-sm tracking-wider text-accent'>
-												Select a photo
+											<p className='pt-1 text-xs tracking-wider text-accent'>
+												Select or drop a photo
 											</p>
 										</div>
 										<input
@@ -228,6 +257,14 @@ function Settings() {
 											type='file'
 											className='opacity-0 absolute w-48 h-48'
 										/>
+										{dragActive && (
+											<div
+												id='drag-file-element'
+												onDragEnter={handleDrag}
+												onDragLeave={handleDrag}
+												onDragOver={handleDrag}
+												onDrop={handleDrop}></div>
+										)}
 									</div>
 								</div>
 							</div>
