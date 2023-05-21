@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Typewriter from 'typewriter-effect';
 
 export default function Custom404() {
 	return (
@@ -13,6 +14,9 @@ export default function Custom404() {
 				<div class='w-full font-mono flex flex-col items-center relative z-10'>{" "}
 					<h1 class='font-extrabold text-5xl text-center text-accent leading-tight mt-4'>
 						You are all alone here{" "}
+					</h1>
+					<h1>
+						
 					</h1>
 					{" "}
 					<p class='font-extrabold text-8xl my-24 text-accent '>
