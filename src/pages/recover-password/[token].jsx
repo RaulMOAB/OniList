@@ -9,8 +9,17 @@ import { MdVerifiedUser } from "react-icons/md";
 import LoginButton from "@/components/Buttons/AuthForms/SubmitButton";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import Head from "next/head";
+
+
 export default function RecoverPassword() {
-	const { fetchData } = useContext(AuthContext);
+	const { fetchData, user } = useContext(AuthContext);
+	const router = useRouter();
+
+			useEffect(() => {
+				if (!(Object.keys(user).length === 0)) {
+					router.replace("/home/" + user.username);
+				}
+			}, [user, router]);
 
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
@@ -23,7 +32,6 @@ export default function RecoverPassword() {
 	const [message, setMessage] = useState("");
 	const [typeAlert, setTypeAlert] = useState("");
 	const [attempts, setAttempts] = useState(3);
-	const router = useRouter();
 
 	const token = router.query.token;
 

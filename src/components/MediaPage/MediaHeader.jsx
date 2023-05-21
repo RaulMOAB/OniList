@@ -170,7 +170,7 @@ function MediaHeader() {
 		event.preventDefault();
 		let aux_fav;
 		let aux_status = status == "Add to Library" ? "WATCHING" : status;
-	
+
 		if (favorite === 0) {
 			aux_fav = 1;
 			setFavorite(aux_fav);
@@ -201,7 +201,7 @@ function MediaHeader() {
 	};
 
 	const toggleDropdown = () => {
-    console.log(isOpen)
+		console.log(isOpen);
 		setIsOpen(!isOpen);
 	};
 
@@ -266,7 +266,7 @@ function MediaHeader() {
 								<div className={" " + style.custom_btn}>
 									<div
 										className='dropdown hover:bg-opacity-95 '
-										onClick={()=>setIsOpen(!isOpen)}>
+										onClick={() => setIsOpen(!isOpen)}>
 										<label
 											tabIndex={0}
 											className={
@@ -288,7 +288,7 @@ function MediaHeader() {
 											className={`dropdown-content -left-11 mt-2 menu p-2 shadow bg-base-100 rounded-box w-52 ${
 												isOpen ? "d-block" : "hidden"
 											}`}
-											onClick={()=>setIsOpen(!isOpen)}>
+											onClick={() => setIsOpen(!isOpen)}>
 											<li>
 												<a
 													onClick={(event) => {
@@ -314,10 +314,10 @@ function MediaHeader() {
 											<li className='w-full border-t border-accent'>
 												<label
 													onClick={() => {
-                            if (!isUserAuthenticated()) {
-                              setMessage("Unauthorized.");
-                              setType("error");
-                              setShowError(true);
+														if (!isUserAuthenticated()) {
+															setMessage("Unauthorized.");
+															setType("error");
+															setShowError(true);
 														}
 													}}
 													htmlFor='my-modal-4'>
@@ -329,7 +329,15 @@ function MediaHeader() {
 								</div>
 								<button
 									className='w-20 bg-rose-600 rounded-md '
-									onClick={handleFavorite}>
+									onClick={(event) => {
+										if (!isUserAuthenticated()) {
+											setMessage("Unauthorized.");
+											setType("error");
+											setShowError(true);
+										}else{
+											handleFavorite(event);
+										}
+									}}>
 									<BsFillHeartFill
 										className='text-white mx-auto hover:text-pink-100'
 										fill={favorite == 1 ? "#ffaebc" : "#ffff"}
@@ -338,12 +346,16 @@ function MediaHeader() {
 							</div>
 						</div>
 						<div className='sm:p-0 sm:py-10 sm:pr-8 text-left '>
-							<div className="bg-neutral p-5 sm:p-0 sm:bg-transparent">
-							<h2 className='text-2xl 2xl:text-3xl md:text-xl'>{media.title}</h2>
-							<p className={"mt-3 2xl:text-sm md:text-sm " + style.description ?? ''}>
-								<ReadMore>{media.description ?? ''}</ReadMore>
-							</p>
-
+							<div className='bg-neutral p-5 sm:p-0 sm:bg-transparent'>
+								<h2 className='text-2xl 2xl:text-3xl md:text-xl'>
+									{media.title}
+								</h2>
+								<p
+									className={
+										"mt-3 2xl:text-sm md:text-sm " + style.description ?? ""
+									}>
+									<ReadMore>{media.description ?? ""}</ReadMore>
+								</p>
 							</div>
 						</div>
 					</div>

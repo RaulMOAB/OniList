@@ -33,7 +33,7 @@ export function AuthContextProvider({ children }) {
       router.push("/", undefined, { shallow: true });
       isValidToken(false)
     }else{
-      router.push("/login", undefined, { shallow: true });
+      router.push("/", undefined, { shallow: true });
     }
     localStorage.removeItem("token");
     localStorage.removeItem("user");
