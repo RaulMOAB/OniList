@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Head from "next/head";
 import { useContext, useState, useEffect} from "react";
 import LoadingCloud from "@/components/Loading/LoadingCloud";
@@ -12,7 +13,7 @@ import BrowseMediaCard from "./../Card/BrowseMediaCard";
 import Loader from "./../Skeleton/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ResetButton from "./../Buttons/ResetButton";
-
+import MediaCard from "@/components/Card/MediaCard";
 //API Petition
 const filteredMediaAnime = async (search, genres, season_year, season, format, airing_status, type = 'ANIME') => {
     const body = JSON.stringify({

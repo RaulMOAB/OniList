@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Head from "next/head";
 import { useContext, useState, useEffect} from "react";
 import ListPreview from "./../Card/ListPreview";

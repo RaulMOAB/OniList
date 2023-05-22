@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Head from "next/head";
 import { useContext, useState, useEffect} from "react";
 import LoadingCloud from "@/components/Loading/LoadingCloud";
