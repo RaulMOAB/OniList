@@ -34,7 +34,6 @@ function CharacterHeader() {
     if (id) {
       getCharacter(id)
         .then((res) => {
-          console.log(res[0])
           setCharacter(res[0]);
         })
         .catch((e) => {

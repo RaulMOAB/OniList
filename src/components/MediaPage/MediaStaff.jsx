@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 function MediaStaff({ staff }) {
     const router = useRouter();
 		const { id } = router.query;
-  //console.log(staff);
+  
   if (staff.length !== 0) {
     let staffCards = [];
     staff.forEach((element, index) => {

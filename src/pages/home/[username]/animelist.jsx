@@ -44,7 +44,6 @@ export default function AnimeList() {
 		} else {
 			const response = await fetchData("status", "POST", body);
 			if (response) {
-				console.log(response);
 				setMessage(`${selectedMedia.title} added to ${status} list.`);
 				setShowError(true);
 			}
@@ -59,7 +58,7 @@ export default function AnimeList() {
 			let endpoint = `library/${user.username}/animelist`;
 			let method = "GET";
 			fetchData(endpoint, method).then((res_animelist) => {
-				console.log(res_animelist);
+				
 				if (!res_animelist.error) {
 					setNoData(false);
 					setFilteredAnime(res_animelist ?? []);

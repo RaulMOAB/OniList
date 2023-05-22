@@ -6,9 +6,8 @@ import { useRouter } from "next/router";
 function MediaCharacters({ characters, dubbers, role }) {
   const router = useRouter();
   const { id } = router.query;
-  console.log(characters)
+  
   if (characters.length !== 0) {
-    //console.log(characters);
     let characterCards = [];
     characters.forEach((element, index) => {
       if (index < 6) {
@@ -25,7 +24,6 @@ function MediaCharacters({ characters, dubbers, role }) {
     });
     return (
       <>
-        {/* //TODO link to a character page  */}
         <Link href={`/media/${id}/characters`}>
           <p className="text-accent mb-3 text-md font-medium ">Characters</p>
         </Link>

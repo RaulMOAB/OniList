@@ -98,7 +98,6 @@ function Settings() {
 		}
 	};
 	const changeImage = (image, type) => {
-		console.log(image);
 		if (
 			(image.type === "image/jpg" ||
 				image.type === "image/jpeg" ||

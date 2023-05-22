@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Typewriter from 'typewriter-effect';
 
 export default function Custom404() {
 	return (

@@ -7,21 +7,10 @@ export default function MediaCard({ media, index }) {
   const route = useRouter();
   //get parameters
   let genres = JSON.parse(media.genres).splice(0, 3).join(" ");
-  //console.log(media.genres);
-
   let score = 7.9;
 
-  //   console.log(media.id);
+  // Go to media page
   const mediaPage = () => {
-    console.log(media.id);
-    // console.log(media.type);
-    // let encoded_title = media.title.toLowerCase().replace(/ /g, "-");
-    // console.log(encoded_title);
-    // let type = media.type.toLowerCase();
-    // type === "anime" ? type : "manga";
-    // console.log(type);
-    // getMediaInfo(media.id, type, encoded_title);
-    // console.log();
     route.push(`/anime/${media.id}`);
   };
 

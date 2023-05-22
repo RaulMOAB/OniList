@@ -44,12 +44,9 @@ export default function CharacterBody() {
         if (id) {
             getCharacterAppearsIn(id)
             .then((res) => {
-              console.log(res)
               for (let i = 0; i < res.length; i++) {
-                
                 getMediaInCharacterAppears(res[i].media_id)
                 .then((response) => {
-                    console.log(response);
                     setMedia(media => [...media, response])
                 })
               }

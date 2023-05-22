@@ -7,7 +7,7 @@ import Genres from "./../Filters/Genres";
 import AiringStatus from "./../Filters/AiringStatus";
 import Tags from "./../Filters/Tags";
 import FormatManga from "./../Filters/FormatManga";
-import MediaCard from "./../Card/MediaCard";
+import BrowseMediaCard from "./../Card/BrowseMediaCard";
 import Loader from "./../Skeleton/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ResetButton from "./../Buttons/ResetButton";
@@ -214,7 +214,7 @@ export default function MangaPage({ url, title }) {
                     <div className='grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6'>
                         {manga.map((media, i) => {
                             return (
-                                <MediaCard
+                                <BrowseMediaCard
                                     key={i}
                                     media={media}
                                     index={i}

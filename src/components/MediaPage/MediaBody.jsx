@@ -11,7 +11,7 @@ import MediaTags from "./MediaTags";
 import MediaExternalLinks from "./MediaExternalLinks";
 
 /**
- * Get media relationship and related media info
+ * Function to get media relationship and related media info
  * @param {*} media_id
  * @returns Array of relation and medias related
  */
@@ -30,7 +30,7 @@ const getMediaRelatedTo = async (media_id) => {
 };
 
 /**
- * Get characters that appears in media
+ * Function to get characters that appears in media
  * @param {*} media_id
  * @returns Array of characters and their data
  */
@@ -49,7 +49,7 @@ const getCharacterAppearsIn = async (media_id) => {
 };
 
 /**
- * Get staff who works in this media
+ * Function to get staff who works in this media
  * @param {*} media_id
  * @returns Array of staff and their data
  */
@@ -66,7 +66,11 @@ const getMediaStaff = async (media_id) => {
   );
   return response.json();
 };
-
+/**
+ * Function to get more detailed media data
+ * @param {*} media_id 
+ * @returns all detailed media data
+ */
 const getMediaDetails = async (media_id) => {
   const response = await fetch(
     process.env.NEXT_PUBLIC_API_ENDPOINT + `media/${media_id}`,
@@ -84,6 +88,8 @@ const getMediaDetails = async (media_id) => {
 function MediaBody() {
   const router = useRouter();
   const { id } = router.query;
+
+  //media state
   const [relation, setRelation] = useState([]);
   const [characters, setCharacter] = useState([]);
   const [role, setRole] = useState([]);
@@ -110,7 +116,6 @@ function MediaBody() {
   useEffect(() => {
     if (id) {
       getMediaRelatedTo(id).then((res) => {
-        //console.log(res);
         setRelation(res);
       });
       getCharacterAppearsIn(id).then((res) => {
@@ -126,13 +131,10 @@ function MediaBody() {
         setDubbs(dubbers);
       });
       getMediaStaff(id).then((res) => {
-        //console.log(res)
         setStaff(res);
       });
       getMediaDetails(id).then((res) => {
-        console.log(res);
         setMediaDetails(res);
-
         setMediaStatus(res.airing_status.replace(/_/g, " ").toLowerCase());
 
         if (res.season) setSeason(res.season.toLowerCase() ?? "");
@@ -160,6 +162,7 @@ function MediaBody() {
         setRomaji(res.romaji);
 
         setTitle(res.title);
+
         setNative(res.native);
 
         setType(res.type);
@@ -171,7 +174,7 @@ function MediaBody() {
 
   return (
     <Container>
-      {/* grid padre */}
+      {/* grid container */}
       <div className="grid grid-cols-1 md:grid-cols-6 md:gap-10  xl:grid-cols-10  lg:gap-2 py-6 xl:px-24 ">
         <div className="grid grid-cols-1 h-fit xl:col-span-2 lg:col-span-1 md:col-span-2 lg:w-[230px] text-xs justify-between p-5 sm:p-0">
           <div className="bg-neutral overflow-x-auto md:block mx-auto w-full px-3 flex p-4 py-4 pb-2 sm:p-4">
@@ -312,7 +315,7 @@ function MediaBody() {
           </div>
         </div>
 
-        {/* padre de los cards */}
+        {/* cards container */}
         <div className="w-full lg:col-span-4 xl:col-span-8 xl:grid-cols-6 md:grid-cols-2 md:col-span-4  h-fit md:px-2 md:-mx-3 xl:px-2 lg:pl-24 p-5 sm:p-0">
 		<p className="text-accent mb-3 text-md font-medium ">Relations</p>
           <div className="pb-8 md:w-full overflow-x-auto sm:overflow-hidden md:block mx-auto w-full px-3 flex">

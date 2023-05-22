@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import style from "../../styles/Hero_Card.module.css";
-import MediaCard from "./MediaCard";
+
 
 function CarrouselCard({ img, title, genres }) {
   const [show, setShown] = useState(false);
@@ -15,8 +15,6 @@ function CarrouselCard({ img, title, genres }) {
 			style={props}
 			onMouseEnter={() => setShown(true)}
 			onMouseLeave={() => setShown(false)}>
-			{/* <img src={img} alt="Popular animes" />
-      <h2>{title}</h2> */}
 			<div
 				className='mx-auto relative rounded-lg '
 				style={{
