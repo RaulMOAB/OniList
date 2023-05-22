@@ -30,10 +30,12 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginResponse, setLoginResponse] = useState(null);
+
+  const [shownPassword, setShownPassword] = useState(false);
+  //Alert states
   const [showAlert, setShowAlert] = useState(false);
   const [typeAlert, setTypeAlert] = useState("");
   const [message, setMessage] = useState("");
-  const [shownPassword, setShownPassword] = useState(false);
 
   const { login } = useContext(AuthContext);
 
@@ -44,6 +46,7 @@ export default function LoginForm() {
     setEmail(written_email);
   };
 
+  //if user forgot password show the message from renew-password
   useEffect(() => {
     if (router.query.message) {
       setMessage(router.query.message);

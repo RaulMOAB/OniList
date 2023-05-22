@@ -78,7 +78,11 @@ function MediaHeader() {
 		if (id) {
 			getMedia(id)
 				.then((res) => {
-					setMedia(res);
+					if(Object.keys(res).length === 0){
+						router.push("/404")
+					}else{
+						setMedia(res);
+					}
 					aux_type = res.type;
 					setType(aux_type);
 					getMediaSubscribed(user_id, id).then((res) => {

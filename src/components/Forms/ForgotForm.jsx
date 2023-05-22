@@ -13,6 +13,7 @@ export default function ForgotForm() {
 	const [message, setMessage] = useState("");
 	const [typeAlert, setTypeAlert] = useState("");
 
+	//Send email
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		let endpoint = "forgot-password";

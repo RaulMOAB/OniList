@@ -14,6 +14,7 @@ export default function Anime() {
 	const [graphicData, setGraphicData] = useState({});
 	const [authenticated, setAuthenticated] = useState(true);
 
+	//get prepared data from laravel
 	useEffect(() => {
 		if (user.username) {
 			const endpoint = "library/" + user.username + "/stats/animelist";

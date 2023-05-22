@@ -17,8 +17,8 @@ export default function Navbar() {
   const { user, logout, fetchData, hasChanged } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState({});
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isOpenUserDropdown, setIsOpenUserDropdown] = useState(false);
 
+  // get user if is logged
   useEffect(() => {
     if (Object.keys(user).length !== 0) {
       let endpoint = "user/" + user.id;

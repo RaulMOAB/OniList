@@ -14,26 +14,27 @@ import NoContent from "@/components/Skeleton/NoContent"
 import Head from "next/head";
 
 export default function OverviewStats() {
-  	const { user, fetchData } = useContext(AuthContext);
-		const [graphicData, setGraphicData] = useState({});
-		const [authenticated, setAuthenticated] = useState(true);
+	const { user, fetchData } = useContext(AuthContext);
+	const [graphicData, setGraphicData] = useState({});
+	const [authenticated, setAuthenticated] = useState(true);
 
-
-
-		useEffect(() => {
-			if (user.username) {
-				const endpoint = "library/" + user.username+"/stats";
-				fetchData(endpoint).then((res) => {
-					if(!res.error){
-						setGraphicData(res ?? {});
-					}else {
-						setAuthenticated(false);
-					}
-				});
-			}
-		}, [user, fetchData]);
-		if(!authenticated){return null}
-  return (
+	//get prepared data from laravel
+	useEffect(() => {
+		if (user.username) {
+			const endpoint = "library/" + user.username + "/stats";
+			fetchData(endpoint).then((res) => {
+				if (!res.error) {
+					setGraphicData(res ?? {});
+				} else {
+					setAuthenticated(false);
+				}
+			});
+		}
+	}, [user, fetchData]);
+	if (!authenticated) {
+		return null;
+	}
+	return (
 		<>
 			<Head>
 				<title>Overview Stats · Onilist</title>

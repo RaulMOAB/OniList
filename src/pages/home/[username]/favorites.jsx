@@ -34,9 +34,12 @@ export default function Favorites() {
 			});
 		}
 	}, [user, fetchData, selectedMedia]);
+
 	if (!authenticated) {
 		return null;
 	}
+
+	//For delete favorite
 	const updateFavoriteStatus = () => {
 		let endpoint = "library/delete/favorite";
 		let method = "POST";
@@ -72,6 +75,8 @@ export default function Favorites() {
 	let favoritesAnimes = [];
 	let favoritesMangas = [];
 
+
+	//Insert favorite manga and anime 
 	favoritesMedias.forEach((media, index) => {
 		if (media.status && media.status.favorite === 1) {
 			if (media.media.type === "ANIME") {

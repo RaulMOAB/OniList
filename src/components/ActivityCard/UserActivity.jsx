@@ -33,6 +33,8 @@ export default function UserActivity({ media, status }) {
 
   let message = "";
   let episodes = status.progress;
+
+  
   if (type_status === "WATCHING" || type_status === "READING") {
     if (episodes !== 0) {
       message = `${type_status} ${

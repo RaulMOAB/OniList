@@ -13,6 +13,9 @@ export default function Home() {
 	const [library, setLibrary] = useState([]);
 	const [userInfo, setUserInfo] = useState({});
 	const [authenticated, setAuthenticated] = useState(true);
+
+
+	//get all library of the user with status
 	useEffect(() => {
 		if(user.username){
 			const endpoint = "library/" + user.username;
@@ -28,6 +31,7 @@ export default function Home() {
 	}, [user,fetchData]);
 
 
+	//Get user info
 		useEffect(() => {
 			if (Object.keys(user).length !== 0) {
 				let endpoint = "user/" + user.id;
@@ -38,24 +42,37 @@ export default function Home() {
 				setUserInfo({});
 			}
 		}, [hasChanged,user]);
+
 		
 
+	//set description
 	const description = userInfo.description ?? "You dont have description yet.";
+
+	//Prepare variables for favorites and activities
 	const favoriteAnimes = [];
 	const favoriteMangas = [];
 	const userActivity = [];
 	let nothingToSee = false;
 
+	//State of more button
 	const [visibleCount, setVisibleCount] = useState(5);
 	const handleLoadMore = () => {
 		setVisibleCount(visibleCount + 5);
 	};
+
 	if (!authenticated) {
 		return null;
 	}
-		let recent_changes_library = library.sort(function (a, b) {
-			return new Date(b.status.updated_at) - new Date(a.status.updated_at);
+
+
+		let recent_changes_library = library.sort(function (media, next_media) {
+			return (
+				new Date(media.status.updated_at) -
+				new Date(next_media.status.updated_at)
+			);
 		});
+
+		//prepare html
 		recent_changes_library.forEach((media_info, index) => {
 			let media_status = media_info.status;
 			userActivity.push(
@@ -91,6 +108,7 @@ export default function Home() {
 			}
 		});
 
+	//If there are nothing to see.
 	nothingToSee =
 		favoriteAnimes.length === 0 &&
 		favoriteMangas.length === 0 &&
