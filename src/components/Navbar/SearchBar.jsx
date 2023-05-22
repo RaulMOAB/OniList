@@ -1,6 +1,6 @@
 import {React, useState,useEffect} from "react";
-import Container from "@/components/Common/PageContainer/Container";
 import SearchBarCard from "./../Card/SearchBarCard";
+import Link from "next/link";
 
 //API Petition
 const filteredMedia = async (search) => {
@@ -25,18 +25,48 @@ export default function SearchBar() {
     const [showFiltered, setShowFiltered] = useState(true);
     const [mediaComponentsAnime, setMediaComponentsAnime] = useState([]);
     const [mediaComponentsManga, setMediaComponentsManga] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
 
+    const handleCheckboxChange = (event) => {
+        setIsChecked(event.target.checked);
+    };
+
+    const closeModal = () => {
+        setIsChecked(false);
+        setIsOpen(false)
+    };
+
+    // call filter when search length >= 2
     useEffect(() => {
         if(search.length >= 2)
         {
             handleClick();
         }
-        
     
     },[search]);
 
+    // clean search bar
+    useEffect(() => {
+        if (!isOpen) {
+          setSearch('');
+        }
+    }, [isOpen]);
+
     const handleSearchChange = (data) => {
-        setSearch(data);
+        const formattedValue = capitalizeFirstLetter(data);
+        setSearch(formattedValue);
+    };
+
+    // Capital letter at the beginning of each word
+    const capitalizeFirstLetter = (str) => {
+        const words = str.split(" ");
+        const capitalizedWords = words.map((word) => {
+          const firstLetter = word.charAt(0).toUpperCase();
+          const restOfWord = word.slice(1);
+          return firstLetter + restOfWord;
+        });
+        return capitalizedWords.join(" ");
     };
 
     function emptyFields() {
@@ -48,18 +78,14 @@ export default function SearchBar() {
         return false;
     }
 
-    // call filtered medias every time variable change
+    // Call filtered medias every time a variable changes
     function handleClick() {
-        console.log(search);
 
         filteredMedia(search)
         .then((res) => {
             if (res.status === "success" && res.media_length > 0) {
                 setMediaComponentsAnime([]);
                 setMediaComponentsManga([]);
-                console.log(res.media_length);
-                console.log(res.manga.data);
-                console.log(res.anime.data);
                 setShowFiltered(emptyFields());
 
                 const animes = res.anime.data;
@@ -99,14 +125,17 @@ export default function SearchBar() {
         <>
             <input
 				type='checkbox'
+                checked={isChecked} 
+                onChange={handleCheckboxChange}
 				id='my-modal-5'
 				className='modal-toggle'
+                onClick={() => setIsOpen(!isOpen)}
 			/>
 			<label
 				htmlFor='my-modal-5'
 				className='modal hidden lg:flex -mt-96'>
 				<label
-					className='modal-box border-0 bg-transparent max-w-3xl shadow-none'
+					className='modal-box border-0 bg-transparent max-w-3xl shadow-none fixed left-50 right-50 top-0 pt-32'
 					htmlFor=''>
 					<div className='max-w-3xl mx-auto'>
 						<form className='flex items-center'>
@@ -119,7 +148,7 @@ export default function SearchBar() {
 								<input
 									type='text'
                                     value={search}
-                                    onChange={(event) => handleSearchChange(event.target.value)} 
+                                    onChange={(event) => handleSearchChange(event.target.value)}
 									id='voice-search'
 									className='text-accent text-sm rounded-lg block w-full pl-10 p-2.5 bg-base-100'
 									placeholder='Search a media...'
@@ -145,23 +174,34 @@ export default function SearchBar() {
                     {showFiltered == false && search.length != 0 ? (
                     <div className="flex text-accent max-w-full">
                         {/* Anime */}
-                        <div className="w-1/2 mt-10">
-                            <p className="text-xs font-semibold text-white pb-2">Anime</p> 
-                            <div className="bg-base-100 rounded-md px-4 pb-4">
-                                {mediaComponentsAnime.map((media, index) => {
-                                    return <SearchBarCard key={index} media={media} index={index}/>
-                                })}
+                        {mediaComponentsAnime.length != 0 ? (
+                            <div className="w-1/2 mt-10">
+                                <p className="text-xs font-semibold text-white pb-2">Anime</p> 
+                                <div className="bg-base-100 rounded-t-lg px-4 pb-2">
+                                    {mediaComponentsAnime.map((media, index) => {
+                                        return <SearchBarCard key={index} media={media} index={index} closeModal={closeModal}/>
+                                    })}
+                                </div>
+                                <div className="bg-base-100 rounded-b-lg text-center text-xs py-1 hover:bg-primary hover:text-white">
+                                    <Link href={'/search/anime'} onClick={closeModal}>View all anime</Link>
+                                </div>
                             </div>
-                        </div>
+                            ) : ('')
+                        }
+                        {mediaComponentsManga.length != 0 ? (
+                            <div className="w-1/2 mt-10 ml-3">
+                                <p className="text-xs font-semibold text-white pb-2">Manga</p>
+                                <div className="bg-base-100 rounded-t-lg px-4 pb-2">
+                                    {mediaComponentsManga.map((media, index) => {
+                                        return <SearchBarCard key={index} media={media} index={index} closeModal={closeModal}/>
+                                    })}
+                                </div>
+                                <div className="bg-base-100 rounded-b-lg text-center text-xs py-1 hover:bg-primary hover:text-white">
+                                    <Link href={'/search/manga'} onClick={closeModal}>View all manga</Link>
+                                </div>
+                            </div>
+                        ) : ('')}
                         {/* Manga */}
-                        <div className="w-1/2 mt-10 ml-3">
-                            <p className="text-xs font-semibold text-white pb-2">Manga</p>
-                            <div className="bg-base-100 rounded-md px-4 pb-4">
-                                {mediaComponentsManga.map((media, index) => {
-                                    return <SearchBarCard key={index} media={media} index={index}/>
-                                })}
-                            </div>
-                        </div>
                     </div>
 
                     ) : ('')}

@@ -3,6 +3,17 @@ import React, { useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useState } from "react";
 
+
+/**
+ * type: specify the type to change some values that are anime or manga only.
+ * medias: all medias arriving from animelist.jsx or mangalist.jsx 
+ * setFilteredMedia: function to change filteredMedia from animelist.jsx or mangalist.jsx
+ *  
+ * @param {string} type
+ * @param {object} medias
+ * @param {function} setFilteredMedia
+ * @returns 
+ */
 export default function FilterMedia({ type, medias, setFilteredMedia }) {
 	const [format, setFormat] = useState("");
 	const [status, setStatus] = useState("");
@@ -12,8 +23,14 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 	const [formatSelectedOption, setFormatSelectedOption] = useState("");
 	const [statusSelectedOption, setStatusSelectedOption] = useState("");
 	const [genresSelectedOption, setGenreSelectedOption] = useState("");
-	const updateList = (list) => {
-		if (list === "all") {
+
+	/**
+	 * If user click some type of list, for example; "all" will reset all filters.
+	 *
+	 * @param {string} listType
+	 */
+	const updateList = (listType) => {
+		if (listType === "all") {
 			setFilteredMedia(filteredMedia);
 			setStatus("");
 			setFormat("");
@@ -23,8 +40,9 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 			setStatusSelectedOption("");
 			setGenreSelectedOption("");
 		} else {
+			//will show only selected listType, like COMPLETED, WATCHING, PAUSED...
 			let selected_list = medias.filter((media) => {
-				return media.status.status === list;
+				return media.status.status === listType;
 			});
 			setFilteredMedia(selected_list);
 			setFormatSelectedOption("");
@@ -34,10 +52,13 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 		}
 	};
 
+	//Get all medias status, example ['PAUSED','PAUSED','COMPLETED'...]
 	const user_lists = medias.map((media) => {
 		return media.status.status;
 	});
 
+	//Get object with each status and numbers of the medias that are in this status, example:
+	//{PAUSED:2 COMPLETED:4, WATCHING:5...}
 	const item_list_counter = user_lists.reduce((acc, elem) => {
 		acc[elem] = (acc[elem] || 0) + 1;
 		return acc;
@@ -46,23 +67,26 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 	let list_buttons = [];
 
 	let index = 0;
+
+	//Set listTypes and each numbers of medias
 	for (let key in item_list_counter) {
 		let manga_key = "READING";
-				if (type === "MANGA") {
-					switch (key) {
-						case "WATCHING":
-							manga_key = "READING";
-							break;
-						case "REWATCHING":
-							manga_key = "REREADING";
-							break;
-						case "PLAN TO WATCH":
-							manga_key = "PLAN TO READ";
-							break;
-						default:
-							break;
-					}
-				}
+		if (type === "MANGA") {
+			switch (key) {
+				case "WATCHING":
+					manga_key = "READING";
+					break;
+				case "REWATCHING":
+					manga_key = "REREADING";
+					break;
+				case "PLAN TO WATCH":
+					manga_key = "PLAN TO READ";
+					break;
+				default:
+					manga_key = key;
+					break;
+			}
+		}
 		list_buttons.push(
 			<button
 				value={key}
@@ -78,6 +102,7 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 		index++;
 	}
 
+	//Initialize options selects and create the options arrays (some options depends on the type of media)
 	const status_array = [
 		"Finished",
 		"Releasing",
@@ -140,11 +165,18 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 		);
 	});
 
+	/**
+	 * user_search is what the user is typing in the search input.
+	 * @param {string} user_search
+	 */
 	const handleSearchOnChange = (user_search) => {
-		if (user_search !== "Search") {
-		}
 		setSearch(user_search.toLowerCase());
 	};
+
+	/**
+	 * media_status is what the user select in the status input select.
+	 * @param {string} media_status
+	 */
 	const handleStatusOnChange = (media_status) => {
 		if (media_status !== "Status") {
 			setStatus(media_status.toLowerCase().replaceAll(" ", "_"));
@@ -152,14 +184,30 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 		}
 	};
 
+	/**
+	 * media_format is what the user select in the format input select.
+	 * @param {string} media_format
+	 */
 	const handleFormatOnChange = (media_format) => {
 		setFormat(media_format.toLowerCase().replaceAll(" ", "_"));
 		setFormatSelectedOption(media_format);
 	};
+
+	/**
+	 * media_genre is what the user select in the genres input select.
+	 * @param {string} media_genre
+	 */
 	const handleGenreOnChange = (media_genre) => {
 		setGenre(media_genre.toLowerCase());
 		setGenreSelectedOption(media_genre);
 	};
+
+
+	/**
+	 * This function filter for each media and verify if  they match with the state of:
+	 * search,status,format and genre.
+	 * then save the results in aux_filtered_medias to set Medias and filteredMedias from  animelist.jsx and mangalist.
+	 */
 	const filter = () => {
 		let aux_filtered_medias = medias.filter((media) => {
 			let title = media.media.title;
@@ -182,6 +230,10 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 		setMedias(aux_filtered_medias);
 		setFilteredMedia(aux_filtered_medias);
 	};
+
+	/**
+	 * if some state changes the filter function will be executed.
+	 */
 	useEffect(() => {
 		setMedias(medias);
 		filter();

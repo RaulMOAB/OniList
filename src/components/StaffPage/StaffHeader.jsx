@@ -29,13 +29,11 @@ function StaffHeader() {
   const [staff, setStaff] = useState({})
   const [job, setJob] = useState("")
 
-
+  // Get staff data
   useEffect(() => {
     if (id) {
         getStaff(id)
         .then((res) => {
-          console.log(res.person)
-          console.log(res.job.job)
           setStaff(res.person);
           setJob(res.job.job ?? '');
         })

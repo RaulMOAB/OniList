@@ -14,28 +14,52 @@ import MediaCard from "./../Card/MediaCard";
 import Loader from "./../Skeleton/Loader";
 import ResetButton from "./../Buttons/ResetButton";
 
-//Get medias
+/**
+ * Api call to get trending animes
+ * @returns array of trending animes
+ */
 const getTrendingAnime = async () => {
   const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'anime/trending');
   return response.json();
 };
 
+/**
+ * Api call to get pupular animes
+ * @returns array of popular animes
+ */
 const getPopularAnime = async () => {
   const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'anime/popular');
   return response.json();
 };
-
+/**
+ * Api call to get upcoming animes
+ * @returns array of upcoming animes
+ */
 const getUpcomingAnime = async () => {
   const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'anime/upcoming');
   return response.json();
 };
 
+/**
+ * Api call to get actual aired season animes
+ * @returns array of animes
+ */
 const getThisSeasonAnime = async () => {
     const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+'anime/this-season');
     return response.json();
   };
 
-//API Petition
+/**
+ * Api call to filter anime
+ * @param {*} search 
+ * @param {*} genres 
+ * @param {*} season_year 
+ * @param {*} season 
+ * @param {*} format 
+ * @param {*} airing_status 
+ * @param {*} type 
+ * @returns filtered anime
+ */
 const filteredMediaAnime = async (search, genres, season_year, season, format, airing_status, type = 'ANIME') => {
   const body = JSON.stringify({
     type,
@@ -84,7 +108,6 @@ export default function IndexAnimePage() {
         medias.forEach((media,index) => {
           setTrendingAnime(trendingAnime => [...trendingAnime, media])
         })
-        //setTrendingAnime(res);
       })
       .catch((e) => {
         console.log(e.message);
@@ -92,9 +115,7 @@ export default function IndexAnimePage() {
 
     getPopularAnime()
     .then((res) => {
-      console.log("Popular Animes")
       let medias = res.data.data;
-      console.log(res.data)
       medias.forEach((media,index) => {
         setPopularAnime(popularAnime => [...popularAnime, media])
       })
@@ -133,15 +154,6 @@ export default function IndexAnimePage() {
     handleClick();
 
   },[search, genres, season_year, season, format, airing_status]);
-
-  // skeleton loading time
-  // useEffect(() => {
-
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   },650);
-
-  // },[search, genres, season_year, season, format, airing_status]);
 
   // Variables Handles
   const handleSearchChange = (data) => {
@@ -191,14 +203,11 @@ export default function IndexAnimePage() {
 
   // call filtered medias every time variable change
   function handleClick() {
-    console.log(search + "  " + genres + "  " + season_year + " " + season + " " + format + " " + airing_status);
 
     filteredMediaAnime(search, genres, season_year, season, format, airing_status)
       .then((res) => {
         if (res.status === "success" && res.media_length > 0) {
           setMediaComponents([]);
-          console.log(res.media_length);
-          console.log(res.data.data);
           setShowFiltered(emptyFields());
 
           const medias = res.data.data;

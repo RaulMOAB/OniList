@@ -1,5 +1,6 @@
 import React from "react";
 
+//return time left more readable
 export function timeLeftSince(date_string) {
   const now = new Date();
   const elapsed_time = now - new Date(date_string);
@@ -34,6 +35,7 @@ export function timeLeftSince(date_string) {
   }
 }
 
+//Return formatted date like "8 Jan 2023"
 export function formatDate(date_string) {
   const months = [
     "Jan",

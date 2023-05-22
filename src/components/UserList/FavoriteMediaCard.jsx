@@ -2,6 +2,14 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { IoMdClose } from "react-icons/io";
+
+/**
+ * media: get the properties of the media
+ * setSelectedMedia: state from favorites.jsx to delete selected media from favorite list 
+ * @param {object} media 
+ * @param {function} setSelectedMedia 
+ * @returns 
+ */
 export default function FavoriteMediaCard({ media, setSelectedMedia }) {
 	const link =
 		"/" + media.media.type.toLowerCase() + "/" + media.media.media_id;

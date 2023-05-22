@@ -3,9 +3,7 @@ import CharacterCard from "../Card/CharacterCard";
 import Link from "next/link";
 
 function MediaCharacters({ characters, dubbers, role }) {
-  //console.log(dubbers)
   if (characters.length !== 0) {
-    //console.log(characters);
     let characterCards = [];
     characters.forEach((element, index) => {
       //num of cards

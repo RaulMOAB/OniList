@@ -1,14 +1,18 @@
+/* eslint-disable @next/next/no-img-element */
+import Media_Tooltip from "./Media_Tooltip";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function MediaCard({ media, index }) {
+export default function BrowseMediaCard({ media, index }) {
   const route = useRouter();
+  //get parameters
   let genres = JSON.parse(media.genres).splice(0, 3).join(" ");
   let type;
   media.type == 'ANIME' ? type = 'anime' : type = 'manga';
 
-  //Go to media page
+
   const mediaPage = () => {
-    route.push(`/${type}/${media.id}`);
+    route.push(`/${type}/${media.id}`);//TODO add media type 
   };
 
   return (
@@ -18,8 +22,8 @@ export default function MediaCard({ media, index }) {
 					index <= 3
 						? "relative rounded-md bg-cover w-fit"
 						: index != 5
-						? "relative rounded-md bg-cover w-fit md:hidden lg:block"
-						: "relative rounded-md bg-cover w-fit xl:block lg:hidden md:hidden"
+						? "relative rounded-md bg-cover w-fit"
+						: "relative rounded-md bg-cover w-fit"
 				}
 				key={media.id}
 				onClick={mediaPage}>

@@ -89,8 +89,8 @@ function MediaExternalLinks({ link, key }) {
   }
 
   return (
-    <div className="py-1">
-      <div className="bg-neutral text-sm p-3">{result}</div>
+    <div className="sm:py-1">
+      <div className="bg-transparent sm:bg-neutral text-sm p-1  ">{result}</div>
     </div>
   );
 }

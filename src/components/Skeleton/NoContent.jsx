@@ -1,6 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import { useState, useEffect } from 'react';
+
 export default function NoContent({message}) {
+
   const ascii_emojis = [
 		"(╯°□°）╯︵ ┻━┻",
 		"(︶︹︶)",
@@ -8,12 +11,19 @@ export default function NoContent({message}) {
 		"(ÒДÓױ)",
 		"(⊙＿⊙')",
 		"ᕦ(ò_óˇ)ᕤ",
+		"¯_(ツ)_/¯",
+		"ヽ(´ー｀)ノ",
+		"[¬º-°]¬",
+		"٩(๏_๏)۶ ",
 	];
+
   const randomIndex = Math.floor(Math.random() * ascii_emojis.length);
   const [emoji, setEmoji] = useState("");
+
   useEffect(()=>{
     setEmoji(ascii_emojis[randomIndex]);
   },[message])
+
   return (
 		<div className='h-fit text-accent text-center text-2xl p-2'>
 			<p>{emoji}</p>

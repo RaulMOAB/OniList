@@ -11,6 +11,7 @@ import Tags from "./../Filters/Tags";
 import MediaCard from "./../Card/MediaCard";
 import Loader from "./../Skeleton/Loader";
 import ResetButton from "./../Buttons/ResetButton";
+import { useRouter } from "next/router";
 
 //Get medias
 const getTrendingManga = async () => {
@@ -65,6 +66,9 @@ export default function MainMangaPage() {
   const [trendingManga, setTrendingManga] = useState([]);
   const [manhwaManga, setManhwaManga] = useState([]);
 
+  //router
+  const router = useRouter()
+
   // initials animes
   useEffect(() => {
     getTrendingManga()
@@ -82,9 +86,7 @@ export default function MainMangaPage() {
 
     getPopularManga()
     .then((res) => {
-      console.log("Popular Animes")
       let medias = res.data.data;
-      console.log(res.data)
       medias.forEach((media,index) => {
         setPopularManga(popularManga => [...popularManga, media])
       })
@@ -112,15 +114,6 @@ export default function MainMangaPage() {
     handleClick();
 
   },[search, genres, airing_status, tags, format]);
-
-  // skeleton loading time
-  // useEffect(() => {
-
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   },650);
-
-  // },[search, genres, airing_status, tags, format]);
 
 
   // Variables Handles
@@ -165,14 +158,11 @@ export default function MainMangaPage() {
 
   // call filtered medias every time variable change
   function handleClick() {
-    //console.log(search + "  " + genres + "  " + season_year + " " + season + " " + format + " " + airing_status);
 
     filteredMediaManga(search, genres, airing_status, tags, format)
       .then((res) => {
         if (res.status === "success" && res.media_length > 0) {
           setMediaComponents([]);
-          console.log(res.media_length);
-          console.log(res.data.data);
           setShowFiltered(emptyFields());
 
           const medias = res.data.data;
@@ -209,73 +199,123 @@ export default function MainMangaPage() {
   }
 
   return (
-    <>
-      <Head>
-        <title>OniList</title>
-      </Head>
-      <Container>
-        <main className="pb-10 2xl:px-28 xl:px-16  lg:px-2 sm:px-4 px-4">
-          <section id="filters">
-            <div className="flex flex-wrap p-3 rounded-md bg-neutral mt-5 bg-transparent">
-              <Search value={search} handle={handleSearchChange}/>
-              <Genres value={genres} handle={handleGenresChange}/>
-              <AiringStatus value={airing_status} handle={handleAiringStatusChange}/>
-              <Tags value={tags} handle={handleTagsChange}/>
-              <FormatManga value={format} handle={handleFormatChange}/>
-            </div>
-            <div className="ml-3 mb-6">
-              <ResetButton text="Reset" reset={resetFilter}/>
-            </div>
-          </section>
-          <div>
-            {showFiltered ? (
-              <div>
-                
-                <ListPreview title="Trending Now" data={trendingManga} type="manga" route={"/search/manga/trending"}/>
-            
-                <ListPreview title="All time popular" data={popularManga} type="manga" route={"/search/manga/top-100"}/>
-            
-                <ListPreview title="Popular manhwa" data={manhwaManga} type="manga" route={"/search/manga/top-manhwa"}/>
-                
-              </div>
+		<>
+			<Head>
+				<title>OniList</title>
+			</Head>
+			<Container>
+				<main className='pb-10 2xl:px-28 xl:px-16  lg:px-2 sm:px-4 px-4'>
+					<div className='lg:hidden pt-20 flex'>
+						<p className='md:text-4xl sm:text-3xl text-2xl font-semibold px-3'>
+							Browse:
+						</p>
+						<select
+							className='select sm:select-lg select-md sm:text-2xl text-xl bg-neutral rounded-md'
+							name='search-anime'
+              defaultValue={'Manga'}
+							id='search-anime'>
+							<option
+								className=' sm:text-xl text-lg'
+								value='Anime'
+								onClick={() => {
+									router.replace("/search/anime/");
+								}}>
+								Anime
+							</option>
+							<option
+								className='sm:text-xl text-lg'
+								value='Manga'>
+								Manga
+							</option>
+						</select>
+					</div>
+					<section id='filters'>
+						<div className='flex flex-wrap p-3 rounded-md bg-neutral mt-5 bg-transparent'>
+							<Search
+								value={search}
+								handle={handleSearchChange}
+							/>
+							<Genres
+								value={genres}
+								handle={handleGenresChange}
+							/>
+							<AiringStatus
+								value={airing_status}
+								handle={handleAiringStatusChange}
+							/>
+							<Tags
+								value={tags}
+								handle={handleTagsChange}
+							/>
+							<FormatManga
+								value={format}
+								handle={handleFormatChange}
+							/>
+						</div>
+						<div className='md:invisible block'></div>
+						<div className='ml-3 mb-6'>
+							<ResetButton
+								text='Reset'
+								reset={resetFilter}
+							/>
+						</div>
+					</section>
+					<div>
+						{showFiltered ? (
+							<div>
+								<ListPreview
+									title='Trending Now'
+									data={trendingManga}
+									type='manga'
+									route={"/search/manga/trending"}
+								/>
 
-            ) : ( 
-              
-              mediaComponents.length == 0 ? (
+								<ListPreview
+									title='All time popular'
+									data={popularManga}
+									type='manga'
+									route={"/search/manga/top-100"}
+								/>
 
-                <div className="mb-14">
-                  <h2 className="text-center text-accent text-2xl">No Results</h2>
-                </div>
-
-                ) : (
-
-                  loading == true ? (
-
-                    
-                    <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6">
-                      {
-                        mediaComponents.map((media, index) => {
-                          return <Loader key={index} media={media} index={index}/>
-                        })
-                      }
-                    </div>
-                    
-                  ) : (
-                    <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6">
-                      {
-                        mediaComponents.map((media, index) => {
-                          return <MediaCard key={index} media={media} index={index} />
-                        })
-                      }
-                    </div>
-                  )
-                )            
-            )}
-            
-          </div>
-          
-        </main>
-      </Container>
-    </>
-  );
+								<ListPreview
+									title='Popular manhwa'
+									data={manhwaManga}
+									type='manga'
+									route={"/search/manga/top-manhwa"}
+								/>
+							</div>
+						) : mediaComponents.length == 0 ? (
+							<div className='mb-14'>
+								<h2 className='text-center text-accent text-2xl'>No Results</h2>
+							</div>
+						) : loading == true ? (
+							<div className='grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6'>
+								{mediaComponents.map((media, index) => {
+									return (
+										<Loader
+											key={index}
+											media={media}
+											index={index}
+										/>
+									);
+								})}
+							</div>
+						) : (
+							<div className='grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-4 md:gap-8 2xl:gap-10 xl:gap-6'>
+								{mediaComponents.map((media, index) => {
+									return (
+										<MediaCard
+											key={index}
+											media={media}
+											index={index}
+										/>
+									);
+								})}
+							</div>
+						)}
+					</div>
+				</main>
+			</Container>
+		</>
+	);
 }

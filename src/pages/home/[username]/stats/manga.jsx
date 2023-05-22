@@ -9,23 +9,26 @@ import NoContent from "@/components/Skeleton/NoContent";
 import Head from "next/head";
 
 export default function Manga() {
-  	const { user, fetchData } = useContext(AuthContext);
-		const [graphicData, setGraphicData] = useState({});
-		const [authenticated, setAuthenticated] = useState(true);
+	const { user, fetchData } = useContext(AuthContext);
+	const [graphicData, setGraphicData] = useState({});
+	const [authenticated, setAuthenticated] = useState(true);
 
-		useEffect(() => {
-			if (user.username) {
-				const endpoint = "library/" + user.username + "/stats/mangalist";
-				fetchData(endpoint).then((res) => {
-					if(!res.error){
-						setGraphicData(res ?? []);
-					}else{
-setAuthenticated(false);
-					}
-				});
-			}
-		}, [user, fetchData]);
-		if(!authenticated){return null}
+	//get prepared data from laravel
+	useEffect(() => {
+		if (user.username) {
+			const endpoint = "library/" + user.username + "/stats/mangalist";
+			fetchData(endpoint).then((res) => {
+				if (!res.error) {
+					setGraphicData(res ?? []);
+				} else {
+					setAuthenticated(false);
+				}
+			});
+		}
+	}, [user, fetchData]);
+	if (!authenticated) {
+		return null;
+	}
 	return (
 		<>
 			<Head>
@@ -59,7 +62,7 @@ setAuthenticated(false);
 									label={"Genre"}
 								/>
 							</div>
-							<div className='bg-base-300 p-3 rounded-md'>
+							<div className='bg-base-300 p-3 rounded-md col-span-full'>
 								<p className=' text-xl mb-3'>Years Distribution</p>
 								<ChartLine
 									data={graphicData.data_years}

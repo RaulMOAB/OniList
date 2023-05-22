@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 function CharacterCard({ character, index, role, dubber = null }) {
-  //console.log(dubber);
+
   const link =
     "/character/" + character.id + "/" + character.romaji.replace(/ /g, "-"); //* like /character/1/name-name
   const character_name = character.romaji;
@@ -12,7 +12,7 @@ function CharacterCard({ character, index, role, dubber = null }) {
   let dubber_image = "";
   let dubber_name = "";
   let dubber_japanese_name = "";
-  //   const role = character.role
+
   if (dubber) {
     dubber_link =
       "/staff/" + dubber.id + "/" + dubber.romaji.replace(/ /g, "-");
@@ -22,7 +22,7 @@ function CharacterCard({ character, index, role, dubber = null }) {
   }
 
   return (
-    <div className="flex text-xs justify-between h-fit bg-neutral ">
+    <div className="flex text-xs justify-between h-fit bg-neutral">
       <div className="grid grid-flow-col grid-cols-1">
         <div className="row-span-3 relative aspect-2/3 h-24 ">
           <Link href={link}>

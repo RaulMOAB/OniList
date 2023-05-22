@@ -18,6 +18,7 @@ export default function ValidationAlert() {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
+  // Popover for password requeriments
   return (
     <>
       <button

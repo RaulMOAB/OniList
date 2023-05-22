@@ -7,6 +7,7 @@ import MediaPageCard from "@/components/Card/MediaPageCard";
 import ReadMore from './../utils/ReadMore'
 import Head from "next/head";
 
+// API petition
 const getCharacter = async (id) => {
   const response = await fetch(
     process.env.NEXT_PUBLIC_API_ENDPOINT + `characters/${id}`,
@@ -33,7 +34,6 @@ function CharacterHeader() {
     if (id) {
       getCharacter(id)
         .then((res) => {
-          console.log(res[0])
           setCharacter(res[0]);
         })
         .catch((e) => {
@@ -90,12 +90,9 @@ function CharacterHeader() {
             }
             </div>
           </div>
-          {/* <ReadMoreToggle media={media}/> */}
         </div>
       </Container>
     </>
   )
 }
 export default CharacterHeader;
-
-//image_large

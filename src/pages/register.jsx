@@ -9,7 +9,7 @@ export default function Register() {
 		const router = useRouter();
 		useEffect(() => {
 			if (!(Object.keys(user).length === 0)) {
-				router.push("/home/" + user.username);
+				router.replace("/home/" + user.username);
 			}
 		}, [user, router]);
   return (
