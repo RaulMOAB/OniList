@@ -4,7 +4,6 @@ import Image from "next/image";
 
 function MediaPageCard({ img }) {
   const [image, setImage] = useState();
-
   useEffect(() => {
     img ? setImage(img) : setImage(null);
   }, [img]);

@@ -75,18 +75,6 @@ export function AuthContextProvider({ children }) {
     }
   };
 
-  // const verifyToken = ()=>{
-  //   fetchData("verify-token", "GET", null, "auth-required").then((response) => {
-	// 		if (response.error) {
-	// 			console.log(response.error);
-	// 			return false;
-	// 		} else {
-	// 			console.log(response);
-	// 			return true;
-	// 		}
-	// 	});
-  // }
-
   const updateUser = ()=>{
     let endpoint = "user/"+user.id;
     fetchData(endpoint).then((res)=>{

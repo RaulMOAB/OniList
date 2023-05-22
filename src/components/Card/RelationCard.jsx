@@ -10,13 +10,15 @@ function RelationCard({ related_media, media_relationship, index }) {
   const format = related_media.format;
   const status = related_media.airing_status.replace(/_/g, " ");
 
-  console.log(source)
-
+/**
+ * Function to sanitize format string like Noy_released_yet to Not Released Yet
+ * @param {*} format 
+ * @returns formatted
+ */
   const formatSanitize = (format) => {
     if (format) return format.toLowerCase().replace("_", " ");
   };
-
-  console.log(index);
+  
   return (
     <div className="w-fit pr-44 sm:px-0">
       <div className="relative aspect-2/3 h-32 md:block mr-5 md:mr-0 ">

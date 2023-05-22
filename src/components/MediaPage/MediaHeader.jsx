@@ -98,6 +98,12 @@ function MediaHeader() {
 		}
 	}, [id]);
 
+	/**
+	 * Function that changes media status according to the passed media type
+	 * @param {*} changed_status 
+	 * @param {*} deleted boolean to check if media is deleted from user library
+	 * @param {*} favorite boolean to check if it's on favorite
+	 */
 	const updateStatus = async (changed_status, deleted, favorite = 0) => {
 		if (media.type === "MANGA") {
 			switch (changed_status) {
@@ -122,6 +128,9 @@ function MediaHeader() {
 			favorite,
 		});
 
+		/**
+		 * Api call function to update media status
+		 */
 		const response = await fetch(
 			process.env.NEXT_PUBLIC_API_ENDPOINT + `status`,
 			{
@@ -151,7 +160,7 @@ function MediaHeader() {
 					break;
 			}
 		}
-		setStatus(changed_status); // cambia el texto del boton
+		setStatus(changed_status); // changes button text on media page
 		if (deleted) {
 			setMessage(`${media.title} was deleted from your library.`);
 			setShowError(true);
@@ -165,7 +174,10 @@ function MediaHeader() {
 			}
 		}
 	};
-
+/**
+ * Handle event function to set or unset favorite media
+ * @param {*} event 
+ */
 	const handleFavorite = (event) => {
 		event.preventDefault();
 		let aux_fav;
@@ -181,9 +193,12 @@ function MediaHeader() {
 			setFavoriteToMedia(aux_fav, aux_status);
 		}
 	};
-
+/**
+ * Api call to add or remove media favorite status 
+ * @param {*} favorite 1 add favorite 0 remove favorite
+ * @param {*} status actual media status 
+ */
 	const setFavoriteToMedia = async (favorite, status = "WATCHING") => {
-		console.log(favorite);
 		const body = JSON.stringify({
 			user_id: user_id,
 			media_id: id,
@@ -200,21 +215,12 @@ function MediaHeader() {
 		}
 	};
 
-	const toggleDropdown = () => {
-		console.log(isOpen);
-		setIsOpen(!isOpen);
-	};
 
 	const resetAlert = () => {
 		setShowError(false);
 	};
 
 	if (media) {
-		//if media is not undefined
-		const media_images = {
-			large: media.large_cover_image,
-			medium: media.medium_cover_image,
-		};
 		return (
 			<>
 				<Head>

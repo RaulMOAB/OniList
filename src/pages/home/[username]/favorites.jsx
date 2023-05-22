@@ -26,7 +26,7 @@ export default function Favorites() {
 				if (!res_favorites.error) {
 					setNoData(false);
 					setFavoritesMedias(res_favorites ?? []);
-					console.log(res_favorites);
+				
 				} else {
 					setNoData(true);
 					setAuthenticated(false);
@@ -41,7 +41,7 @@ export default function Favorites() {
 		let endpoint = "library/delete/favorite";
 		let method = "POST";
 		const favorite = 0;
-		console.log(selectedMedia);
+		
 
 		let body = JSON.stringify({
 			user_id: user.id,

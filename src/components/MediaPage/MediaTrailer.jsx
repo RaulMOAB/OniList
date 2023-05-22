@@ -1,6 +1,4 @@
 import React from "react";
-import StaffCard from "../Card/StaffCard";
-import Link from "next/link";
 
 function MediaTrailer({ trailer }) {
 
@@ -18,7 +16,6 @@ function MediaTrailer({ trailer }) {
           title="YouTube video player"        
           allowFullScreen
         ></iframe>
-
         </div>
       </div>
     );

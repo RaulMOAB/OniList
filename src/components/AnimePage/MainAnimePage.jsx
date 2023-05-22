@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { useContext, useState, useEffect} from "react";
 import ListPreview from "./../Card/ListPreview";
-import Hero from "./../Hero/Hero";
 import LoadingCloud from "@/components/Loading/LoadingCloud";
 import Container from "@/components/Common/PageContainer/Container";
 import Search from "./../Filters/Search";

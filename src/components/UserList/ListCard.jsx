@@ -20,7 +20,6 @@ import { AuthContext } from "@/contexts/AuthContext";
 export default function ListCards({ media ,setStatus, setSelectedMedia}) {
 	const handleClick = () => {
 		setStatus(media.status.status);
-		console.log(media.media);
 		setSelectedMedia(media.media);
 	};
 

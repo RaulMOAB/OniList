@@ -110,7 +110,6 @@ function MediaBody() {
   useEffect(() => {
     if (id) {
       getMediaRelatedTo(id).then((res) => {
-        //console.log(res);
         setRelation(res);
       });
       getCharacterAppearsIn(id).then((res) => {
@@ -126,11 +125,10 @@ function MediaBody() {
         setDubbs(dubbers);
       });
       getMediaStaff(id).then((res) => {
-        //console.log(res)
         setStaff(res);
       });
       getMediaDetails(id).then((res) => {
-        console.log(res);
+        
         setMediaDetails(res);
 
         setMediaStatus(res.airing_status.toLowerCase());
@@ -171,7 +169,7 @@ function MediaBody() {
 
   return (
     <Container>
-      {/* grid padre */}
+      {/* grid container */}
       <div className="grid grid-cols-1 md:grid-cols-6 md:gap-10 xl:grid-cols-10 lg:gap-10 py-6 xl:px-20 ">
         <div className="grid grid-cols-1 h-fit xl:col-span-2 md:col-span-2   text-xs justify-between ">
           <div className="bg-neutral p-4">
@@ -293,7 +291,7 @@ function MediaBody() {
           </div>
         </div>
 
-        {/* padre de los cards */}
+        {/* cards container */}
         <div className="xl:col-span-8 xl:grid-cols-6 md:grid-cols-2 md:col-span-4  h-fit md:px-2 md:-mx-3 xl:px-2 ">
           <div className="pb-10 md:w-full ">
             <MediaCharactersFull

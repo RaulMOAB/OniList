@@ -1,18 +1,14 @@
-/* eslint-disable @next/next/no-img-element */
-import Media_Tooltip from "./Media_Tooltip";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 export default function MediaCard({ media, index }) {
   const route = useRouter();
-  //get parameters
   let genres = JSON.parse(media.genres).splice(0, 3).join(" ");
   let type;
   media.type == 'ANIME' ? type = 'anime' : type = 'manga';
 
-
+  //Go to media page
   const mediaPage = () => {
-    route.push(`/${type}/${media.id}`);//TODO add media type 
+    route.push(`/${type}/${media.id}`);
   };
 
   return (
