@@ -62,8 +62,8 @@ export default function ListCards({ media ,setStatus, setSelectedMedia}) {
 						<p className='hover:text-blue-500 hover:opacity-100 p-1'>{title}</p>
 						<p className='hover:text-blue-500 hover:opacity-100 p-1'>
 							{media.media.type === "ANIME"
-								? `${media.status.progress}/${episodes ?? "Releasing"}`
-								: `${media.status.progress}/${chapters ?? "Releasing"}`}
+								? `${media.status.progress ?? 0}/${episodes ?? "Releasing"}`
+								: `${media.status.progress ?? 0}/${chapters ?? "Releasing"}`}
 						</p>
 					</Link>
 				</div>

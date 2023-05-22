@@ -83,6 +83,7 @@ export default function FilterMedia({ type, medias, setFilteredMedia }) {
 					manga_key = "PLAN TO READ";
 					break;
 				default:
+					manga_key = key;
 					break;
 			}
 		}

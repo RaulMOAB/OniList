@@ -134,42 +134,42 @@ export default function AnimeList() {
 								<>
 									<MediaList
 										key={1}
-										list={"Watching"}
+										listType={"Watching"}
 										medias={watching_list}
 										setStatus={setActualStatus}
 										setSelectedMedia={setSelectedMedia}
 									/>
 									<MediaList
 										key={2}
-										list={"Plan to watch"}
+										listType={"Plan to watch"}
 										medias={planning_list}
 										setStatus={setActualStatus}
 										setSelectedMedia={setSelectedMedia}
 									/>
 									<MediaList
 										key={3}
-										list={"Completed"}
+										listType={"Completed"}
 										medias={completed_list}
 										setStatus={setActualStatus}
 										setSelectedMedia={setSelectedMedia}
 									/>
 									<MediaList
 										key={4}
-										list={"Rewatching"}
+										listType={"Rewatching"}
 										medias={rewatching_list}
 										setStatus={setActualStatus}
 										setSelectedMedia={setSelectedMedia}
 									/>
 									<MediaList
 										key={5}
-										list={"Paused"}
+										listType={"Paused"}
 										medias={paused_list}
 										setStatus={setActualStatus}
 										setSelectedMedia={setSelectedMedia}
 									/>
 									<MediaList
 										key={6}
-										list={"Dropped"}
+										listType={"Dropped"}
 										medias={dropped_list}
 										setStatus={setActualStatus}
 										setSelectedMedia={setSelectedMedia}

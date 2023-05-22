@@ -109,7 +109,7 @@ function Hero({ media }) {
                   <HoverTransition originalTxt={"Yōkai"} hoverTxt={"妖怪"} />
                 </span>
               </p> */}
-              <p className="text-2xl">
+              <div className="text-2xl">
               <Typewriter
               options={{
                 strings: [" Welcome to the club,Yōkai ", "クラブへようこそ、妖怪さん"],
@@ -117,7 +117,7 @@ function Hero({ media }) {
                 loop: true,
               }}
             />
-              </p>
+              </div>
             </div>
           </div>
         </div>

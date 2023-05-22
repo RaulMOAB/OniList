@@ -144,37 +144,37 @@ export default function MangaList() {
 							{filteredManga.length !== 0 ? (
 								<>
 									<MediaList
-										list={"Reading"}
+										listType={"Reading"}
 										medias={watching_list}
 										setStatus={setStatus}
 										setSelectedMedia={setSelectedMedia}
 									/>
 									<MediaList
-										list={"Plan to read"}
+										listType={"Plan to read"}
 										medias={planning_list}
 										setStatus={setStatus}
 										setSelectedMedia={setSelectedMedia}
 									/>
 									<MediaList
-										list={"Completed"}
+										listType={"Completed"}
 										medias={completed_list}
 										setStatus={setStatus}
 										setSelectedMedia={setSelectedMedia}
 									/>
 									<MediaList
-										list={"Rereading"}
+										listType={"Rereading"}
 										medias={rewatching_list}
 										setStatus={setStatus}
 										setSelectedMedia={setSelectedMedia}
 									/>
 									<MediaList
-										list={"Paused"}
+										listType={"Paused"}
 										medias={paused_list}
 										setStatus={setStatus}
 										setSelectedMedia={setSelectedMedia}
 									/>
 									<MediaList
-										list={"Dropped"}
+										listType={"Dropped"}
 										medias={dropped_list}
 										setStatus={setStatus}
 										setSelectedMedia={setSelectedMedia}

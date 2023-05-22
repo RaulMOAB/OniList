@@ -59,7 +59,7 @@ setAuthenticated(false);
 									label={"Genre"}
 								/>
 							</div>
-							<div className='bg-base-300 p-3 rounded-md'>
+							<div className='bg-base-300 p-3 rounded-md col-span-full'>
 								<p className=' text-xl mb-3'>Years Distribution</p>
 								<ChartLine
 									data={graphicData.data_years}
