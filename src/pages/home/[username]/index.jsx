@@ -108,6 +108,8 @@ export default function Home() {
 			}
 		});
 
+
+		userActivity.reverse();
 	//If there are nothing to see.
 	nothingToSee =
 		favoriteAnimes.length === 0 &&

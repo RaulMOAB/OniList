@@ -11,6 +11,7 @@ import BrowseMediaCard from "./../Card/BrowseMediaCard";
 import Loader from "./../Skeleton/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ResetButton from "./../Buttons/ResetButton";
+import MediaCard from "../Card/MediaCard";
 
 //API Petition
 const filteredMediaManga = async (search, genres, airing_status, tags, format, type = 'MANGA') => {

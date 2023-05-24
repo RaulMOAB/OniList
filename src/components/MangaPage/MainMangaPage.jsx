@@ -205,29 +205,7 @@ export default function MainMangaPage() {
 			</Head>
 			<Container>
 				<main className='pb-10 2xl:px-28 xl:px-16  lg:px-2 sm:px-4 px-4'>
-					<div className='lg:hidden pt-20 flex'>
-						<p className='md:text-4xl sm:text-3xl text-2xl font-semibold px-3'>
-							Browse:
-						</p>
-						<select
-							className='select sm:select-lg select-md sm:text-2xl text-xl bg-neutral rounded-md'
-							name='search-anime'
-              defaultValue={'Manga'}
-							id='search-anime'>
-							<option
-								className=' sm:text-xl text-lg'
-								value='Anime'
-								onClick={() => {
-									router.replace("/search/anime/");
-								}}>
-								Anime
-							</option>
-							<option
-								className='sm:text-xl text-lg'
-								value='Manga'>
-								Manga
-							</option>
-						</select>
+					<div className='lg:hidden pt-1 flex'>
 					</div>
 					<section id='filters'>
 						<div className='flex flex-wrap p-3 rounded-md bg-neutral mt-5 bg-transparent'>

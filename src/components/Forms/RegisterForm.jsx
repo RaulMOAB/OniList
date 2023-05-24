@@ -11,9 +11,9 @@ import Alert from "@/components/Alerts/Alert_prueba";
 import Link from "next/link";
 
 // API Petitions
-const sendEmail = async (email) => {
+const sendEmail = async (email,username) => {
   const response = await fetch(
-    process.env.NEXT_PUBLIC_API_ENDPOINT + "send/" + email,
+    process.env.NEXT_PUBLIC_API_ENDPOINT + "send/" + email+"/"+username,
     {
       method: "GET",
       headers: {
@@ -46,7 +46,7 @@ export default function RegisterForm() {
 
   // register submit
   const onSubmit = () => {
-    sendEmail(email)
+    sendEmail(email,username)
       .then((res) => {
         if (res.success) {
           router.push(
@@ -57,6 +57,7 @@ export default function RegisterForm() {
             "/verification-email"
           );
         } else {
+          setTypeAlert("error")
           setMessage(res.error);
           setShowAlert(true);
         }
