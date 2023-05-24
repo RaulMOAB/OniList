@@ -200,8 +200,9 @@ function MediaEditor({
       }
     }
     if (selected_status === "COMPLETED") {
+      
       setEndDate(getCurrentDate);
-      setProgress(media.episodes);
+      setProgress(media.type === "ANIME" ? media.episodes: media.chapters);
       if (getCurrentDate() < startDate) {
         setStartDate("");
       }

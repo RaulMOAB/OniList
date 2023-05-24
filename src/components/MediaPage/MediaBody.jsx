@@ -247,7 +247,7 @@ function MediaBody() {
             )}
             {studio.length > 0 ? (
               <div className="flex-none md:block mr-5 md:mr-0 pb-2">
-                <div className="font-semibold md:mb-0 mb-1">Studios</div>
+                <div className="font-semibold md:mb-0 mb-2">Studios</div>
                 {studio.map((e, i) => {
                   return (
                     <div
@@ -268,7 +268,7 @@ function MediaBody() {
               <div className="capitalize pt-1 ">{source}</div>
             </div>
             <div className="flex-none md:block mr-5 md:mr-0 pb-2">
-              <div className="font-semibold md:mb-0 mb-1">Genres</div>
+              <div className="font-semibold md:mb-0 mb-2">Genres</div>
               <div className="capitalize">
                 {genres.map((e, i) => {
                   return (
