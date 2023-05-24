@@ -1,7 +1,7 @@
 import React from "react";
-import CarrouselCard from "../Card/CarrouselCard";
+import CarouselCard from "../Card/CarrouselCard";
 import Carousel from "../Carousel/Carousel";
-import Typewriter from 'typewriter-effect';
+import Typewriter from "typewriter-effect";
 
 function Hero({ media }) {
   //carousel cards
@@ -9,7 +9,7 @@ function Hero({ media }) {
     {
       key: media[0].id,
       content: (
-        <CarrouselCard
+        <CarouselCard
           img={
             media[0].extra_large_cover_image ||
             media[0].large_cover_image ||
@@ -23,7 +23,7 @@ function Hero({ media }) {
     {
       key: media[1].id,
       content: (
-        <CarrouselCard
+        <CarouselCard
           img={
             media[1].extra_large_cover_image ||
             media[1].large_cover_image ||
@@ -37,7 +37,7 @@ function Hero({ media }) {
     {
       key: media[2].id,
       content: (
-        <CarrouselCard
+        <CarouselCard
           img={
             media[2].extra_large_cover_image ||
             media[2].large_cover_image ||
@@ -51,7 +51,7 @@ function Hero({ media }) {
     {
       key: media[3].id,
       content: (
-        <CarrouselCard
+        <CarouselCard
           img={
             media[3].extra_large_cover_image ||
             media[3].large_cover_image ||
@@ -65,7 +65,7 @@ function Hero({ media }) {
     {
       key: media[4].id,
       content: (
-        <CarrouselCard
+        <CarouselCard
           img={
             media[4].extra_large_cover_image ||
             media[4].large_cover_image ||
@@ -94,21 +94,26 @@ function Hero({ media }) {
             }
             <div className="relative md:w-5/6 xl:text-left md:text-center lg:w-2/4 lg:mx-auto">
               <div>
-                <h1 className="text-5xl md:text-7xl font-bold">Welcome to OniList Club!</h1>
+                <h1 className="text-5xl md:text-7xl font-bold">
+                  Welcome to OniList Club!
+                </h1>
               </div>
               <p className="py-6">
                 Add what you like, track your animes and manga, build your own
-                library and discover new medias to enjoy! 
+                library and discover new medias to enjoy!
                 <br />
               </p>
               <div className="text-2xl">
-              <Typewriter
-              options={{
-                strings: [" Welcome to the club,Yōkai ", "クラブへようこそ、妖怪さん"],
-                autoStart: true,
-                loop: true,
-              }}
-            />
+                <Typewriter
+                  options={{
+                    strings: [
+                      " Welcome to the club,Yōkai ",
+                      "クラブへようこそ、妖怪さん",
+                    ],
+                    autoStart: true,
+                    loop: true,
+                  }}
+                />
               </div>
             </div>
           </div>

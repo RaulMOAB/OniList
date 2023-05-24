@@ -9,16 +9,14 @@ function MediaStaff({ staff }) {
         staffCards.push(<StaffCard staff={element} key={index} />);
     });
     return (
-      <>
-        <Link href={""}>
-          <p className="text-accent mb-3 text-md font-medium ">Staff</p>
-        </Link>
+			<>
+					<p className='text-accent mb-3 text-md font-medium '>Staff</p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-10 md:grid-cols-1 md:grid-flow-row md:gap-4 md:w-full sm:grid-cols-4  mb-3 w-full ">
-          {staffCards}
-        </div>
-      </>
-    );
+				<div className='grid grid-cols-1 lg:grid-cols-3 lg:gap-10 md:grid-cols-1 md:grid-flow-row md:gap-4 md:w-full sm:grid-cols-4  mb-3 w-full gap-4'>
+					{staffCards}
+				</div>
+			</>
+		);
   }
 }
 

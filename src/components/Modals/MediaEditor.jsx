@@ -91,9 +91,11 @@ function MediaEditor({
           break;
       }
     }
- 
+    if(aux_status === ""){
+      aux_status = "WATCHING";
+    }
     let favorite = isFavorite ? 1 : 0;
-
+    console.log(aux_status)
     const body = JSON.stringify({
       user: user.id,
       media_id,
@@ -453,6 +455,7 @@ function MediaEditor({
                   className="textarea textarea-bordered bg-base-300  w-full "
                   placeholder="Write a note"
                   value={notes}
+                  maxLength={255}
                   onChange={handleNotesChange}
                 ></textarea>
               </div>

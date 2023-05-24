@@ -17,14 +17,14 @@ function MediaCharacters({ characters, dubbers, role }) {
       );
     });
     return (
-      <>
-        <p className="text-accent mb-3 text-md font-medium ">Characters</p>
+			<>
+				<p className='text-accent mb-3 text-md font-medium '>Characters</p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-10 xl:gap-6 md:grid-cols-1 md:grid-flow-row md:gap-4 md:w-full sm:grid-cols-4  mb-3 w-full">
-          {characterCards}
-        </div>
-      </>
-    );
+				<div className='grid grid-cols-1 lg:grid-cols-1 lg:gap-x-10 xl:grid-cols-2 md:grid-cols-1 md:grid-flow-row md:gap-4 md:w-full  md:pr-6 lg:pr-0 sm:grid-cols-4  mb-3 w-full gap-4'>
+					{characterCards}
+				</div>
+			</>
+		);
   }
 }
 

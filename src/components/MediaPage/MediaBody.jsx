@@ -318,10 +318,9 @@ function MediaBody() {
         {/* cards container */}
         <div className="w-full lg:col-span-4 xl:col-span-8 xl:grid-cols-6 md:grid-cols-2 md:col-span-4  h-fit md:px-2 md:-mx-3 xl:px-2 lg:pl-24 p-5 sm:p-0">
 		<p className="text-accent mb-3 text-md font-medium ">Relations</p>
-          <div className="pb-8 md:w-full overflow-x-auto sm:overflow-hidden md:block mx-auto w-full px-3 flex">
+          <div className="pb-8 md:w-full overflow-x-auto sm:overflow-hidden md:block mx-auto w-full  flex">
             <div className="flex-none md:block mr-5 md:mr-0">
               <div className="">
-			 
                 <MediaRelations relation={relation} />
               </div>
             </div>

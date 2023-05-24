@@ -48,10 +48,15 @@ export default function MangaPage({ url, title }) {
   const [mediaComponents, setMediaComponents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [manga, setManga] = useState([]);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(2);
 
   // Get medias
   const getManga = async () => {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+`${url}?page=1`);
+      return response.json();   
+  };
+
+  const getManga2 = async () => {
       const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+`${url}?page=${pageNumber}`);
       return response.json();   
   };
@@ -62,9 +67,9 @@ export default function MangaPage({ url, title }) {
       .then((res) => {
         
         let medias = res.data.data;
-        medias.forEach((media,index) => {
-            setManga(manga => [...manga, media])
-        })
+        if(!medias.length == 0){
+              setManga(medias)
+        }
       })
       .catch((e) => {
         console.log(e.message);
@@ -76,13 +81,11 @@ export default function MangaPage({ url, title }) {
   const fetchData = () => {
     setPageNumber(pageNumber + 1);
 
-    getManga()
+    getManga2()
       .then((res) => {
         
         let medias = res.data.data;
-        medias.forEach((media,index) => {
-            setManga(manga => [...manga, media])
-        })
+        setManga(manga.concat(medias))
       })
       .catch((e) => {
         console.log(e.message);

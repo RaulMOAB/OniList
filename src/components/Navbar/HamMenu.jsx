@@ -4,6 +4,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { FiLogOut, FiLogIn } from "react-icons/fi";
 import { FaBookOpen, FaUser, FaPlay, FaUserPlus } from "react-icons/fa";
 import { IoSettingsSharp, IoNotifications, IoSearch } from "react-icons/io5";
+import { BsCompassFill } from "react-icons/bs";
 import { AiFillHome } from "react-icons/ai";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useContext } from "react";
@@ -51,7 +52,7 @@ const HamMenu = () => {
 										setShowMenu(false);
 									}}
 									className='flex flex-col items-center mb-2'>
-									<Link href={"/home/" + user.username + "/animelist"}>
+									<Link href={"/search/anime"}>
 										<div className='flex items-center justify-center'>
 											<FaPlay className='text-accent w-6 h-6' />
 										</div>
@@ -63,7 +64,7 @@ const HamMenu = () => {
 										setShowMenu(false);
 									}}
 									className='flex flex-col items-center mb-2'>
-									<Link href={"/home/" + user.username + "/mangalist"}>
+									<Link href={"/search/manga"}>
 										<div className='flex items-center justify-center'>
 											<FaBookOpen className='text-accent  w-6 h-6' />
 										</div>
@@ -99,11 +100,11 @@ const HamMenu = () => {
 										setShowMenu(false);
 									}}
 									className='flex flex-col items-center mb-2'>
-									<Link href={"/search/anime"}>
+									<Link href={"/"}>
 										<div className='flex items-center justify-center'>
-											<IoSearch className='text-accent  w-6 h-6' />
+											<BsCompassFill className='text-accent  w-6 h-6' />
 										</div>
-										<p className='text-accent text-xs'>browser</p>
+										<p className='text-accent text-xs'>browse</p>
 									</Link>
 								</div>
 								<div
@@ -157,9 +158,33 @@ const HamMenu = () => {
 									className='flex flex-col items-center mb-2'>
 									<Link href={"/"}>
 										<div className='flex items-center justify-center'>
-											<IoSearch className='text-accent  w-6 h-6' />
+											<BsCompassFill className='text-accent  w-6 h-6' />
 										</div>
-										<p className='text-accent text-xs'>browser</p>
+										<p className='text-accent text-xs'>browse</p>
+									</Link>
+								</div>
+								<div
+									onClick={() => {
+										setShowMenu(false);
+									}}
+									className='flex flex-col items-center mb-2'>
+									<Link href={"/search/anime"}>
+										<div className='flex items-center justify-center'>
+											<FaPlay className='text-accent w-6 h-6' />
+										</div>
+										<p className='text-accent text-xs'>anime</p>
+									</Link>
+								</div>
+								<div
+									onClick={() => {
+										setShowMenu(false);
+									}}
+									className='flex flex-col items-center mb-2'>
+									<Link href={"/search/manga"}>
+										<div className='flex items-center justify-center'>
+											<FaBookOpen className='text-accent  w-6 h-6' />
+										</div>
+										<p className='text-accent text-xs'>manga</p>
 									</Link>
 								</div>
 								<div

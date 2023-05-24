@@ -11,8 +11,9 @@ import PrimaryButton from "@/components/Buttons/PrimaryButton";
 import { BsImageFill } from "react-icons/bs";
 import Alert from "@/components/Alerts/Alert_prueba";
 import Head from "next/head";
-
+import { useRouter } from "next/router";
 function Settings() {
+	const router = useRouter();
 	const { changeTheme } = useContext(ThemeContext);
 	const { user, fetchData, updateUser, hasChanged } = useContext(AuthContext);
 	const [userInfo, setUserInfo] = useState({});
@@ -29,15 +30,6 @@ function Settings() {
 			setDragActive(true);
 		} else if (e.type === "dragleave") {
 			setDragActive(false);
-		}
-	};
-	// triggers when file is dropped
-	const handleDrop = function (e) {
-		e.preventDefault();
-		e.stopPropagation();
-		setDragActive(false);
-		if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-			// handleFiles(e.dataTransfer.files);
 		}
 	};
 
@@ -77,6 +69,7 @@ function Settings() {
 		return null;
 	}
 	const updateDescription = () => {
+
 		if (about.length > 255) {
 			setTypeAlert("error");
 			setMessage("The description cannot exceed 255 characters.");
@@ -121,6 +114,7 @@ function Settings() {
 			});
 
 			updateUser();
+
 		} else {
 			setTypeAlert("error");
 			if (image.size > 3000000) {
@@ -133,8 +127,6 @@ function Settings() {
 	};
 
 	return (
-		//TODO verifyLogin
-		//TODO NAVBAR LINKS
 		<>
 			<Head>
 				<title>Profile · OniList</title>
@@ -186,7 +178,7 @@ function Settings() {
 					<div className='mb-2'>
 						<h5>Avatar</h5>
 						<small className='font-thin italic'>
-							Allowed Formats: JPG, JPEG, PNG. Max size: 3mb
+							Allowed Formats: JPG, JPEG, WEBP, PNG. Max size: 3mb
 						</small>
 					</div>
 					<div>
@@ -211,7 +203,7 @@ function Settings() {
 												onDragEnter={handleDrag}
 												onDragLeave={handleDrag}
 												onDragOver={handleDrag}
-												onDrop={handleDrop}></div>
+												onDrop={changeImage}></div>
 										)}
 									</div>
 								</div>
@@ -237,7 +229,7 @@ function Settings() {
 					<div className='mb-2'>
 						<h5>Banner</h5>
 						<small className='font-thin italic'>
-							Allowed Formats: JPG, JPEG, PNG. Max size: 3mb
+							Allowed Formats: JPG, JPEG, WEBP, PNG. Max size: 3mb
 						</small>
 					</div>
 					<div>
@@ -262,7 +254,7 @@ function Settings() {
 												onDragEnter={handleDrag}
 												onDragLeave={handleDrag}
 												onDragOver={handleDrag}
-												onDrop={handleDrop}></div>
+												onDrop={changeImage}></div>
 										)}
 									</div>
 								</div>

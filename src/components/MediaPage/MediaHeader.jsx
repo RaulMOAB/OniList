@@ -14,6 +14,7 @@ import Alert from "@/components/Alerts/Alert_prueba";
 import { BsFillHeartFill } from "react-icons/bs";
 import filterByMediaType from "../utils/filterByMediaType";
 import Head from "next/head";
+import Link from "next/link";
 
 /**
  * Function that gets a media by id
@@ -250,7 +251,9 @@ function MediaHeader() {
 				<Container>
 					<div className='grid grid-rows-1 gap-8 md:grid-flow-col 2xl:px-24'>
 						<div className='m-auto -mt-44 sm:m-0 sm:-mt-28 z-30 w-fit'>
-							<MediaPageCard img={media.large_cover_image} />
+							<Link href={`/${media.type.toLowerCase()}/${media.id}`}>
+								<MediaPageCard img={media.large_cover_image} />
+							</Link>
 							<div className=' flex flex-shrink gap-4 mt-3 '>
 								<div
 									className={
@@ -344,7 +347,7 @@ function MediaHeader() {
 											setMessage("Unauthorized.");
 											setType("error");
 											setShowError(true);
-										}else{
+										} else {
 											handleFavorite(event);
 										}
 									}}>

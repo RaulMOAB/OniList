@@ -50,13 +50,18 @@ export default function AnimePage({url, title}) {
   const [mediaComponents, setMediaComponents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [anime, setAnime] = useState([]);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(2);
 
   // Get medias
   const getAnime = async () => {
-      const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+`${url}?page=${pageNumber}`);
+      const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+`${url}?page=1`);
       return response.json();   
   };
+
+  const getAnime2 = async () => {
+    const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT+`${url}?page=${pageNumber}`);
+    return response.json();   
+};
 
   // initials animes
   useEffect(() => {
@@ -64,9 +69,9 @@ export default function AnimePage({url, title}) {
       .then((res) => {
         
         let medias = res.data.data;
-        medias.forEach((media,index) => {
-            setAnime(anime => [...anime, media])
-        })
+        if(!medias.length == 0){
+              setAnime(medias)
+        }
       })
       .catch((e) => {
         console.log(e.message);
@@ -78,13 +83,10 @@ export default function AnimePage({url, title}) {
   const fetchData = () => {
     setPageNumber(pageNumber + 1);
 
-    getAnime()
+    getAnime2()
       .then((res) => {
-        
         let medias = res.data.data;
-        medias.forEach((media,index) => {
-            setAnime(anime => [...anime, media])
-        })
+        setAnime(anime.concat(medias))
       })
       .catch((e) => {
         console.log(e.message);
