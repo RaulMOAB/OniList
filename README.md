@@ -4,7 +4,7 @@ We are glad to introduce you our final project of Web Development Applications g
 
 This web application is based on React + Nextjs 13 and Laravel 9 using MySQL for database ang Grapql to populates our database.
 
-## Project structure
+## Project frontend structure
 
 - fonts directory: contain all the fonts our web applications uses.
 - public directory: Contains all public data like images, gifs, avatars and icons.
@@ -15,6 +15,18 @@ This web application is based on React + Nextjs 13 and Laravel 9 using MySQL for
 - src/layouts: layouts from some views are here.
 - src/pages: all of web application pages are contained in this folder
 - src/styles: css files to style our web application
+
+## Project backend structure
+
+-app/Http/Controllers: contains all controller that allows us to group the logic of related HTTP requests.
+-app/Models: contains all classes that represent all tables from our database
+-app/Mail: contain a class Mailable that help us to send emails to the user.
+-config/jwt.php: file configuration for json web token.
+-database: this directory has the migration, seeder and factories directories, we usual have used the migrations directory to make the structure of our database tables.
+-public/storage/: is symbolically linked to storage directory which contains the images of the banners and avatars of the registered users.
+-routes/api.php: file for set the /api routes of our backend.
+-init.php: script for get all necessary data for our web aplication.
+-startup.config.json: for deploy Laravel with PM2
 
 ## How to complided it
 
